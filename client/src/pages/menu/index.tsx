@@ -11,9 +11,8 @@ export default function Menu() {
 
   return (
     <div>
-      <h1 className="mb-6 text-4xl font-bold">Our Menu</h1>
       <CategoryNav />
-      
+
       {isLoading ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
