@@ -13,10 +13,11 @@ import { CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { insertReservationSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+import { Logo } from "@/components/ui/logo";
 
 export default function Book() {
   const { toast } = useToast();
-  
+
   const form = useForm({
     resolver: zodResolver(insertReservationSchema),
     defaultValues: {
@@ -51,8 +52,9 @@ export default function Book() {
 
   return (
     <div className="mx-auto max-w-2xl">
+      <Logo />
       <h1 className="mb-6 text-4xl font-bold">Book a Table</h1>
-      
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-6">
           <FormField
@@ -68,7 +70,7 @@ export default function Book() {
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
             name="email"
@@ -82,7 +84,7 @@ export default function Book() {
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
             name="phone"
@@ -96,7 +98,7 @@ export default function Book() {
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
             name="date"
@@ -138,7 +140,7 @@ export default function Book() {
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
             name="guests"
@@ -152,7 +154,7 @@ export default function Book() {
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
             name="notes"
@@ -166,7 +168,7 @@ export default function Book() {
               </FormItem>
             )}
           />
-          
+
           <Button type="submit" className="w-full" disabled={mutation.isPending}>
             {mutation.isPending ? "Making Reservation..." : "Book Now"}
           </Button>

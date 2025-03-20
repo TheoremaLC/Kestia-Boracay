@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Logo } from "@/components/ui/logo";
 import { format } from "date-fns";
 import type { Event } from "@shared/schema";
 
@@ -11,8 +12,9 @@ export default function Events() {
 
   return (
     <div>
+      <Logo />
       <h1 className="mb-6 text-4xl font-bold">Upcoming Events</h1>
-      
+
       {isLoading ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(3)].map((_, i) => (

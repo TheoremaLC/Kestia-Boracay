@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Logo } from "@/components/ui/logo";
 
 const galleryImages = [
   {
@@ -34,8 +35,9 @@ export default function Gallery() {
 
   return (
     <div>
+      <Logo />
       <h1 className="mb-6 text-4xl font-bold">Photo Gallery</h1>
-      
+
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {galleryImages.map((image, index) => (
           <div
