@@ -3,22 +3,21 @@ import { useParams } from "wouter";
 import CategoryNav from "@/components/menu/category-nav";
 import MenuItem from "@/components/menu/menu-item";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Logo } from "@/components/ui/logo";
 import type { MenuItem as MenuItemType } from "@shared/schema";
 
 export default function MenuCategory() {
   const { category } = useParams();
-  
+
   const { data: menuItems, isLoading } = useQuery<MenuItemType[]>({
     queryKey: ["/api/menu", category],
   });
 
   return (
     <div>
-      <h1 className="mb-6 text-4xl font-bold capitalize">
-        {category?.replace("-", " ")}
-      </h1>
+      <Logo />
       <CategoryNav />
-      
+
       {isLoading ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(6)].map((_, i) => (
