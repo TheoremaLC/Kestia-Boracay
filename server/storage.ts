@@ -39,6 +39,14 @@ export class MemStorage implements IStorage {
     const menuItems: InsertMenuItem[] = [
       // Breakfast
       {
+        name: "English Breakfast",
+        description: "Complete breakfast with eggs, bacon, sausage, beans, and toast",
+        price: 45900,
+        category: "breakfast",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
         name: "Vegetable Omelet",
         description: "Fresh vegetables folded into fluffy eggs",
         price: 29900,
@@ -54,59 +62,11 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      {
-        name: "Bread Butter Jam",
-        description: "Fresh bread served with butter and assorted jams",
-        price: 19900,
-        category: "breakfast",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Bulls with yogurt ham and bacon",
-        description: "Hearty breakfast rolls served with yogurt, ham, and bacon",
-        price: 35900,
-        category: "breakfast",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "English Breakfast",
-        description: "Complete breakfast with eggs, bacon, sausage, beans, and toast",
-        price: 45900,
-        category: "breakfast",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "MBS",
-        description: "Special morning breakfast selection",
-        price: 39900,
-        category: "breakfast",
-        imageUrl: null,
-        isSpecial: false
-      },
       // Extras
       {
         name: "Bacon",
         description: "Crispy bacon strips",
         price: 15900,
-        category: "extras",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Ham",
-        description: "Sliced premium ham",
-        price: 15900,
-        category: "extras",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Weinerli Sausage",
-        description: "Classic Viennese-style sausage",
-        price: 18900,
         category: "extras",
         imageUrl: null,
         isSpecial: false
@@ -144,25 +104,9 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      {
-        name: "Beans Soup with Onion Salad",
-        description: "Hearty bean soup served with fresh onion salad",
-        price: 32900,
-        category: "soup",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Chicken Soup",
-        description: "Classic chicken soup with vegetables",
-        price: 29900,
-        category: "soup",
-        imageUrl: null,
-        isSpecial: false
-      },
       // Appetizers
       {
-        name: "Quiche Lorraine Pie",
+        name: "Quiche Lorraine",
         description: "Classic French tart with bacon and cheese",
         price: 32900,
         category: "appetizers",
@@ -170,20 +114,12 @@ export class MemStorage implements IStorage {
         isSpecial: false
       },
       {
-        name: "Shepherd's Pie",
-        description: "Choice of Lamb, Pork, or Beef filling topped with mashed potatoes",
-        price: 42900,
+        name: "Mici Platter",
+        description: "Romanian grilled meat rolls served with mustard",
+        price: 35900,
         category: "appetizers",
         imageUrl: null,
         isSpecial: false
-      },
-      {
-        name: "3 in 1 Appetizer",
-        description: "Mici, Eggplant salad, and Liver pate",
-        price: 42900,
-        category: "appetizers",
-        imageUrl: null,
-        isSpecial: true
       },
       // Salads
       {
@@ -229,14 +165,6 @@ export class MemStorage implements IStorage {
         isSpecial: false
       },
       {
-        name: "Pickled Tomato",
-        description: "House-made pickled tomatoes",
-        price: 15900,
-        category: "pickles",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
         name: "Pickled Cucumber",
         description: "Crisp pickled cucumbers",
         price: 15900,
@@ -253,14 +181,6 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      {
-        name: "Hotdog",
-        description: "Classic hotdog with condiments",
-        price: 25900,
-        category: "burgers",
-        imageUrl: null,
-        isSpecial: false
-      },
       // Main Course
       {
         name: "Sarmale",
@@ -271,14 +191,6 @@ export class MemStorage implements IStorage {
         isSpecial: true
       },
       {
-        name: "Chicken Ostropel",
-        description: "Served with mamaliga/polenta",
-        price: 42900,
-        category: "main-course",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
         name: "Beef Salpicao",
         description: "Garlic-butter beef cubes with mushrooms",
         price: 52900,
@@ -287,14 +199,6 @@ export class MemStorage implements IStorage {
         isSpecial: false
       },
       // Grilled
-      {
-        name: "Mici with Fries",
-        description: "Romanian grilled meat rolls with fries and cabbage salad",
-        price: 38900,
-        category: "grilled",
-        imageUrl: null,
-        isSpecial: false
-      },
       {
         name: "Grilled Pork Steak",
         description: "Served with fries and cabbage salad",
@@ -313,14 +217,6 @@ export class MemStorage implements IStorage {
       },
       // Fish
       {
-        name: "Fried Fish with Polenta",
-        description: "Crispy fried fish served with traditional polenta",
-        price: 39900,
-        category: "fish",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
         name: "Grilled Dory",
         description: "Grilled dory fillet with Kestia rice and boiled potatoes",
         price: 42900,
@@ -328,22 +224,22 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Pasta
       {
-        name: "Creamy Four Cheese Pasta",
-        description: "Rich pasta with four different cheeses and mushrooms",
-        price: 42900,
-        category: "pasta",
+        name: "Fried Fish with Polenta",
+        description: "Crispy fried fish served with traditional polenta",
+        price: 39900,
+        category: "fish",
         imageUrl: null,
         isSpecial: false
       },
+      // Pasta
       {
-        name: "Bolognese",
-        description: "Classic meat sauce pasta",
-        price: 38900,
+        name: "Seafood Pasta",
+        description: "Mixed seafood in tomato or cream sauce",
+        price: 48900,
         category: "pasta",
         imageUrl: null,
-        isSpecial: false
+        isSpecial: true
       },
       {
         name: "Carbonara",
@@ -352,14 +248,6 @@ export class MemStorage implements IStorage {
         category: "pasta",
         imageUrl: null,
         isSpecial: false
-      },
-      {
-        name: "Seafood Pasta",
-        description: "Mixed seafood in tomato or cream sauce",
-        price: 48900,
-        category: "pasta",
-        imageUrl: null,
-        isSpecial: true
       },
       // Desserts
       {
