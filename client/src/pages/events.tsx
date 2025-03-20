@@ -13,7 +13,7 @@ export default function Events() {
   return (
     <div>
       <Logo />
-      <h1 className="mb-6 text-4xl font-bold">Upcoming Events</h1>
+      <h1 className="mb-6 text-2xl font-bold text-center">Upcoming Events</h1>
 
       {isLoading ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

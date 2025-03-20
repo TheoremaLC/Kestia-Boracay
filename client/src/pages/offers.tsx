@@ -11,8 +11,8 @@ export default function Offers() {
       <Card className="mb-8">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <Clock className="h-6 w-6 text-amber-500" />
-            <CardTitle>Happy Hour</CardTitle>
+            <Clock className="h-5 w-5 text-amber-500" />
+            <CardTitle className="text-2xl">Happy Hour</CardTitle>
           </div>
           <CardDescription>Every day 16:00 - 19:00</CardDescription>
         </CardHeader>
