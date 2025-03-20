@@ -12,7 +12,7 @@ import {
 const navItems = [
   { href: "/menu", label: "Menu", icon: Utensils, color: "text-indigo-500" },
   { href: "/offers", label: "Offers", icon: Percent, color: "text-amber-500" },
-  { href: "/book", label: "Book-your-Table", icon: CalendarRange, color: "text-emerald-500" },
+  { href: "/book", label: "Reservations", icon: CalendarRange, color: "text-emerald-500" },
   { href: "/music", label: "Music", icon: Music2, color: "text-purple-500" },
   { href: "/events", label: "Events", icon: CalendarDays, color: "text-blue-500" },
   { href: "/gallery", label: "Gallery", icon: Camera, color: "text-rose-500" },
