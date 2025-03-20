@@ -10,11 +10,11 @@ export default function Offers() {
       {/* Happy Hour Section */}
       <Card className="mb-8">
         <CardHeader>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col items-center gap-2">
             <Clock className="h-5 w-5 text-amber-500" />
             <CardTitle className="text-2xl">Happy Hour</CardTitle>
+            <CardDescription>Every day 16:00 - 19:00</CardDescription>
           </div>
-          <CardDescription>Every day 16:00 - 19:00</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

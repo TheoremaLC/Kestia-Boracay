@@ -12,7 +12,7 @@ export default function CategoryNav() {
           <Link key={category} href={`/menu/${category}`}>
             <a
               className={cn(
-                "whitespace-nowrap px-4 py-2 text-sm font-medium transition-colors",
+                "whitespace-nowrap px-3 py-1.5 text-xs font-medium transition-colors",
                 location === `/menu/${category}`
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground"
