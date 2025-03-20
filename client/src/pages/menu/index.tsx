@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import CategoryNav from "@/components/menu/category-nav";
 import MenuItem from "@/components/menu/menu-item";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Logo } from "@/components/ui/logo";
 import type { MenuItem as MenuItemType } from "@shared/schema";
 
 export default function Menu() {
@@ -11,6 +12,7 @@ export default function Menu() {
 
   return (
     <div>
+      <Logo />
       <CategoryNav />
 
       {isLoading ? (

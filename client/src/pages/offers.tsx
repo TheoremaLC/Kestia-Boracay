@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Logo } from "@/components/ui/logo";
 import type { MenuItem } from "@shared/schema";
 
 export default function Offers() {
@@ -12,6 +13,7 @@ export default function Offers() {
 
   return (
     <div>
+      <Logo />
       {isLoading ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(3)].map((_, i) => (
@@ -29,16 +31,7 @@ export default function Offers() {
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {specialItems?.map((item) => (
-            <Card key={item.id} className="overflow-hidden">
-              {item.imageUrl && (
-                <div className="aspect-video w-full overflow-hidden">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.name}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              )}
+            <Card key={item.id}>
               <CardHeader>
                 <CardTitle>{item.name}</CardTitle>
                 <CardDescription>Special Price: ₱{(item.price / 100).toFixed(2)}</CardDescription>
