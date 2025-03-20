@@ -23,12 +23,12 @@ export default function IconNav() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t">
-      <div className="grid grid-cols-6 gap-4 p-4">
+      <div className="grid grid-cols-6 gap-2 sm:gap-4 p-2 sm:p-4">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <a
               className={cn(
-                "flex flex-col items-center justify-center p-3 rounded-lg transition-all duration-200 ease-in-out",
+                "flex flex-col items-center justify-center p-2 sm:p-3 rounded-lg transition-all duration-200 ease-in-out",
                 "hover:scale-105 active:scale-95",
                 location === item.href
                   ? `${item.color} bg-primary/10 shadow-sm`
@@ -36,12 +36,12 @@ export default function IconNav() {
               )}
             >
               <item.icon className={cn(
-                "h-8 w-8 mb-2 transition-transform duration-200",
+                "h-6 w-6 sm:h-8 sm:w-8 mb-1 sm:mb-2 transition-transform duration-200",
                 "group-hover:rotate-3",
                 location === item.href && "animate-[bounce_0.5s_ease-in-out]",
                 item.color
               )} />
-              <span className="text-sm font-medium">{item.label}</span>
+              <span className="text-xs sm:text-sm font-medium">{item.label}</span>
             </a>
           </Link>
         ))}
