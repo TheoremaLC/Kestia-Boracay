@@ -37,11 +37,19 @@ export class MemStorage implements IStorage {
 
     // Add all menu items
     const menuItems: InsertMenuItem[] = [
-      // Breakfast
+      // Breakfast (3 items)
       {
         name: "English Breakfast",
         description: "Complete breakfast with eggs, bacon, sausage, beans, and toast",
         price: 45900,
+        category: "breakfast",
+        imageUrl: null,
+        isSpecial: true
+      },
+      {
+        name: "Tapsilog",
+        description: "Filipino breakfast with marinated beef, garlic rice, and fried egg",
+        price: 32900,
         category: "breakfast",
         imageUrl: null,
         isSpecial: false
@@ -54,15 +62,8 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      {
-        name: "Tapsilog",
-        description: "Filipino breakfast with marinated beef, garlic rice, and fried egg",
-        price: 32900,
-        category: "breakfast",
-        imageUrl: null,
-        isSpecial: false
-      },
-      // Extras
+
+      // Extras (2 items)
       {
         name: "Bacon",
         description: "Crispy bacon strips",
@@ -79,14 +80,15 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Soups
+
+      // Soups (2 items)
       {
-        name: "Goulash",
-        description: "Hungarian-style beef and vegetable soup",
-        price: 35900,
+        name: "Bulalo Soup",
+        description: "Filipino beef marrow soup with vegetables",
+        price: 39900,
         category: "soup",
         imageUrl: null,
-        isSpecial: false
+        isSpecial: true
       },
       {
         name: "Vegetable Cream Soup",
@@ -96,15 +98,16 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
+
+      // Appetizers (2 items)
       {
-        name: "Bulalo Soup",
-        description: "Filipino beef marrow soup with vegetables",
-        price: 39900,
-        category: "soup",
+        name: "Mici Platter",
+        description: "Romanian grilled meat rolls served with mustard",
+        price: 35900,
+        category: "appetizers",
         imageUrl: null,
-        isSpecial: false
+        isSpecial: true
       },
-      // Appetizers
       {
         name: "Quiche Lorraine",
         description: "Classic French tart with bacon and cheese",
@@ -113,15 +116,8 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      {
-        name: "Mici Platter",
-        description: "Romanian grilled meat rolls served with mustard",
-        price: 35900,
-        category: "appetizers",
-        imageUrl: null,
-        isSpecial: false
-      },
-      // Salads
+
+      // Salads (2 items)
       {
         name: "Green Salad",
         description: "Fresh mixed greens with house dressing",
@@ -138,7 +134,8 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Vegetables
+
+      // Vegetables (2 items)
       {
         name: "Garlic Kangkong",
         description: "Sautéed water spinach with garlic",
@@ -155,7 +152,8 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Pickles
+
+      // Pickles (2 items)
       {
         name: "Pickled Cabbage",
         description: "Traditional pickled cabbage",
@@ -172,16 +170,18 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Burgers
+
+      // Burgers (1 item)
       {
         name: "Kestía Cheeseburger",
         description: "Signature cheeseburger with all the fixings",
         price: 35900,
         category: "burgers",
         imageUrl: null,
-        isSpecial: false
+        isSpecial: true
       },
-      // Main Course
+
+      // Main Course (2 items)
       {
         name: "Sarmale",
         description: "Romanian stuffed cabbage rolls",
@@ -198,14 +198,15 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Grilled
+
+      // Grilled (2 items)
       {
         name: "Grilled Pork Steak",
         description: "Served with fries and cabbage salad",
         price: 45900,
         category: "grilled",
         imageUrl: null,
-        isSpecial: false
+        isSpecial: true
       },
       {
         name: "Grilled Chicken Breast",
@@ -215,14 +216,15 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Fish
+
+      // Fish (2 items)
       {
         name: "Grilled Dory",
         description: "Grilled dory fillet with Kestia rice and boiled potatoes",
         price: 42900,
         category: "fish",
         imageUrl: null,
-        isSpecial: false
+        isSpecial: true
       },
       {
         name: "Fried Fish with Polenta",
@@ -232,7 +234,8 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Pasta
+
+      // Pasta (2 items)
       {
         name: "Seafood Pasta",
         description: "Mixed seafood in tomato or cream sauce",
@@ -249,14 +252,15 @@ export class MemStorage implements IStorage {
         imageUrl: null,
         isSpecial: false
       },
-      // Desserts
+
+      // Desserts (2 items)
       {
         name: "Mango Float",
         description: "Filipino dessert with layers of graham crackers, cream, and fresh mangoes",
         price: 25900,
         category: "desserts",
         imageUrl: null,
-        isSpecial: false
+        isSpecial: true
       },
       {
         name: "Cheese Cake",
@@ -288,7 +292,7 @@ export class MemStorage implements IStorage {
 
   async createMenuItem(item: InsertMenuItem): Promise<MenuItem> {
     const id = this.currentIds.menuItems++;
-    const menuItem = { ...item, id };
+    const menuItem = { id, ...item };
     this.menuItems.set(id, menuItem);
     return menuItem;
   }
@@ -300,7 +304,7 @@ export class MemStorage implements IStorage {
 
   async createEvent(event: InsertEvent): Promise<Event> {
     const id = this.currentIds.events++;
-    const newEvent = { ...event, id };
+    const newEvent = { id, ...event };
     this.events.set(id, newEvent);
     return newEvent;
   }
@@ -308,7 +312,7 @@ export class MemStorage implements IStorage {
   // Reservations
   async createReservation(reservation: InsertReservation): Promise<Reservation> {
     const id = this.currentIds.reservations++;
-    const newReservation = { ...reservation, id };
+    const newReservation = { id, ...reservation };
     this.reservations.set(id, newReservation);
     return newReservation;
   }
