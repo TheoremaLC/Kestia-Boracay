@@ -14,8 +14,8 @@ import Music from "@/pages/music";
 
 function Router() {
   return (
-    <div className="min-h-screen bg-background pb-24">
-      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
+    <div className="min-h-screen bg-[#f7f7f7]">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 pb-24">
         <Switch>
           <Route path="/" component={Menu} />
           <Route path="/menu" component={Menu} />
