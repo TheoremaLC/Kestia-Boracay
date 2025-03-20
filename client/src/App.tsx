@@ -10,6 +10,7 @@ import Offers from "@/pages/offers";
 import Events from "@/pages/events";
 import Book from "@/pages/book";
 import Gallery from "@/pages/gallery";
+import Music from "@/pages/music";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function Router() {
           <Route path="/offers" component={Offers} />
           <Route path="/events" component={Events} />
           <Route path="/book" component={Book} />
+          <Route path="/music" component={Music} />
           <Route path="/gallery" component={Gallery} />
           <Route component={NotFound} />
         </Switch>
