@@ -12,8 +12,6 @@ export default function Offers() {
 
   return (
     <div>
-      <h1 className="mb-6 text-4xl font-bold">Special Offers</h1>
-      
       {isLoading ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(3)].map((_, i) => (
