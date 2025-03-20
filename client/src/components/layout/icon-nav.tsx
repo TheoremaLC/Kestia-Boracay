@@ -9,11 +9,11 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/offers", label: "Offers", icon: Ticket },
-  { href: "/book", label: "Book", icon: CalendarRange },
-  { href: "/music", label: "Music", icon: Music2 },
-  { href: "/events", label: "Events", icon: CalendarDays },
-  { href: "/gallery", label: "Gallery", icon: Camera },
+  { href: "/offers", label: "Offers", icon: Ticket, color: "text-amber-500" },
+  { href: "/book", label: "Table Book", icon: CalendarRange, color: "text-emerald-500" },
+  { href: "/music", label: "Music", icon: Music2, color: "text-purple-500" },
+  { href: "/events", label: "Events", icon: CalendarDays, color: "text-blue-500" },
+  { href: "/gallery", label: "Gallery", icon: Camera, color: "text-rose-500" },
 ];
 
 export default function IconNav() {
@@ -26,14 +26,20 @@ export default function IconNav() {
           <Link key={item.href} href={item.href}>
             <a
               className={cn(
-                "flex flex-col items-center justify-center p-2 rounded-lg transition-colors",
+                "flex flex-col items-center justify-center p-3 rounded-lg transition-all duration-200 ease-in-out",
+                "hover:scale-105 active:scale-95",
                 location === item.href
-                  ? "text-primary bg-primary/10"
-                  : "text-muted-foreground hover:text-primary hover:bg-primary/5"
+                  ? `${item.color} bg-primary/10 shadow-sm`
+                  : `text-muted-foreground hover:${item.color} hover:bg-primary/5`
               )}
             >
-              <item.icon className="h-6 w-6 mb-1" />
-              <span className="text-xs font-medium">{item.label}</span>
+              <item.icon className={cn(
+                "h-8 w-8 mb-2 transition-transform duration-200",
+                "group-hover:rotate-3",
+                location === item.href && "animate-[bounce_0.5s_ease-in-out]",
+                item.color
+              )} />
+              <span className="text-sm font-medium">{item.label}</span>
             </a>
           </Link>
         ))}
