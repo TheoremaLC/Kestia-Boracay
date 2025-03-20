@@ -43,7 +43,7 @@ export class MemStorage implements IStorage {
         description: "Fresh vegetables folded into fluffy eggs",
         price: 29900,
         category: "breakfast",
-        imageUrl: "https://source.unsplash.com/featured/?omelet",
+        imageUrl: null,
         isSpecial: false
       },
       {
@@ -51,7 +51,23 @@ export class MemStorage implements IStorage {
         description: "Filipino breakfast with marinated beef, garlic rice, and fried egg",
         price: 32900,
         category: "breakfast",
-        imageUrl: "https://source.unsplash.com/featured/?filipino,breakfast",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Bread Butter Jam",
+        description: "Fresh bread served with butter and assorted jams",
+        price: 19900,
+        category: "breakfast",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Bulls with yogurt ham and bacon",
+        description: "Hearty breakfast rolls served with yogurt, ham, and bacon",
+        price: 35900,
+        category: "breakfast",
+        imageUrl: null,
         isSpecial: false
       },
       {
@@ -59,7 +75,48 @@ export class MemStorage implements IStorage {
         description: "Complete breakfast with eggs, bacon, sausage, beans, and toast",
         price: 45900,
         category: "breakfast",
-        imageUrl: "https://source.unsplash.com/featured/?english,breakfast",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "MBS",
+        description: "Special morning breakfast selection",
+        price: 39900,
+        category: "breakfast",
+        imageUrl: null,
+        isSpecial: false
+      },
+      // Extras
+      {
+        name: "Bacon",
+        description: "Crispy bacon strips",
+        price: 15900,
+        category: "extras",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Ham",
+        description: "Sliced premium ham",
+        price: 15900,
+        category: "extras",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Weinerli Sausage",
+        description: "Classic Viennese-style sausage",
+        price: 18900,
+        category: "extras",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Two Eggs any Style",
+        description: "Eggs cooked to your preference",
+        price: 12900,
+        category: "extras",
+        imageUrl: null,
         isSpecial: false
       },
       // Soups
@@ -68,7 +125,15 @@ export class MemStorage implements IStorage {
         description: "Hungarian-style beef and vegetable soup",
         price: 35900,
         category: "soup",
-        imageUrl: "https://source.unsplash.com/featured/?goulash",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Vegetable Cream Soup",
+        description: "Smooth and creamy vegetable soup",
+        price: 29900,
+        category: "soup",
+        imageUrl: null,
         isSpecial: false
       },
       {
@@ -76,16 +141,40 @@ export class MemStorage implements IStorage {
         description: "Filipino beef marrow soup with vegetables",
         price: 39900,
         category: "soup",
-        imageUrl: "https://source.unsplash.com/featured/?soup",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Beans Soup with Onion Salad",
+        description: "Hearty bean soup served with fresh onion salad",
+        price: 32900,
+        category: "soup",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Chicken Soup",
+        description: "Classic chicken soup with vegetables",
+        price: 29900,
+        category: "soup",
+        imageUrl: null,
         isSpecial: false
       },
       // Appetizers
       {
-        name: "Quiche Lorraine",
+        name: "Quiche Lorraine Pie",
         description: "Classic French tart with bacon and cheese",
         price: 32900,
         category: "appetizers",
-        imageUrl: "https://source.unsplash.com/featured/?quiche",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Shepherd's Pie",
+        description: "Choice of Lamb, Pork, or Beef filling topped with mashed potatoes",
+        price: 42900,
+        category: "appetizers",
+        imageUrl: null,
         isSpecial: false
       },
       {
@@ -93,8 +182,84 @@ export class MemStorage implements IStorage {
         description: "Mici, Eggplant salad, and Liver pate",
         price: 42900,
         category: "appetizers",
-        imageUrl: "https://source.unsplash.com/featured/?appetizer",
+        imageUrl: null,
         isSpecial: true
+      },
+      // Salads
+      {
+        name: "Green Salad",
+        description: "Fresh mixed greens with house dressing",
+        price: 25900,
+        category: "salads",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Onion Tomato Salad",
+        description: "Simple and refreshing salad with onions and tomatoes",
+        price: 22900,
+        category: "salads",
+        imageUrl: null,
+        isSpecial: false
+      },
+      // Vegetables
+      {
+        name: "Garlic Kangkong",
+        description: "Sautéed water spinach with garlic",
+        price: 25900,
+        category: "vegetables",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Stir Fried Veggies",
+        description: "Assorted vegetables stir-fried to perfection",
+        price: 28900,
+        category: "vegetables",
+        imageUrl: null,
+        isSpecial: false
+      },
+      // Pickles
+      {
+        name: "Pickled Cabbage",
+        description: "Traditional pickled cabbage",
+        price: 15900,
+        category: "pickles",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Pickled Tomato",
+        description: "House-made pickled tomatoes",
+        price: 15900,
+        category: "pickles",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Pickled Cucumber",
+        description: "Crisp pickled cucumbers",
+        price: 15900,
+        category: "pickles",
+        imageUrl: null,
+        isSpecial: false
+      },
+      // Burgers
+      {
+        name: "Kestía Cheeseburger",
+        description: "Signature cheeseburger with all the fixings",
+        price: 35900,
+        category: "burgers",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Hotdog",
+        description: "Classic hotdog with condiments",
+        price: 25900,
+        category: "burgers",
+        imageUrl: null,
+        isSpecial: false
       },
       // Main Course
       {
@@ -102,15 +267,65 @@ export class MemStorage implements IStorage {
         description: "Romanian stuffed cabbage rolls",
         price: 45900,
         category: "main-course",
-        imageUrl: "https://source.unsplash.com/featured/?cabbage,rolls",
+        imageUrl: null,
         isSpecial: true
+      },
+      {
+        name: "Chicken Ostropel",
+        description: "Served with mamaliga/polenta",
+        price: 42900,
+        category: "main-course",
+        imageUrl: null,
+        isSpecial: false
       },
       {
         name: "Beef Salpicao",
         description: "Garlic-butter beef cubes with mushrooms",
         price: 52900,
         category: "main-course",
-        imageUrl: "https://source.unsplash.com/featured/?beef",
+        imageUrl: null,
+        isSpecial: false
+      },
+      // Grilled
+      {
+        name: "Mici with Fries",
+        description: "Romanian grilled meat rolls with fries and cabbage salad",
+        price: 38900,
+        category: "grilled",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Grilled Pork Steak",
+        description: "Served with fries and cabbage salad",
+        price: 45900,
+        category: "grilled",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Grilled Chicken Breast",
+        description: "Served with fries and cabbage salad",
+        price: 42900,
+        category: "grilled",
+        imageUrl: null,
+        isSpecial: false
+      },
+      // Fish
+      {
+        name: "Fried Fish with Polenta",
+        description: "Crispy fried fish served with traditional polenta",
+        price: 39900,
+        category: "fish",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Grilled Dory",
+        description: "Grilled dory fillet with Kestia rice and boiled potatoes",
+        price: 42900,
+        category: "fish",
+        imageUrl: null,
         isSpecial: false
       },
       // Pasta
@@ -119,7 +334,23 @@ export class MemStorage implements IStorage {
         description: "Rich pasta with four different cheeses and mushrooms",
         price: 42900,
         category: "pasta",
-        imageUrl: "https://source.unsplash.com/featured/?pasta,cheese",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Bolognese",
+        description: "Classic meat sauce pasta",
+        price: 38900,
+        category: "pasta",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Carbonara",
+        description: "Creamy pasta with bacon and egg",
+        price: 38900,
+        category: "pasta",
+        imageUrl: null,
         isSpecial: false
       },
       {
@@ -127,26 +358,8 @@ export class MemStorage implements IStorage {
         description: "Mixed seafood in tomato or cream sauce",
         price: 48900,
         category: "pasta",
-        imageUrl: "https://source.unsplash.com/featured/?seafood,pasta",
+        imageUrl: null,
         isSpecial: true
-      },
-      // Grilled
-      {
-        name: "Mici with Fries",
-        description: "Romanian grilled meat rolls with fries and cabbage salad",
-        price: 38900,
-        category: "grilled",
-        imageUrl: "https://source.unsplash.com/featured/?grilled,meat",
-        isSpecial: false
-      },
-      // Fish
-      {
-        name: "Grilled Dory",
-        description: "Grilled dory fillet with Kestia rice and boiled potatoes",
-        price: 42900,
-        category: "fish",
-        imageUrl: "https://source.unsplash.com/featured/?grilled,fish",
-        isSpecial: false
       },
       // Desserts
       {
@@ -154,7 +367,15 @@ export class MemStorage implements IStorage {
         description: "Filipino dessert with layers of graham crackers, cream, and fresh mangoes",
         price: 25900,
         category: "desserts",
-        imageUrl: "https://source.unsplash.com/featured/?mango,dessert",
+        imageUrl: null,
+        isSpecial: false
+      },
+      {
+        name: "Cheese Cake",
+        description: "Classic creamy cheesecake",
+        price: 28900,
+        category: "desserts",
+        imageUrl: null,
         isSpecial: false
       }
     ];

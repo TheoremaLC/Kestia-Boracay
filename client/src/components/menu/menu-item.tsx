@@ -7,16 +7,7 @@ interface MenuItemProps {
 
 export default function MenuItem({ item }: MenuItemProps) {
   return (
-    <Card className="overflow-hidden">
-      {item.imageUrl && (
-        <div className="aspect-video w-full overflow-hidden">
-          <img
-            src={item.imageUrl}
-            alt={item.name}
-            className="h-full w-full object-cover"
-          />
-        </div>
-      )}
+    <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{item.name}</CardTitle>
