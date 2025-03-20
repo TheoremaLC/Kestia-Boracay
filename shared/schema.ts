@@ -3,15 +3,19 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const categories = [
-  "appetizers",
   "breakfast",
-  "soups",
+  "extras",
+  "soup",
+  "appetizers",
   "salads",
-  "vegetarian",
+  "vegetables",
+  "pickles",
+  "burgers",
   "main-course",
+  "grilled",
+  "fish",
   "pasta",
-  "desserts",
-  "drinks"
+  "desserts"
 ] as const;
 
 export const menuItems = pgTable("menu_items", {
