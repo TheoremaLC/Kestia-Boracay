@@ -4,12 +4,12 @@ import {
   Music2,
   CalendarDays,
   Camera,
-  Ticket,
   CalendarRange,
+  Percent,
 } from "lucide-react";
 
 const navItems = [
-  { href: "/offers", label: "Offers", icon: Ticket, color: "text-amber-500" },
+  { href: "/offers", label: "Offers", icon: Percent, color: "text-amber-500" },
   { href: "/book", label: "Table Book", icon: CalendarRange, color: "text-emerald-500" },
   { href: "/music", label: "Music", icon: Music2, color: "text-purple-500" },
   { href: "/events", label: "Events", icon: CalendarDays, color: "text-blue-500" },
