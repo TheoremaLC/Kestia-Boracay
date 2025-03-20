@@ -51,7 +51,7 @@ export default function Book() {
   });
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-2xl pb-32">
       <Logo />
       <h1 className="mb-6 text-2xl font-bold text-center">Book a Table</h1>
 
