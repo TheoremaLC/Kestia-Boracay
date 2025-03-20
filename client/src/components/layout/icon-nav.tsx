@@ -6,9 +6,11 @@ import {
   Camera,
   CalendarRange,
   Percent,
+  Utensils,
 } from "lucide-react";
 
 const navItems = [
+  { href: "/menu", label: "Menu", icon: Utensils, color: "text-indigo-500" },
   { href: "/offers", label: "Offers", icon: Percent, color: "text-amber-500" },
   { href: "/book", label: "Table Book", icon: CalendarRange, color: "text-emerald-500" },
   { href: "/music", label: "Music", icon: Music2, color: "text-purple-500" },
@@ -21,7 +23,7 @@ export default function IconNav() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t">
-      <div className="grid grid-cols-5 gap-4 p-4">
+      <div className="grid grid-cols-6 gap-4 p-4">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <a
