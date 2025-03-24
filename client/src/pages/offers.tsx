@@ -4,7 +4,7 @@ import { Clock } from "lucide-react";
 
 export default function Offers() {
   return (
-    <div>
+    <div className="pb-32">
       <Logo />
 
       {/* Happy Hour Section */}
