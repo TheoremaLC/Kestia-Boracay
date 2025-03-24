@@ -47,15 +47,10 @@ class MemStorage implements IStorage {
     // Initialize menu items from categorized JSON
     Object.entries(menuItems).forEach(([category, items]) => {
       (items as InsertMenuItem[]).forEach(item => {
-        const menuItem: InsertMenuItem = {
-          name: item.name,
-          description: item.description,
-          price: item.price,
-          category: category,
-          imageUrl: item.imageUrl,
-          isSpecial: item.isSpecial
-        };
-        this.createMenuItem(menuItem);
+        this.createMenuItem({
+          ...item,
+          category
+        });
       });
     });
   }
