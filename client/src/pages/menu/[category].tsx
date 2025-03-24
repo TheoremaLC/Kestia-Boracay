@@ -52,7 +52,7 @@ export default function MenuCategory() {
                     }} 
                     isSubsectionTitle={true} 
                   />
-                  <div className="mt-2 backdrop-blur-sm bg-white/30 rounded-lg divide-[#872519]/10">
+                  <div className="mt-2 divide-[#872519]/10">
                     {menuItems.slice(index + 1).map(extraItem => (
                       <MenuItem 
                         key={extraItem.id} 
