@@ -18,24 +18,26 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemP
 
   if (isExtra) {
     return (
-      <div className="py-2 flex justify-between items-center border-b last:border-b-0">
-        <span className="text-sm font-normal">{item.name}</span>
-        <span className="text-sm font-medium">₱{(item.price / 100).toFixed(2)}</span>
+      <div className="py-2 flex justify-between items-center border-b last:border-b-0 backdrop-blur-sm bg-white/40 px-4 rounded-lg">
+        <span className="text-sm font-medium">{item.name}</span>
+        <span className="text-sm font-bold">₱{(item.price / 100).toFixed(2)}</span>
       </div>
     );
   }
 
   return (
-    <Card>
+    <Card className="backdrop-blur-sm bg-white/40 hover:bg-white/50 transition-all duration-500 hover:shadow-lg hover:-translate-y-1">
       <CardHeader className="p-3 sm:p-4">
         <div className="flex items-center justify-between gap-2">
           <CardTitle className="text-base font-semibold">{item.name}</CardTitle>
-          <span className="text-base font-bold whitespace-nowrap">₱{(item.price / 100).toFixed(2)}</span>
+          <span className="text-base font-bold whitespace-nowrap text-[#E85303]">
+            ₱{(item.price / 100).toFixed(2)}
+          </span>
         </div>
       </CardHeader>
       {item.description && (
         <CardContent className="p-3 sm:p-4 pt-0">
-          <CardDescription className="text-sm font-normal">{item.description}</CardDescription>
+          <CardDescription className="text-sm font-medium text-[#872519]/80">{item.description}</CardDescription>
         </CardContent>
       )}
     </Card>
