@@ -4,13 +4,23 @@ import type { MenuItem } from "@shared/schema";
 interface MenuItemProps {
   item: MenuItem;
   isSubsectionTitle?: boolean;
+  isExtra?: boolean;
 }
 
-export default function MenuItem({ item, isSubsectionTitle }: MenuItemProps) {
+export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemProps) {
   if (isSubsectionTitle) {
     return (
       <div className="mt-8 mb-4">
         <h2 className="text-xl font-semibold text-primary">{item.name}</h2>
+      </div>
+    );
+  }
+
+  if (isExtra) {
+    return (
+      <div className="py-2 flex justify-between items-center border-b last:border-b-0">
+        <span className="text-sm">{item.name}</span>
+        <span className="text-sm font-medium">₱{(item.price / 100).toFixed(2)}</span>
       </div>
     );
   }
