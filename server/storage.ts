@@ -52,13 +52,13 @@ class MemStorage implements IStorage {
     // Flatten all categories into a single array
     for (const [category, items] of Object.entries(menuItems.default)) {
       if (Array.isArray(items)) {
-        items.forEach((item: any) => {
+        for (const item of items) {
           allItems.push({
             id: id++,
             ...item,
             category
           });
-        });
+        }
       }
     }
 
@@ -68,14 +68,17 @@ class MemStorage implements IStorage {
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
     // Import JSON file dynamically to get fresh content
     const menuItems = await import("../shared/menu-items.json", { assert: { type: "json" } });
+
+    // Get items for the specific category
     const categoryItems = menuItems.default[category];
-    let id = 1;
 
     if (!Array.isArray(categoryItems)) {
       return [];
     }
 
-    return categoryItems.map((item: any) => ({
+    // Map items and add IDs
+    let id = 1;
+    return categoryItems.map(item => ({
       id: id++,
       ...item,
       category
