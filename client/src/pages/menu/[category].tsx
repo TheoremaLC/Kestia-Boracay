@@ -11,6 +11,13 @@ export default function MenuCategory() {
 
   const { data: menuItems, isLoading } = useQuery<MenuItemType[]>({
     queryKey: ["/api/menu", category],
+    queryFn: async () => {
+      const response = await fetch(`/api/menu/${category}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch menu items");
+      }
+      return response.json();
+    },
   });
 
   return (
