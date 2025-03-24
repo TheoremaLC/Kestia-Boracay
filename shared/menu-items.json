@@ -162,48 +162,6 @@
       "isSpecial": false
     }
   ],
-  "soup": [
-    {
-      "name": "Bulalo Soup",
-      "description": "Filipino beef marrow soup with vegetables",
-      "price": 39900,
-      "category": "soup",
-      "imageUrl": null,
-      "isSpecial": true
-    },
-    {
-      "name": "Vegetable Cream Soup",
-      "description": "Smooth and creamy vegetable soup",
-      "price": 29900,
-      "category": "soup",
-      "imageUrl": null,
-      "isSpecial": false
-    },
-    {
-      "name": "Goulash",
-      "description": "A hearty Hungarian classic made with tender beef, potatoes, sweet paprika, and a medley of vegetables, slow-cooked to perfection. Rich, warming, and full of flavor.",
-      "price": 39900,
-      "category": "soup",
-      "imageUrl": null,
-      "isSpecial": true
-    },
-    {
-      "name": "Bean soup with onion salad",
-      "description": "Traditional bean soup served with fresh onion salad",
-      "price": 39900,
-      "category": "soup",
-      "imageUrl": null,
-      "isSpecial": true
-    },
-    {
-      "name": "Chicken soup",
-      "description": "Classic chicken soup with vegetables and noodles",
-      "price": 39900,
-      "category": "soup",
-      "imageUrl": null,
-      "isSpecial": true
-    }
-  ],
   "appetizers": [
     {
       "name": "Quiche Lorraine Pie",
@@ -261,6 +219,48 @@
       "category": "appetizers",
       "imageUrl": null,
       "isSpecial": false
+    }
+  ],
+  "soups": [
+    {
+      "name": "Bulalo Soup",
+      "description": "Filipino beef marrow soup with vegetables",
+      "price": 39900,
+      "category": "soups",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Vegetable Cream Soup",
+      "description": "Smooth and creamy vegetable soup",
+      "price": 29900,
+      "category": "soups",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Goulash",
+      "description": "A hearty Hungarian classic made with tender beef, potatoes, sweet paprika, and a medley of vegetables, slow-cooked to perfection. Rich, warming, and full of flavor.",
+      "price": 39900,
+      "category": "soups",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Bean soup with onion salad",
+      "description": "Traditional bean soup served with fresh onion salad",
+      "price": 39900,
+      "category": "soups",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Chicken soup",
+      "description": "Classic chicken soup with vegetables and noodles",
+      "price": 39900,
+      "category": "soups",
+      "imageUrl": null,
+      "isSpecial": true
     }
   ],
   "sides": [
@@ -321,12 +321,12 @@
       "isSpecial": false
     }
   ],
-  "mains": [
+  "main-dishes": [
     {
       "name": "Sarmale",
       "description": "Romanian stuffed cabbage rolls",
       "price": 45900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
     },
@@ -334,7 +334,7 @@
       "name": "Beef Salpicao",
       "description": "Garlic-butter beef cubes with mushrooms",
       "price": 52900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": false
     },
@@ -342,7 +342,7 @@
       "name": "Grilled Pork Steak",
       "description": "Served with fries and cabbage salad",
       "price": 45900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
     },
@@ -350,7 +350,7 @@
       "name": "Grilled Chicken Breast",
       "description": "Served with fries and cabbage salad",
       "price": 42900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": false
     },
@@ -358,7 +358,7 @@
       "name": "Grilled Dory",
       "description": "Grilled dory fillet with Kestia rice and boiled potatoes",
       "price": 42900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
     },
@@ -366,7 +366,7 @@
       "name": "Fried Fish with Polenta",
       "description": "Crispy fried fish served with traditional polenta",
       "price": 39900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": false
     },
@@ -374,7 +374,7 @@
       "name": "Seafood Pasta",
       "description": "Mixed seafood in tomato or cream sauce",
       "price": 48900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
     },
@@ -382,7 +382,7 @@
       "name": "Carbonara",
       "description": "Creamy pasta with bacon and egg",
       "price": 38900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": false
     },
@@ -390,7 +390,7 @@
       "name": "Kestía Cheeseburger",
       "description": "Signature cheeseburger with all the fixings",
       "price": 35900,
-      "category": "mains",
+      "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
     }

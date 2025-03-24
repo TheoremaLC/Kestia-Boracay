@@ -5,9 +5,9 @@ import { z } from "zod";
 export const categories = [
   "breakfast",
   "appetizers",
-  "soup",
+  "soups",
   "sides",
-  "mains",
+  "main-dishes",
   "desserts"
 ] as const;
 
