@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --color-yellow: 237, 237, 180;
+    --color-yellow: 246, 246, 190;
   }
 
   * {
@@ -16,9 +16,9 @@
   body {
     @apply font-['Public+Sans'] antialiased text-foreground;
     background: linear-gradient(135deg, 
-      rgba(237, 237, 180, 0.9) 0%,
-      rgba(237, 237, 180, 0.7) 50%,
-      rgba(237, 237, 180, 0.5) 100%
+      rgba(246, 246, 190, 0.9) 0%,
+      rgba(246, 246, 190, 0.7) 50%,
+      rgba(246, 246, 190, 0.5) 100%
     );
     min-height: 100vh;
   }
