@@ -236,6 +236,14 @@
       "category": "soups",
       "imageUrl": null,
       "isSpecial": true
+    },
+    {
+      "name": "Romanian Bean Soup",
+      "description": "A rustic and heartwarming dish made with tender white beans, slow-cooked in a savory broth infused with herbs and spices. Served with fresh bread and pickled onions for a perfect balance of flavors—simple, yet deeply comforting.",
+      "price": 18000,
+      "category": "soups",
+      "imageUrl": null,
+      "isSpecial": true
     }
   ],
   "sides": [
@@ -363,8 +371,8 @@
     },
     {
       "name": "Grilled Pork Steak",
-      "description": "Served with fries and cabbage salad",
-      "price": 45900,
+      "description": "Juicy, herb-marinated pork steak grilled to perfection, served with crispy golden fries and a side of dill cabbage salad. A hearty and flavorful dish that's both satisfying and delicious!",
+      "price": 48000,
       "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
@@ -387,8 +395,8 @@
     },
     {
       "name": "Fried Fish with Polenta",
-      "description": "Crispy fried fish served with traditional polenta",
-      "price": 39900,
+      "description": "Crispy cornmeal-coated fried fish served with polenta and a zesty lemon wedge. Comes with a light herb sauce.",
+      "price": 25000,
       "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": false
@@ -405,6 +413,14 @@
       "name": "Kestía Cheeseburger",
       "description": "Signature cheeseburger with all the fixings",
       "price": 35900,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Buls Palanta",
+      "description": "A beloved Romanian comfort dish of creamy polenta crowned with tangy cheese and a perfectly runny egg. Finished with a velvety sauce, it's a hearty taste of home with a modern twist.",
+      "price": 38000,
       "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
