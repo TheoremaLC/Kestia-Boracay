@@ -6,6 +6,10 @@ import type {
   Reservation,
   InsertReservation,
 } from "@shared/schema";
+import { pgTable, text, serial, integer, timestamp, boolean } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
+import menuItemsData from "../shared/menu-items.json";
 
 export interface IStorage {
   // Menu Items
@@ -23,256 +27,38 @@ export interface IStorage {
   getReservations(): Promise<Reservation[]>;
 }
 
-export class MemStorage implements IStorage {
+class MemStorage implements IStorage {
   private menuItems: Map<number, MenuItem>;
   private events: Map<number, Event>;
   private reservations: Map<number, Reservation>;
-  private currentIds: { menuItems: number; events: number; reservations: number };
+  private currentIds: {
+    menuItems: number;
+    events: number;
+    reservations: number;
+  };
 
   constructor() {
     this.menuItems = new Map();
     this.events = new Map();
     this.reservations = new Map();
-    this.currentIds = { menuItems: 1, events: 1, reservations: 1 };
+    this.currentIds = {
+      menuItems: 1,
+      events: 1,
+      reservations: 1,
+    };
 
-    // Add all menu items
-    const menuItems: InsertMenuItem[] = [
-      // Breakfast (3 items)
-      {
-        name: "English Breakfast",
-        description: "Complete breakfast with eggs, bacon, sausage, beans, and toast",
-        price: 45900,
-        category: "breakfast",
-        imageUrl: null,
-        isSpecial: true
-      },
-      {
-        name: "Tapsilog",
-        description: "Filipino breakfast with marinated beef, garlic rice, and fried egg",
-        price: 32900,
-        category: "breakfast",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Vegetable Omelet",
-        description: "Fresh vegetables folded into fluffy eggs",
-        price: 29900,
-        category: "breakfast",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Extras (2 items)
-      {
-        name: "Bacon",
-        description: "Crispy bacon strips",
-        price: 15900,
-        category: "extras",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Two Eggs any Style",
-        description: "Eggs cooked to your preference",
-        price: 12900,
-        category: "extras",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Soups (2 items)
-      {
-        name: "Bulalo Soup",
-        description: "Filipino beef marrow soup with vegetables",
-        price: 39900,
-        category: "soup",
-        imageUrl: null,
-        isSpecial: true
-      },
-      {
-        name: "Vegetable Cream Soup",
-        description: "Smooth and creamy vegetable soup",
-        price: 29900,
-        category: "soup",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Appetizers (2 items)
-      {
-        name: "Mici Platter",
-        description: "Romanian grilled meat rolls served with mustard",
-        price: 35900,
-        category: "appetizers",
-        imageUrl: null,
-        isSpecial: true
-      },
-      {
-        name: "Quiche Lorraine",
-        description: "Classic French tart with bacon and cheese",
-        price: 32900,
-        category: "appetizers",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Salads (2 items)
-      {
-        name: "Green Salad",
-        description: "Fresh mixed greens with house dressing",
-        price: 25900,
-        category: "salads",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Onion Tomato Salad",
-        description: "Simple and refreshing salad with onions and tomatoes",
-        price: 22900,
-        category: "salads",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Vegetables (2 items)
-      {
-        name: "Garlic Kangkong",
-        description: "Sautéed water spinach with garlic",
-        price: 25900,
-        category: "vegetables",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Stir Fried Veggies",
-        description: "Assorted vegetables stir-fried to perfection",
-        price: 28900,
-        category: "vegetables",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Pickles (2 items)
-      {
-        name: "Pickled Cabbage",
-        description: "Traditional pickled cabbage",
-        price: 15900,
-        category: "pickles",
-        imageUrl: null,
-        isSpecial: false
-      },
-      {
-        name: "Pickled Cucumber",
-        description: "Crisp pickled cucumbers",
-        price: 15900,
-        category: "pickles",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Burgers (1 item)
-      {
-        name: "Kestía Cheeseburger",
-        description: "Signature cheeseburger with all the fixings",
-        price: 35900,
-        category: "burgers",
-        imageUrl: null,
-        isSpecial: true
-      },
-
-      // Main Course (2 items)
-      {
-        name: "Sarmale",
-        description: "Romanian stuffed cabbage rolls",
-        price: 45900,
-        category: "main-course",
-        imageUrl: null,
-        isSpecial: true
-      },
-      {
-        name: "Beef Salpicao",
-        description: "Garlic-butter beef cubes with mushrooms",
-        price: 52900,
-        category: "main-course",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Grilled (2 items)
-      {
-        name: "Grilled Pork Steak",
-        description: "Served with fries and cabbage salad",
-        price: 45900,
-        category: "grilled",
-        imageUrl: null,
-        isSpecial: true
-      },
-      {
-        name: "Grilled Chicken Breast",
-        description: "Served with fries and cabbage salad",
-        price: 42900,
-        category: "grilled",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Fish (2 items)
-      {
-        name: "Grilled Dory",
-        description: "Grilled dory fillet with Kestia rice and boiled potatoes",
-        price: 42900,
-        category: "fish",
-        imageUrl: null,
-        isSpecial: true
-      },
-      {
-        name: "Fried Fish with Polenta",
-        description: "Crispy fried fish served with traditional polenta",
-        price: 39900,
-        category: "fish",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Pasta (2 items)
-      {
-        name: "Seafood Pasta",
-        description: "Mixed seafood in tomato or cream sauce",
-        price: 48900,
-        category: "pasta",
-        imageUrl: null,
-        isSpecial: true
-      },
-      {
-        name: "Carbonara",
-        description: "Creamy pasta with bacon and egg",
-        price: 38900,
-        category: "pasta",
-        imageUrl: null,
-        isSpecial: false
-      },
-
-      // Desserts (2 items)
-      {
-        name: "Mango Float",
-        description: "Filipino dessert with layers of graham crackers, cream, and fresh mangoes",
-        price: 25900,
-        category: "desserts",
-        imageUrl: null,
-        isSpecial: true
-      },
-      {
-        name: "Cheese Cake",
-        description: "Classic creamy cheesecake",
-        price: 28900,
-        category: "desserts",
-        imageUrl: null,
-        isSpecial: false
-      }
-    ];
-
-    menuItems.forEach(item => this.createMenuItem(item));
+    // Initialize menu items from JSON
+    menuItemsData.menuItems.forEach(item => {
+      const menuItem: InsertMenuItem = {
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        category: item.category,
+        imageUrl: item.imageUrl,
+        isSpecial: item.isSpecial
+      };
+      this.createMenuItem(menuItem);
+    });
   }
 
   // Menu Items
@@ -292,7 +78,7 @@ export class MemStorage implements IStorage {
 
   async createMenuItem(item: InsertMenuItem): Promise<MenuItem> {
     const id = this.currentIds.menuItems++;
-    const menuItem = { id, ...item };
+    const menuItem = { id, ...item } as MenuItem;
     this.menuItems.set(id, menuItem);
     return menuItem;
   }
@@ -304,7 +90,7 @@ export class MemStorage implements IStorage {
 
   async createEvent(event: InsertEvent): Promise<Event> {
     const id = this.currentIds.events++;
-    const newEvent = { id, ...event };
+    const newEvent = { id, ...event } as Event;
     this.events.set(id, newEvent);
     return newEvent;
   }
@@ -312,7 +98,7 @@ export class MemStorage implements IStorage {
   // Reservations
   async createReservation(reservation: InsertReservation): Promise<Reservation> {
     const id = this.currentIds.reservations++;
-    const newReservation = { id, ...reservation };
+    const newReservation = { id, ...reservation } as Reservation;
     this.reservations.set(id, newReservation);
     return newReservation;
   }
