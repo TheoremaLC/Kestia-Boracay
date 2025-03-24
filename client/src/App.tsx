@@ -16,7 +16,7 @@ import Contacts from "@/pages/contacts";
 function Router() {
   return (
     <div className="min-h-screen relative">
-      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 pb-24">
+      <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 pb-24 max-w-screen-xl">
         <Switch>
           <Route path="/" component={Menu} />
           <Route path="/menu" component={Menu} />
