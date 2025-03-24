@@ -49,7 +49,7 @@ class MemStorage implements IStorage {
       (items as InsertMenuItem[]).forEach(item => {
         this.createMenuItem({
           ...item,
-          category
+          category: category // Ensure category is set from the JSON structure
         });
       });
     });
@@ -61,9 +61,8 @@ class MemStorage implements IStorage {
   }
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
-    return Array.from(this.menuItems.values()).filter(
-      (item) => item.category === category,
-    );
+    const items = Array.from(this.menuItems.values());
+    return items.filter(item => item.category === category);
   }
 
   async getMenuItem(id: number): Promise<MenuItem | undefined> {
