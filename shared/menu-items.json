@@ -66,9 +66,97 @@
       "isSpecial": false
     },
     {
+      "name": "Ham",
+      "description": "",
+      "price": 12900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Weinerli sausage",
+      "description": "",
+      "price": 16900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
       "name": "Two Eggs any Style",
       "description": "",
       "price": 12900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Yogurt",
+      "description": "",
+      "price": 8900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Kestia rice",
+      "description": "",
+      "price": 9900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Pork",
+      "description": "",
+      "price": 19900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Chicken",
+      "description": "",
+      "price": 18900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Onion salad",
+      "description": "",
+      "price": 7900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Mici",
+      "description": "",
+      "price": 14900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Egg",
+      "description": "",
+      "price": 6900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Bread",
+      "description": "",
+      "price": 5900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Bacon",
+      "description": "",
+      "price": 15900,
       "category": "breakfast",
       "imageUrl": null,
       "isSpecial": false
