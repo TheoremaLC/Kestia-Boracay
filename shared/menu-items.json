@@ -59,7 +59,7 @@
     },
     {
       "name": "Bacon",
-      "description": "Crispy bacon strips",
+      "description": "",
       "price": 15900,
       "category": "breakfast",
       "imageUrl": null,
@@ -67,7 +67,7 @@
     },
     {
       "name": "Two Eggs any Style",
-      "description": "Eggs cooked to your preference",
+      "description": "",
       "price": 12900,
       "category": "breakfast",
       "imageUrl": null,
