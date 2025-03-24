@@ -189,36 +189,11 @@
     },
     {
       "name": "3 IN 1 APPETIZER",
-      "description": "",
-      "price": 0,
-      "category": "mici, eggplant dip & liver pate",
-      "imageUrl": null,
-      "isSpecial": false,
-      "isSection": true
-    },
-    {
-      "name": "Mici",
-      "description": "Romanian grilled meat rolls served with mustard",
-      "price": 35900,
+      "description": "A combination of our signature appetizers: Mici (Romanian grilled meat rolls), Eggplant salad (smoky roasted eggplant with onions), and Liver pate (smooth and rich homemade)",
+      "price": 89900,
       "category": "appetizers",
       "imageUrl": null,
-      "isSpecial": false
-    },
-    {
-      "name": "Eggplant salad",
-      "description": "Smoky roasted eggplant salad with onions and fresh herbs",
-      "price": 32900,
-      "category": "appetizers",
-      "imageUrl": null,
-      "isSpecial": false
-    },
-    {
-      "name": "Liver pate",
-      "description": "Smooth and rich homemade liver pate served with toast points",
-      "price": 34900,
-      "category": "appetizers",
-      "imageUrl": null,
-      "isSpecial": false
+      "isSpecial": true
     }
   ],
   "soups": [
