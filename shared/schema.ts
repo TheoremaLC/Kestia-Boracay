@@ -4,8 +4,8 @@ import { z } from "zod";
 
 export const categories = [
   "breakfast",
-  "soup",
   "appetizers",
+  "soup",
   "salads",
   "vegetables",
   "pickles",
