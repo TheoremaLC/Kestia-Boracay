@@ -222,14 +222,6 @@
       "isSpecial": true
     },
     {
-      "name": "Bean soup with onion salad",
-      "description": "Traditional bean soup served with fresh onion salad",
-      "price": 39900,
-      "category": "soups",
-      "imageUrl": null,
-      "isSpecial": true
-    },
-    {
       "name": "Chicken soup",
       "description": "Classic chicken soup with vegetables and noodles",
       "price": 39900,
@@ -421,6 +413,14 @@
       "name": "Buls Palanta",
       "description": "A beloved Romanian comfort dish of creamy polenta crowned with tangy cheese and a perfectly runny egg. Finished with a velvety sauce, it's a hearty taste of home with a modern twist.",
       "price": 38000,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Chicken Ostropel",
+      "description": "A traditional Romanian chicken stew with tender chicken simmered in a flavorful tomato, garlic, and mushroom sauce. Served over creamy polenta, absorbing all the delicious juices for a rustic and satisfying dish.",
+      "price": 44000,
       "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
