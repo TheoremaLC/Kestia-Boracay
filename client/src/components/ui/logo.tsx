@@ -10,9 +10,9 @@ export function Logo({ className }: LogoProps) {
     <Link href="/">
       <a className={cn("flex justify-center items-center mb-6 md:mb-8 gap-2 md:gap-4", className)}>
         <span className="text-xl md:text-3xl font-bold bg-gradient-to-r from-rose-900 to-rose-600 bg-clip-text text-transparent">Kestía</span>
-        <img
+        <img 
           src="/logo.jpg"
-          alt="Kestía Boracay Logo"
+          alt="Kestía Boracay Logo" 
           className="h-20 md:h-28 w-auto"
         />
         <span className="text-xl md:text-3xl font-bold bg-gradient-to-r from-rose-900 to-rose-600 bg-clip-text text-transparent">Boracay</span>
