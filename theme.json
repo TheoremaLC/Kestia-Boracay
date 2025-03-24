@@ -3,5 +3,5 @@
   "primary": "rgb(135, 25, 10)",
   "appearance": "light",
   "radius": 0.5,
-  "background": "hsl(0, 0%, 97%)"
+  "background": "rgb(255, 255, 255)"
 }
