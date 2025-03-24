@@ -12,7 +12,7 @@ export function Logo({ className }: LogoProps) {
         <img 
           src="/kestia_logo_page5.png"
           alt="Kestía Boracay Logo" 
-          className="h-24 md:h-32 w-auto"
+          className="h-24 md:h-32 w-auto mix-blend-multiply"
         />
       </a>
     </Link>
