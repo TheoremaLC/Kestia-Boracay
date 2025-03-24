@@ -378,9 +378,9 @@
       "isSpecial": false
     },
     {
-      "name": "Grilled Dory",
-      "description": "Grilled dory fillet with Kestia rice and boiled potatoes",
-      "price": 42900,
+      "name": "Grilled Dory Plate",
+      "description": "A beautifully grilled dory fillet, perfectly paired with soft-boiled potatoes, fluffy rice, and a generous topping of caramelized onions. Finished with fresh herbs and a squeeze of lemon for a refreshing balance of flavors.",
+      "price": 48000,
       "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
@@ -424,6 +424,14 @@
       "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": true
+    },
+    {
+      "name": "Chicken Wings with Rice & Kangkong",
+      "description": "Crispy, golden-fried chicken wings served with fragrant rice infused with sautéed kangkong (water spinach). The perfect balance of crunch and tenderness, complemented by the earthy flavors of the greens. A satisfying and flavorful meal that brings a taste of home-style comfort with a touch of freshness.",
+      "price": 29000,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": false
     }
   ],
   "desserts": [
