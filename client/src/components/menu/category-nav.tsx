@@ -12,10 +12,12 @@ export default function CategoryNav() {
           <Link key={category} href={`/menu/${category}`}>
             <a
               className={cn(
-                "whitespace-nowrap px-3 py-1.5 text-xs font-medium transition-colors rounded-md",
+                "whitespace-nowrap px-4 py-2 text-sm font-medium transition-all duration-200",
+                "rounded-lg border border-transparent",
+                "hover:scale-105 active:scale-95",
                 location === `/menu/${category}`
-                  ? "bg-[#E85303] text-white font-semibold shadow-sm"
-                  : "text-[#872519] hover:text-[#36CAB0] hover:bg-primary/5"
+                  ? "bg-[#E85303] text-white font-semibold shadow-md transform -translate-y-0.5"
+                  : "text-[#872519] hover:text-[#36CAB0] hover:border-[#36CAB0] hover:bg-[#36CAB0]/5"
               )}
             >
               {category.replace("-", " ").toUpperCase()}
