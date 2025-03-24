@@ -45,14 +45,16 @@ class MemStorage implements IStorage {
     };
 
     // Initialize menu items from categorized JSON
-    Object.entries(menuItems).forEach(([category, items]) => {
-      (items as InsertMenuItem[]).forEach(item => {
-        this.createMenuItem({
-          ...item,
-          category, // Make sure we use the category from the JSON structure
+    for (const [category, items] of Object.entries(menuItems)) {
+      if (Array.isArray(items)) {
+        items.forEach((item) => {
+          this.createMenuItem({
+            ...item,
+            category // Use the category from the JSON structure
+          });
         });
-      });
-    });
+      }
+    }
   }
 
   // Menu Items
@@ -61,12 +63,8 @@ class MemStorage implements IStorage {
   }
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
-    console.log("Filtering for category:", category); // Debug log
     const items = Array.from(this.menuItems.values());
-    console.log("All items:", items.map(item => ({ name: item.name, category: item.category }))); // Debug log
-    const filteredItems = items.filter(item => item.category === category);
-    console.log("Filtered items:", filteredItems.map(item => item.name)); // Debug log
-    return filteredItems;
+    return items.filter(item => item.category === category);
   }
 
   async getMenuItem(id: number): Promise<MenuItem | undefined> {
@@ -76,7 +74,6 @@ class MemStorage implements IStorage {
   async createMenuItem(item: InsertMenuItem): Promise<MenuItem> {
     const id = this.currentIds.menuItems++;
     const menuItem = { id, ...item } as MenuItem;
-    console.log("Creating menu item:", { name: menuItem.name, category: menuItem.category }); // Debug log
     this.menuItems.set(id, menuItem);
     return menuItem;
   }

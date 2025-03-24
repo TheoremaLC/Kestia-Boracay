@@ -59,6 +59,30 @@
       "category": "soup",
       "imageUrl": null,
       "isSpecial": false
+    },
+    {
+      "name": "Goulash",
+      "description": "A hearty Hungarian classic made with tender beef, potatoes, sweet paprika, and a medley of vegetables, slow-cooked to perfection. Rich, warming, and full of flavor.",
+      "price": 39900,
+      "category": "soup",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Bean soup with onion salad",
+      "description": "Traditional bean soup served with fresh onion salad",
+      "price": 39900,
+      "category": "soup",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Chicken soup",
+      "description": "Classic chicken soup with vegetables and noodles",
+      "price": 39900,
+      "category": "soup",
+      "imageUrl": null,
+      "isSpecial": true
     }
   ],
   "appetizers": [
