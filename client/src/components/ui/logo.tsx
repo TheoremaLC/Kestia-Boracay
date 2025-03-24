@@ -8,14 +8,12 @@ interface LogoProps {
 export function Logo({ className }: LogoProps) {
   return (
     <Link href="/">
-      <a className={cn("flex justify-center items-center mb-6 md:mb-8 gap-2 md:gap-4", className)}>
-        <span className="text-xl md:text-3xl font-bold text-[#872519]">Kestía</span>
+      <a className={cn("flex justify-center items-center mb-6 md:mb-8", className)}>
         <img 
-          src="/kestia-logo.svg" 
+          src="/kestia_logo_page5.png"
           alt="Kestía Boracay Logo" 
-          className="h-20 md:h-28 w-auto"
+          className="h-24 md:h-32 w-auto"
         />
-        <span className="text-xl md:text-3xl font-bold text-[#872519]">Boracay</span>
       </a>
     </Link>
   );
