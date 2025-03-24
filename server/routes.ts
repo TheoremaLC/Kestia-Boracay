@@ -11,7 +11,8 @@ export async function registerRoutes(app: Express) {
   });
 
   app.get("/api/menu/:category", async (req, res) => {
-    const items = await storage.getMenuItemsByCategory(req.params.category);
+    const category = req.params.category;
+    const items = await storage.getMenuItemsByCategory(category);
     res.json(items);
   });
 
