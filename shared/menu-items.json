@@ -188,9 +188,9 @@
       "isSpecial": false
     },
     {
-      "name": "3 in 1 Appetizer",
-      "description": "A combination of our signature appetizers: Mici (Romanian grilled meat rolls), Eggplant salad (smoky roasted eggplant with onions), and Liver pate (smooth and rich homemade)",
-      "price": 89900,
+      "name": "Romanian Trio Appetizer",
+      "description": "A taste of Romania in one plate! Enjoy our house-made vinete (smoky eggplant salad), rich and creamy liver pâté, and a juicy \"mici\" (Romanian grilled sausage). Served with fresh bread, mustard and onions for an authentic experience. A perfect way to start your meal!",
+      "price": 17000,
       "category": "appetizers",
       "imageUrl": null,
       "isSpecial": true
