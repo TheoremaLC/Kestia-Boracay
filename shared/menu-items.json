@@ -321,22 +321,12 @@
       "isSpecial": false
     }
   ],
-  "burgers": [
-    {
-      "name": "Kestía Cheeseburger",
-      "description": "Signature cheeseburger with all the fixings",
-      "price": 35900,
-      "category": "burgers",
-      "imageUrl": null,
-      "isSpecial": true
-    }
-  ],
-  "main-course": [
+  "mains": [
     {
       "name": "Sarmale",
       "description": "Romanian stuffed cabbage rolls",
       "price": 45900,
-      "category": "main-course",
+      "category": "mains",
       "imageUrl": null,
       "isSpecial": true
     },
@@ -344,17 +334,15 @@
       "name": "Beef Salpicao",
       "description": "Garlic-butter beef cubes with mushrooms",
       "price": 52900,
-      "category": "main-course",
+      "category": "mains",
       "imageUrl": null,
       "isSpecial": false
-    }
-  ],
-  "grilled": [
+    },
     {
       "name": "Grilled Pork Steak",
       "description": "Served with fries and cabbage salad",
       "price": 45900,
-      "category": "grilled",
+      "category": "mains",
       "imageUrl": null,
       "isSpecial": true
     },
@@ -362,17 +350,15 @@
       "name": "Grilled Chicken Breast",
       "description": "Served with fries and cabbage salad",
       "price": 42900,
-      "category": "grilled",
+      "category": "mains",
       "imageUrl": null,
       "isSpecial": false
-    }
-  ],
-  "fish": [
+    },
     {
       "name": "Grilled Dory",
       "description": "Grilled dory fillet with Kestia rice and boiled potatoes",
       "price": 42900,
-      "category": "fish",
+      "category": "mains",
       "imageUrl": null,
       "isSpecial": true
     },
@@ -380,17 +366,15 @@
       "name": "Fried Fish with Polenta",
       "description": "Crispy fried fish served with traditional polenta",
       "price": 39900,
-      "category": "fish",
+      "category": "mains",
       "imageUrl": null,
       "isSpecial": false
-    }
-  ],
-  "pasta": [
+    },
     {
       "name": "Seafood Pasta",
       "description": "Mixed seafood in tomato or cream sauce",
       "price": 48900,
-      "category": "pasta",
+      "category": "mains",
       "imageUrl": null,
       "isSpecial": true
     },
@@ -398,9 +382,17 @@
       "name": "Carbonara",
       "description": "Creamy pasta with bacon and egg",
       "price": 38900,
-      "category": "pasta",
+      "category": "mains",
       "imageUrl": null,
       "isSpecial": false
+    },
+    {
+      "name": "Kestía Cheeseburger",
+      "description": "Signature cheeseburger with all the fixings",
+      "price": 35900,
+      "category": "mains",
+      "imageUrl": null,
+      "isSpecial": true
     }
   ],
   "desserts": [

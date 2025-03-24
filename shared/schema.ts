@@ -7,11 +7,7 @@ export const categories = [
   "appetizers",
   "soup",
   "sides",
-  "burgers",
-  "main-course",
-  "grilled",
-  "fish",
-  "pasta",
+  "mains",
   "desserts"
 ] as const;
 
