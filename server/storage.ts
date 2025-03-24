@@ -45,12 +45,12 @@ class MemStorage implements IStorage {
   // Menu Items
   async getMenuItems(): Promise<MenuItem[]> {
     // Import JSON file dynamically to get fresh content
-    const menuItems = await import("../shared/menu-items.json", { assert: { type: "json" } });
+    const menuData = await import("../shared/menu-items.json", { assert: { type: "json" } });
     const allItems: MenuItem[] = [];
     let id = 1;
 
-    // Flatten all categories into a single array
-    for (const [category, items] of Object.entries(menuItems.default)) {
+    // Get items from each category
+    Object.entries(menuData.default).forEach(([category, items]) => {
       if (Array.isArray(items)) {
         items.forEach((item: any) => {
           allItems.push({
@@ -60,14 +60,28 @@ class MemStorage implements IStorage {
           });
         });
       }
-    }
+    });
 
     return allItems;
   }
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
-    const allItems = await this.getMenuItems();
-    return allItems.filter(item => item.category === category);
+    // Import JSON file dynamically to get fresh content
+    const menuData = await import("../shared/menu-items.json", { assert: { type: "json" } });
+    const categoryItems = menuData.default[category];
+
+    // If category doesn't exist or isn't an array, return empty array
+    if (!Array.isArray(categoryItems)) {
+      return [];
+    }
+
+    // Map items with IDs and return only items from requested category
+    let id = 1;
+    return categoryItems.map(item => ({
+      id: id++,
+      ...item,
+      category
+    }));
   }
 
   async getMenuItem(id: number): Promise<MenuItem | undefined> {

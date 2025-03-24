@@ -11,9 +11,14 @@ export default function MenuCategory() {
 
   const { data: menuItems, isLoading } = useQuery<MenuItemType[]>({
     queryKey: ["/api/menu", category],
-    // Add shorter staleTime to refetch data more frequently
+    queryFn: async () => {
+      const response = await fetch(`/api/menu/${category}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch menu items for category: ${category}`);
+      }
+      return response.json();
+    },
     staleTime: 1000, // 1 second
-    // Add refetchInterval to periodically check for updates
     refetchInterval: 5000, // 5 seconds
   });
 
