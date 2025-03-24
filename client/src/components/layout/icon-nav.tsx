@@ -11,13 +11,13 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/menu", label: "Menu", icon: Utensils, color: "text-indigo-500" },
-  { href: "/offers", label: "Offers", icon: Percent, color: "text-amber-500" },
-  { href: "/book", label: "Reservations", icon: CalendarRange, color: "text-emerald-500" },
-  { href: "/music", label: "Music", icon: Music2, color: "text-purple-500" },
-  { href: "/events", label: "Events", icon: CalendarDays, color: "text-blue-500" },
-  { href: "/gallery", label: "Gallery", icon: Camera, color: "text-rose-500" },
-  { href: "/contacts", label: "Contacts", icon: MapPin, color: "text-slate-500" },
+  { href: "/menu", label: "Menu", icon: Utensils, color: "text-[#E85303]" },
+  { href: "/offers", label: "Offers", icon: Percent, color: "text-[#E85303]" },
+  { href: "/book", label: "Reservations", icon: CalendarRange, color: "text-[#36CAB0]" },
+  { href: "/music", label: "Music", icon: Music2, color: "text-[#36CAB0]" },
+  { href: "/events", label: "Events", icon: CalendarDays, color: "text-[#872519]" },
+  { href: "/gallery", label: "Gallery", icon: Camera, color: "text-[#872519]" },
+  { href: "/contacts", label: "Contacts", icon: MapPin, color: "text-[#E85303]" },
 ];
 
 export default function IconNav() {
@@ -33,7 +33,7 @@ export default function IconNav() {
                 "flex flex-col items-center justify-center p-2 sm:p-3 rounded-lg transition-all duration-200 ease-in-out",
                 "hover:scale-105 active:scale-95",
                 location === item.href
-                  ? `${item.color} bg-primary/10 shadow-sm`
+                  ? `${item.color} bg-primary/5 shadow-sm`
                   : `text-muted-foreground hover:${item.color} hover:bg-primary/5`
               )}
             >
