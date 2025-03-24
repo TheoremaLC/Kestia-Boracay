@@ -1,7 +1,6 @@
 import { Logo } from "@/components/ui/logo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { Map } from "@/components/ui/map";
 
 export default function Contacts() {
   return (
@@ -45,7 +44,15 @@ export default function Contacts() {
             <CardTitle className="text-lg">Location</CardTitle>
           </CardHeader>
           <CardContent className="p-0">
-            <Map className="w-full h-[400px]" />
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.0901224675396!2d121.95716661744384!3d11.356991899999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a5f2f346bfe8eb%3A0x14b7b5f049321c8e!2sStation%202%20Beach%20Path!5e0!3m2!1sen!2sph!4v1711304458607!5m2!1sen!2sph"
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </CardContent>
         </Card>
       </div>
