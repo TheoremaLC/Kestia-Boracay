@@ -27,15 +27,17 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemP
 
   return (
     <Card>
-      <CardHeader className="p-4 sm:p-6">
+      <CardHeader className="p-3 sm:p-4">
         <div className="flex items-center justify-between gap-2">
-          <CardTitle className="text-base sm:text-lg">{item.name}</CardTitle>
-          <span className="text-base sm:text-lg font-bold whitespace-nowrap">₱{(item.price / 100).toFixed(2)}</span>
+          <CardTitle className="text-base">{item.name}</CardTitle>
+          <span className="text-base font-bold whitespace-nowrap">₱{(item.price / 100).toFixed(2)}</span>
         </div>
       </CardHeader>
-      <CardContent className="p-4 sm:p-6 pt-0">
-        <CardDescription className="text-sm sm:text-base">{item.description}</CardDescription>
-      </CardContent>
+      {item.description && (
+        <CardContent className="p-3 sm:p-4 pt-0">
+          <CardDescription className="text-sm">{item.description}</CardDescription>
+        </CardContent>
+      )}
     </Card>
   );
 }
