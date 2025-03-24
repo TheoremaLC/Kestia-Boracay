@@ -14,7 +14,7 @@ export default function CategoryNav() {
               className={cn(
                 "whitespace-nowrap px-3 py-1.5 text-xs font-medium transition-colors",
                 location === `/menu/${category}`
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary text-primary-foreground font-semibold"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
