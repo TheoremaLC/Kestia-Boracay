@@ -263,12 +263,12 @@
       "isSpecial": false
     }
   ],
-  "salads": [
+  "sides": [
     {
       "name": "Green Salad",
       "description": "Fresh mixed greens with house dressing",
       "price": 25900,
-      "category": "salads",
+      "category": "sides",
       "imageUrl": null,
       "isSpecial": false
     },
@@ -276,35 +276,39 @@
       "name": "Onion Tomato Salad",
       "description": "Simple and refreshing salad with onions and tomatoes",
       "price": 22900,
-      "category": "salads",
-      "imageUrl": null,
-      "isSpecial": false
-    }
-  ],
-  "vegetables": [
-    {
-      "name": "Garlic Kangkong",
-      "description": "Sautéed water spinach with garlic",
-      "price": 25900,
-      "category": "vegetables",
+      "category": "sides",
       "imageUrl": null,
       "isSpecial": false
     },
     {
-      "name": "Stir Fried Veggies",
-      "description": "Assorted vegetables stir-fried to perfection",
-      "price": 28900,
-      "category": "vegetables",
+      "name": "Sauteed Garlic Kangkong",
+      "description": "Sautéed water spinach with garlic",
+      "price": 25900,
+      "category": "sides",
       "imageUrl": null,
       "isSpecial": false
-    }
-  ],
-  "pickles": [
+    },
+    {
+      "name": "Stir Fried Vegetables",
+      "description": "Assorted vegetables stir-fried to perfection",
+      "price": 28900,
+      "category": "sides",
+      "imageUrl": null,
+      "isSpecial": false
+    },
     {
       "name": "Pickled Cabbage",
       "description": "Traditional pickled cabbage",
       "price": 15900,
-      "category": "pickles",
+      "category": "sides",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Pickled Tomato",
+      "description": "Fresh pickled tomatoes",
+      "price": 15900,
+      "category": "sides",
       "imageUrl": null,
       "isSpecial": false
     },
@@ -312,7 +316,7 @@
       "name": "Pickled Cucumber",
       "description": "Crisp pickled cucumbers",
       "price": 15900,
-      "category": "pickles",
+      "category": "sides",
       "imageUrl": null,
       "isSpecial": false
     }
