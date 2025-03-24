@@ -7,7 +7,7 @@ export default function CategoryNav() {
 
   return (
     <nav className="mb-8 border-b">
-      <div className="flex space-x-4 overflow-x-auto py-4">
+      <div className="flex justify-center space-x-4 overflow-x-auto py-4">
         {categories.map((category) => (
           <Link key={category} href={`/menu/${category}`}>
             <a
