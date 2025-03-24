@@ -12,4 +12,19 @@
   body {
     @apply font-['Public+Sans'] antialiased bg-background text-foreground;
   }
+
+  /* Ensure good contrast for content areas */
+  .card, 
+  .navigation-menu,
+  .dropdown-menu,
+  .dialog {
+    @apply bg-white shadow-sm;
+  }
+
+  /* Smooth transitions */
+  .card,
+  .button,
+  .link {
+    @apply transition-all duration-200;
+  }
 }
