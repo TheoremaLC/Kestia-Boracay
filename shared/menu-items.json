@@ -1,5 +1,5 @@
 {
-  "menuItems": [
+  "breakfast": [
     {
       "name": "English Breakfast",
       "description": "Complete breakfast with eggs, bacon, sausage, beans, and toast",
@@ -23,7 +23,9 @@
       "category": "breakfast",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "extras": [
     {
       "name": "Bacon",
       "description": "Crispy bacon strips",
@@ -39,7 +41,9 @@
       "category": "extras",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "soup": [
     {
       "name": "Bulalo Soup",
       "description": "Filipino beef marrow soup with vegetables",
@@ -55,7 +59,9 @@
       "category": "soup",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "appetizers": [
     {
       "name": "Mici Platter",
       "description": "Romanian grilled meat rolls served with mustard",
@@ -71,7 +77,9 @@
       "category": "appetizers",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "salads": [
     {
       "name": "Green Salad",
       "description": "Fresh mixed greens with house dressing",
@@ -87,7 +95,9 @@
       "category": "salads",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "vegetables": [
     {
       "name": "Garlic Kangkong",
       "description": "Sautéed water spinach with garlic",
@@ -103,7 +113,9 @@
       "category": "vegetables",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "pickles": [
     {
       "name": "Pickled Cabbage",
       "description": "Traditional pickled cabbage",
@@ -119,7 +131,9 @@
       "category": "pickles",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "burgers": [
     {
       "name": "Kestía Cheeseburger",
       "description": "Signature cheeseburger with all the fixings",
@@ -127,7 +141,9 @@
       "category": "burgers",
       "imageUrl": null,
       "isSpecial": true
-    },
+    }
+  ],
+  "main-course": [
     {
       "name": "Sarmale",
       "description": "Romanian stuffed cabbage rolls",
@@ -143,7 +159,9 @@
       "category": "main-course",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "grilled": [
     {
       "name": "Grilled Pork Steak",
       "description": "Served with fries and cabbage salad",
@@ -159,7 +177,9 @@
       "category": "grilled",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "fish": [
     {
       "name": "Grilled Dory",
       "description": "Grilled dory fillet with Kestia rice and boiled potatoes",
@@ -175,7 +195,9 @@
       "category": "fish",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "pasta": [
     {
       "name": "Seafood Pasta",
       "description": "Mixed seafood in tomato or cream sauce",
@@ -191,7 +213,9 @@
       "category": "pasta",
       "imageUrl": null,
       "isSpecial": false
-    },
+    }
+  ],
+  "desserts": [
     {
       "name": "Mango Float",
       "description": "Filipino dessert with layers of graham crackers, cream, and fresh mangoes",
