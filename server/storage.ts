@@ -62,7 +62,7 @@ class MemStorage implements IStorage {
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
     return Array.from(this.menuItems.values()).filter(
-      (item) => item.category === category
+      (item) => item.category === category,
     );
   }
 
