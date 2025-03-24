@@ -42,13 +42,18 @@ export const reservations = pgTable("reservations", {
   email: text("email").notNull(),
   phone: text("phone").notNull(),
   date: timestamp("date").notNull(),
+  time: text("time").notNull(),
   guests: integer("guests").notNull(),
   notes: text("notes"),
 });
 
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: true });
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
-export const insertReservationSchema = createInsertSchema(reservations).omit({ id: true });
+export const insertReservationSchema = createInsertSchema(reservations)
+  .omit({ id: true })
+  .extend({
+    time: z.string().min(1, "Please select a time"),
+  });
 
 export type MenuItem = typeof menuItems.$inferSelect;
 export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
