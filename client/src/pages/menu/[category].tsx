@@ -52,7 +52,7 @@ export default function MenuCategory() {
                     }} 
                     isSubsectionTitle={true} 
                   />
-                  <div className="mt-4 bg-white rounded-lg p-4">
+                  <div className="mt-4 space-y-2 backdrop-blur-sm bg-white/40 rounded-lg p-4 transition-all duration-300 hover:bg-white/50">
                     {menuItems.slice(index + 1).map(extraItem => (
                       <MenuItem 
                         key={extraItem.id} 
