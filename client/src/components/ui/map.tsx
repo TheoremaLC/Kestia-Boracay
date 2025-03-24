@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface MapProps {
   className?: string;
@@ -7,14 +9,22 @@ interface MapProps {
 
 export function Map({ className }: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const initMap = async () => {
       if (!mapRef.current) return;
 
       try {
+        const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+        if (!apiKey) {
+          throw new Error("Google Maps API key is not configured");
+        }
+
         const loader = new Loader({
-          apiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY!,
+          apiKey,
           version: "weekly",
           libraries: ["places"]
         });
@@ -50,13 +60,28 @@ export function Map({ className }: MapProps) {
           animation: google.maps.Animation.DROP,
         });
 
+        setIsLoading(false);
       } catch (error) {
         console.error("Error loading Google Maps:", error);
+        setError("Failed to load the map. Please try again later.");
+        setIsLoading(false);
       }
     };
 
     initMap();
   }, []);
+
+  if (error) {
+    return (
+      <Alert variant="destructive" className={className}>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    );
+  }
+
+  if (isLoading) {
+    return <Skeleton className={className} />;
+  }
 
   return (
     <div 
