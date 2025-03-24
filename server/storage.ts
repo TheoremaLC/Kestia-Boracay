@@ -6,10 +6,10 @@ import type {
   Reservation,
   InsertReservation,
 } from "@shared/schema";
+import menuItems from "../shared/menu-items.json" assert { type: "json" };
 import { pgTable, text, serial, integer, timestamp, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
-import menuItemsData from "../shared/menu-items.json";
 
 export interface IStorage {
   // Menu Items
@@ -48,7 +48,7 @@ class MemStorage implements IStorage {
     };
 
     // Initialize menu items from JSON
-    menuItemsData.menuItems.forEach(item => {
+    menuItems.menuItems.forEach(item => {
       const menuItem: InsertMenuItem = {
         name: item.name,
         description: item.description,
