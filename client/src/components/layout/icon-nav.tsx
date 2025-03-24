@@ -7,6 +7,7 @@ import {
   CalendarRange,
   Percent,
   Utensils,
+  MapPin,
 } from "lucide-react";
 
 const navItems = [
@@ -16,6 +17,7 @@ const navItems = [
   { href: "/music", label: "Music", icon: Music2, color: "text-purple-500" },
   { href: "/events", label: "Events", icon: CalendarDays, color: "text-blue-500" },
   { href: "/gallery", label: "Gallery", icon: Camera, color: "text-rose-500" },
+  { href: "/contacts", label: "Contacts", icon: MapPin, color: "text-slate-500" },
 ];
 
 export default function IconNav() {
@@ -23,7 +25,7 @@ export default function IconNav() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t">
-      <div className="grid grid-cols-6 gap-2 sm:gap-4 p-2 sm:p-4">
+      <div className="grid grid-cols-7 gap-2 sm:gap-4 p-2 sm:p-4">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <a

@@ -11,6 +11,7 @@ import Events from "@/pages/events";
 import Book from "@/pages/book";
 import Gallery from "@/pages/gallery";
 import Music from "@/pages/music";
+import Contacts from "@/pages/contacts";
 
 function Router() {
   return (
@@ -25,6 +26,7 @@ function Router() {
           <Route path="/book" component={Book} />
           <Route path="/music" component={Music} />
           <Route path="/gallery" component={Gallery} />
+          <Route path="/contacts" component={Contacts} />
           <Route component={NotFound} />
         </Switch>
       </main>
