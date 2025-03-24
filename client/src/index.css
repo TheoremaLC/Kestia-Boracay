@@ -10,7 +10,22 @@
   }
 
   body {
-    @apply font-['Public+Sans'] antialiased bg-background text-foreground;
+    @apply font-['Public+Sans'] antialiased text-foreground;
+    background: linear-gradient(-45deg, rgb(135, 25, 10), rgb(232, 83, 3), rgb(246, 255, 110), rgb(54, 202, 176));
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 
   /* Ensure good contrast for content areas */
@@ -18,7 +33,7 @@
   .navigation-menu,
   .dropdown-menu,
   .dialog {
-    @apply bg-white shadow-sm;
+    @apply bg-white/95 backdrop-blur-sm shadow-sm;
   }
 
   /* Smooth transitions */
