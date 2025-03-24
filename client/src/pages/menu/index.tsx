@@ -11,7 +11,23 @@ export default function Menu() {
   });
 
   return (
-    <div>
+    <div className="relative">
+      {/* Decorative palm trees */}
+      <div className="absolute top-0 -right-4 md:-right-12 lg:-right-24 w-32 md:w-48 opacity-10 pointer-events-none">
+        <img
+          src="/kestia_palm_trees_cropped.svg"
+          alt=""
+          className="w-full h-auto"
+        />
+      </div>
+      <div className="absolute top-1/2 -left-4 md:-left-12 lg:-left-24 w-32 md:w-48 opacity-10 pointer-events-none transform -scale-x-100">
+        <img
+          src="/kestia_palm_trees_cropped.svg"
+          alt=""
+          className="w-full h-auto"
+        />
+      </div>
+
       <Logo />
       <CategoryNav />
 
