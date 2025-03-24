@@ -6,7 +6,6 @@ import type {
   Reservation,
   InsertReservation,
 } from "@shared/schema";
-import menuItems from "../shared/menu-items.json" assert { type: "json" };
 
 export interface IStorage {
   // Menu Items
@@ -25,7 +24,6 @@ export interface IStorage {
 }
 
 class MemStorage implements IStorage {
-  private menuItems: Map<number, MenuItem>;
   private events: Map<number, Event>;
   private reservations: Map<number, Reservation>;
   private currentIds: {
@@ -35,7 +33,6 @@ class MemStorage implements IStorage {
   };
 
   constructor() {
-    this.menuItems = new Map();
     this.events = new Map();
     this.reservations = new Map();
     this.currentIds = {
@@ -43,39 +40,56 @@ class MemStorage implements IStorage {
       events: 1,
       reservations: 1,
     };
-
-    // Initialize menu items from categorized JSON
-    for (const [category, items] of Object.entries(menuItems)) {
-      if (Array.isArray(items)) {
-        items.forEach((item) => {
-          this.createMenuItem({
-            ...item,
-            category // Use the category from the JSON structure
-          });
-        });
-      }
-    }
   }
 
   // Menu Items
   async getMenuItems(): Promise<MenuItem[]> {
-    return Array.from(this.menuItems.values());
+    // Import JSON file dynamically to get fresh content
+    const menuItems = await import("../shared/menu-items.json", { assert: { type: "json" } });
+    const allItems: MenuItem[] = [];
+    let id = 1;
+
+    // Flatten all categories into a single array
+    for (const [category, items] of Object.entries(menuItems.default)) {
+      if (Array.isArray(items)) {
+        items.forEach((item: any) => {
+          allItems.push({
+            id: id++,
+            ...item,
+            category
+          });
+        });
+      }
+    }
+
+    return allItems;
   }
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
-    const items = Array.from(this.menuItems.values());
-    return items.filter(item => item.category === category);
+    // Import JSON file dynamically to get fresh content
+    const menuItems = await import("../shared/menu-items.json", { assert: { type: "json" } });
+    const categoryItems = menuItems.default[category];
+    let id = 1;
+
+    if (!Array.isArray(categoryItems)) {
+      return [];
+    }
+
+    return categoryItems.map((item: any) => ({
+      id: id++,
+      ...item,
+      category
+    }));
   }
 
   async getMenuItem(id: number): Promise<MenuItem | undefined> {
-    return this.menuItems.get(id);
+    const allItems = await this.getMenuItems();
+    return allItems.find(item => item.id === id);
   }
 
   async createMenuItem(item: InsertMenuItem): Promise<MenuItem> {
     const id = this.currentIds.menuItems++;
-    const menuItem = { id, ...item } as MenuItem;
-    this.menuItems.set(id, menuItem);
-    return menuItem;
+    return { id, ...item } as MenuItem;
   }
 
   // Events

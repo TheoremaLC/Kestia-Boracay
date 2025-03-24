@@ -23,6 +23,31 @@
       "category": "breakfast",
       "imageUrl": null,
       "isSpecial": false
+    },
+
+    {
+      "name": "Bread & Butter & Jams",
+      "description": "",
+      "price": 29900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Bulz with yogurt, ham and bacon",
+      "description": "Creamy polenta stuffed with cheese, topped with crispy ham and bacon, served with fresh yogurt.",
+      "price": 29900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "MBS",
+      "description": "Creamy polenta served with salty cheese and rich sour cream — a simple, comforting Romanian classic.",
+      "price": 29900,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false
     }
   ],
   "extras": [
