@@ -1,4 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import type { MenuItem } from "@shared/schema";
 
 interface MenuItemProps {
@@ -18,7 +17,7 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemP
 
   if (isExtra) {
     return (
-      <div className="group flex items-center gap-2 sm:gap-4 py-2 sm:py-3 px-2 transition-all duration-300 hover:bg-white/30 rounded-lg">
+      <div className="group flex items-center gap-2 sm:gap-4 py-2 sm:py-3 px-2 transition-all duration-300 hover:bg-white/20 rounded-lg">
         <span className="flex-grow text-xs sm:text-sm font-medium text-[#872519] group-hover:translate-x-1 transition-transform">
           {item.name}
         </span>
@@ -30,20 +29,16 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemP
   }
 
   return (
-    <Card className="backdrop-blur-sm bg-white/40 hover:bg-white/50 transition-all duration-500 hover:shadow-lg hover:-translate-y-1">
-      <CardHeader className="p-2 sm:p-3 md:p-4">
-        <div className="flex items-center justify-between gap-2">
-          <CardTitle className="text-sm sm:text-base font-semibold">{item.name}</CardTitle>
-          <span className="text-sm sm:text-base font-bold whitespace-nowrap text-[#E85303]">
-            ₱{(item.price / 100).toFixed(2)}
-          </span>
-        </div>
-      </CardHeader>
+    <div className="group py-3 sm:py-4 px-2 transition-all duration-300 hover:bg-white/20 rounded-lg">
+      <div className="flex items-center justify-between gap-2 mb-1">
+        <h3 className="text-sm sm:text-base font-semibold text-[#872519]">{item.name}</h3>
+        <span className="text-sm sm:text-base font-bold whitespace-nowrap text-[#E85303]">
+          ₱{(item.price / 100).toFixed(2)}
+        </span>
+      </div>
       {item.description && (
-        <CardContent className="p-2 sm:p-3 md:p-4 pt-0">
-          <CardDescription className="text-xs sm:text-sm font-medium text-[#872519]/80">{item.description}</CardDescription>
-        </CardContent>
+        <p className="text-xs sm:text-sm font-medium text-[#872519]/80">{item.description}</p>
       )}
-    </Card>
+    </div>
   );
 }
