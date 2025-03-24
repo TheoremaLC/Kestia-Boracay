@@ -5,13 +5,20 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-maroon: 135, 25, 10;
+    --color-orange: 232, 83, 3;
+    --color-yellow: 246, 255, 110;
+    --color-teal: 54, 202, 176;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
     @apply font-['Public+Sans'] antialiased text-foreground;
-    background: linear-gradient(-45deg, rgb(135, 25, 10), rgb(232, 83, 3), rgb(246, 255, 110), rgb(54, 202, 176));
+    background: linear-gradient(-45deg, rgb(var(--color-maroon)), rgb(var(--color-orange)), rgb(var(--color-yellow)), rgb(var(--color-teal)));
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
   }
