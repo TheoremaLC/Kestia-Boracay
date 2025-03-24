@@ -23,7 +23,7 @@ export default function MenuCategory() {
   });
 
   return (
-    <div>
+    <div className="pb-32">
       <Logo />
       <CategoryNav />
 
