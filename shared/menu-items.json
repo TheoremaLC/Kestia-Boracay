@@ -306,6 +306,54 @@
       "isSpecial": true
     },
     {
+      "name": "Chicken Adobo",
+      "description": "Filipino classic dish of chicken braised in vinegar, soy sauce, and garlic",
+      "price": 42900,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Shrimp Curry",
+      "description": "Succulent shrimp in a rich, aromatic curry sauce served with steamed rice",
+      "price": 48900,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Pancit Guisado",
+      "description": "Filipino stir-fried noodles with vegetables and choice of meat",
+      "price": 39900,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Seafood Pasta",
+      "description": "Mixed seafood in tomato or cream sauce",
+      "price": 48900,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Butter Garlic Shrimp",
+      "description": "Succulent shrimp sautéed in garlic butter sauce",
+      "price": 45900,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Grilled Squid",
+      "description": "Fresh squid grilled to perfection with special seasoning",
+      "price": 42900,
+      "category": "main-dishes",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
       "name": "Beef Salpicao",
       "description": "Garlic-butter beef cubes with mushrooms",
       "price": 52900,
@@ -344,14 +392,6 @@
       "category": "main-dishes",
       "imageUrl": null,
       "isSpecial": false
-    },
-    {
-      "name": "Seafood Pasta",
-      "description": "Mixed seafood in tomato or cream sauce",
-      "price": 48900,
-      "category": "main-dishes",
-      "imageUrl": null,
-      "isSpecial": true
     },
     {
       "name": "Carbonara",
