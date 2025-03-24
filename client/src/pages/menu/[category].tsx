@@ -42,23 +42,16 @@ export default function MenuCategory() {
       ) : (
         <div className="space-y-4">
           {menuItems?.map((item, index) => {
-            // Add Extras subsection title before extras items
-            if (category === "breakfast" && item.name === "Bacon" && index > 0) {
+            if (category === "breakfast" && item.name === "EXTRAS_SECTION") {
               return (
                 <div key={`section-${index}`}>
                   <MenuItem 
                     item={{ 
-                      id: -1, 
-                      name: "Extras",
-                      description: "",
-                      price: 0,
-                      category: category,
-                      imageUrl: null,
-                      isSpecial: false 
+                      ...item,
+                      name: "Extras" 
                     }} 
                     isSubsectionTitle={true} 
                   />
-                  <MenuItem key={item.id} item={item} />
                 </div>
               );
             }

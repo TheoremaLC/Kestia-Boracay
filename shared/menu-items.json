@@ -24,7 +24,6 @@
       "imageUrl": null,
       "isSpecial": false
     },
-
     {
       "name": "Bread & Butter & Jams",
       "description": "",
@@ -48,14 +47,21 @@
       "category": "breakfast",
       "imageUrl": null,
       "isSpecial": false
-    }
-  ],
-  "extras": [
+    },
+    {
+      "name": "EXTRAS_SECTION",
+      "description": "",
+      "price": 0,
+      "category": "breakfast",
+      "imageUrl": null,
+      "isSpecial": false,
+      "isSection": true
+    },
     {
       "name": "Bacon",
       "description": "Crispy bacon strips",
       "price": 15900,
-      "category": "extras",
+      "category": "breakfast",
       "imageUrl": null,
       "isSpecial": false
     },
@@ -63,7 +69,7 @@
       "name": "Two Eggs any Style",
       "description": "Eggs cooked to your preference",
       "price": 12900,
-      "category": "extras",
+      "category": "breakfast",
       "imageUrl": null,
       "isSpecial": false
     }
