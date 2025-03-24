@@ -3,9 +3,18 @@ import type { MenuItem } from "@shared/schema";
 
 interface MenuItemProps {
   item: MenuItem;
+  isSubsectionTitle?: boolean;
 }
 
-export default function MenuItem({ item }: MenuItemProps) {
+export default function MenuItem({ item, isSubsectionTitle }: MenuItemProps) {
+  if (isSubsectionTitle) {
+    return (
+      <div className="mt-8 mb-4">
+        <h2 className="text-xl font-semibold text-primary">{item.name}</h2>
+      </div>
+    );
+  }
+
   return (
     <Card>
       <CardHeader className="p-4 sm:p-6">

@@ -18,8 +18,8 @@ export default function MenuCategory() {
       }
       return response.json();
     },
-    staleTime: 1000, // 1 second
-    refetchInterval: 5000, // 5 seconds
+    staleTime: 1000,
+    refetchInterval: 5000,
   });
 
   return (
@@ -41,9 +41,29 @@ export default function MenuCategory() {
         </div>
       ) : (
         <div className="space-y-4">
-          {menuItems?.map((item) => (
-            <MenuItem key={item.id} item={item} />
-          ))}
+          {menuItems?.map((item, index) => {
+            // Add Extras subsection title before extras items
+            if (category === "breakfast" && item.name === "Bacon" && index > 0) {
+              return (
+                <div key={`section-${index}`}>
+                  <MenuItem 
+                    item={{ 
+                      id: -1, 
+                      name: "Extras",
+                      description: "",
+                      price: 0,
+                      category: category,
+                      imageUrl: null,
+                      isSpecial: false 
+                    }} 
+                    isSubsectionTitle={true} 
+                  />
+                  <MenuItem key={item.id} item={item} />
+                </div>
+              );
+            }
+            return <MenuItem key={item.id} item={item} />;
+          })}
         </div>
       )}
     </div>
