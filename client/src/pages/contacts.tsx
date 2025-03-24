@@ -40,14 +40,12 @@ export default function Contacts() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader>
             <CardTitle className="text-lg">Location</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="aspect-[16/9] w-full overflow-hidden rounded-md">
-              <Map className="w-full h-full rounded-md" />
-            </div>
+          <CardContent className="p-0">
+            <Map className="w-full h-[400px]" />
           </CardContent>
         </Card>
       </div>
