@@ -18,9 +18,9 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemP
 
   if (isExtra) {
     return (
-      <div className="py-2 flex justify-between items-center border-b last:border-b-0 backdrop-blur-sm bg-white/40 px-4 rounded-lg">
-        <span className="text-sm font-medium">{item.name}</span>
-        <span className="text-sm font-bold">₱{(item.price / 100).toFixed(2)}</span>
+      <div className="py-2 flex justify-between items-center border-b last:border-b-0">
+        <span className="text-sm font-medium text-[#872519]">{item.name}</span>
+        <span className="text-sm font-medium text-[#E85303]">₱{(item.price / 100).toFixed(2)}</span>
       </div>
     );
   }
