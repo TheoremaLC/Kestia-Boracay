@@ -44,7 +44,7 @@ export default function MenuCategory() {
           {menuItems?.map((item, index) => {
             if (category === "breakfast" && item.name === "EXTRAS_SECTION") {
               return (
-                <div key={`section-${index}`} className="mt-8">
+                <div key={`section-${index}`} className="mt-6">
                   <MenuItem 
                     item={{ 
                       ...item,
@@ -52,7 +52,7 @@ export default function MenuCategory() {
                     }} 
                     isSubsectionTitle={true} 
                   />
-                  <div className="mt-4 backdrop-blur-sm bg-white/40 rounded-lg p-4">
+                  <div className="mt-2 backdrop-blur-sm bg-white/30 rounded-lg divide-[#872519]/10">
                     {menuItems.slice(index + 1).map(extraItem => (
                       <MenuItem 
                         key={extraItem.id} 

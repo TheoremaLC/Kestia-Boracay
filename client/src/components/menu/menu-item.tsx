@@ -11,16 +11,20 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemP
   if (isSubsectionTitle) {
     return (
       <div className="mt-8 mb-4">
-        <h2 className="text-xl font-semibold text-primary">{item.name}</h2>
+        <h2 className="text-xl font-semibold text-[#872519]">{item.name}</h2>
       </div>
     );
   }
 
   if (isExtra) {
     return (
-      <div className="py-2 flex justify-between items-center border-b last:border-b-0">
-        <span className="text-sm font-medium text-[#872519]">{item.name}</span>
-        <span className="text-sm font-medium text-[#E85303]">₱{(item.price / 100).toFixed(2)}</span>
+      <div className="group flex items-center gap-4 py-3 px-2 transition-all duration-300 hover:bg-white/30 rounded-lg">
+        <span className="flex-grow text-sm font-medium text-[#872519] group-hover:translate-x-1 transition-transform">
+          {item.name}
+        </span>
+        <span className="text-sm font-bold text-[#E85303] opacity-90 group-hover:opacity-100">
+          ₱{(item.price / 100).toFixed(2)}
+        </span>
       </div>
     );
   }
