@@ -164,7 +164,7 @@
   ],
   "appetizers": [
     {
-      "name": "Quiche Lorraine Pie",
+      "name": "Quiche Lorraine Tart",
       "description": "Classic French savory tart with bacon and cheese in a buttery crust",
       "price": 42900,
       "category": "appetizers",
@@ -191,7 +191,7 @@
       "name": "3 IN 1 APPETIZER",
       "description": "",
       "price": 0,
-      "category": "appetizers",
+      "category": "mici, eggplant dip & liver pate",
       "imageUrl": null,
       "isSpecial": false,
       "isSection": true
