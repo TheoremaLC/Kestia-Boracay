@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Contacts() {
   return (
-    <div>
+    <div className="pb-32">
       <Logo />
       <div className="container mx-auto px-4">
         <h1 className="mb-6 text-2xl font-bold text-center">Contact Us</h1>
