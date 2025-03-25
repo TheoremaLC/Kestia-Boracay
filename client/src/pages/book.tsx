@@ -92,14 +92,9 @@ export default function Book() {
           <span className="text-[#a32a1d] group-hover:text-[#bf3022] transition-colors duration-300 hover:text-shadow">o</span>
           <span className="text-[#bf3022] group-hover:text-[#d53727] transition-colors duration-300 hover:text-shadow">o</span>
           <span className="text-[#d53727] group-hover:text-[#e0442c] transition-colors duration-300 hover:text-shadow">k</span>
-          <span className="text-[#e0442c] group-hover:text-[#e85303] transition-colors duration-300 hover:text-shadow"> </span>
-          <span className="text-[#e85303] group-hover:text-[#f06306] transition-colors duration-300 hover:text-shadow">a</span>
-          <span className="text-[#f06306] group-hover:text-[#f37509] transition-colors duration-300 hover:text-shadow"> </span>
-          <span className="text-[#f37509] group-hover:text-[#f2860b] transition-colors duration-300 hover:text-shadow">T</span>
-          <span className="text-[#f2860b] group-hover:text-[#eb9812] transition-colors duration-300 hover:text-shadow">a</span>
-          <span className="text-[#eb9812] group-hover:text-[#e2ab1a] transition-colors duration-300 hover:text-shadow">b</span>
-          <span className="text-[#e2ab1a] group-hover:text-[#d5be23] transition-colors duration-300 hover:text-shadow">l</span>
-          <span className="text-[#d5be23] group-hover:text-[#36cab0] transition-colors duration-300 hover:text-shadow">e</span>
+          <span className="text-[#e0442c] group-hover:text-[#e85303] transition-colors duration-300 hover:text-shadow">i</span>
+          <span className="text-[#e85303] group-hover:text-[#f06306] transition-colors duration-300 hover:text-shadow">n</span>
+          <span className="text-[#f06306] group-hover:text-[#f37509] transition-colors duration-300 hover:text-shadow">g</span>
         </h1>
       </div>
 
@@ -283,7 +278,7 @@ export default function Book() {
             className="w-full bg-gradient-to-r from-[#872519] to-[#e85303] hover:from-[#a32a1d] hover:to-[#f06306] text-white font-bold shadow-md transition-all duration-300" 
             disabled={mutation.isPending}
           >
-            {mutation.isPending ? "Making Reservation..." : "Book Now"}
+            {mutation.isPending ? "Making Reservation..." : "Book Table"}
           </Button>
         </form>
       </Form>
