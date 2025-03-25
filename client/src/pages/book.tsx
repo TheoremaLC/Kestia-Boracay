@@ -29,12 +29,15 @@ export default function Book() {
   const { toast } = useToast();
 
   const form = useForm({
-    resolver: zodResolver(insertReservationSchema),
+    resolver: zodResolver(insertReservationSchema.extend({
+      date: insertReservationSchema.shape.date,
+      time: insertReservationSchema.shape.time,
+    })),
     defaultValues: {
       name: "",
       email: "",
       phone: "",
-      date: new Date(),
+      date: format(new Date(), "yyyy-MM-dd"),
       time: "",
       guests: 2,
       notes: "",
@@ -43,11 +46,11 @@ export default function Book() {
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      // Format the data before sending
+      const formattedTime = data.time.split(' ')[0]; // Extract time without AM/PM
+
       const formattedData = {
         ...data,
-        date: format(data.date, "yyyy-MM-dd"),
-        time: data.time.split(' ')[0], // Extract time without AM/PM
+        time: formattedTime,
         guests: Number(data.guests)
       };
 
@@ -56,7 +59,7 @@ export default function Book() {
       const response = await apiRequest("POST", "/api/reservations", formattedData);
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Failed to make reservation');
+        throw new Error(error.details?.[0]?.message || error.message || 'Failed to make reservation');
       }
       return response.json();
     },
@@ -144,7 +147,7 @@ export default function Book() {
                           )}
                         >
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(new Date(field.value), "PPP")
                           ) : (
                             <span>Pick a date</span>
                           )}
@@ -155,8 +158,8 @@ export default function Book() {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
+                        selected={new Date(field.value)}
+                        onSelect={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : '')}
                         disabled={(date) =>
                           date < new Date() || date < new Date("1900-01-01")
                         }
