@@ -117,7 +117,7 @@ export default function Book() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Name</FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -131,7 +131,7 @@ export default function Book() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Email</FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Email</FormLabel>
                 <FormControl>
                   <Input type="email" {...field} />
                 </FormControl>
@@ -145,7 +145,7 @@ export default function Book() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Phone <span className="text-xs text-[#872519]">(Optional)</span></FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Phone <span className="text-xs text-[#872519]">(Optional)</span></FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -160,7 +160,7 @@ export default function Book() {
               name="date"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Date</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -202,7 +202,7 @@ export default function Book() {
               name="time"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Time</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Time</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -232,7 +232,7 @@ export default function Book() {
               name="guests"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Number of Guests</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Number of Guests</FormLabel>
                   <FormControl>
                     <Input type="number" min={1} {...field} />
                   </FormControl>
@@ -246,7 +246,7 @@ export default function Book() {
               name="seatingPreference"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Seating Preference</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Seating Preference</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -269,7 +269,7 @@ export default function Book() {
             name="notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Special Requests</FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Special Requests</FormLabel>
                 <FormControl>
                   <Textarea {...field} />
                 </FormControl>
@@ -278,7 +278,11 @@ export default function Book() {
             )}
           />
 
-          <Button type="submit" className="w-full" disabled={mutation.isPending}>
+          <Button 
+            type="submit" 
+            className="w-full bg-gradient-to-r from-[#872519] to-[#e85303] hover:from-[#a32a1d] hover:to-[#f06306] text-white font-bold shadow-md transition-all duration-300" 
+            disabled={mutation.isPending}
+          >
             {mutation.isPending ? "Making Reservation..." : "Book Now"}
           </Button>
         </form>
