@@ -11,7 +11,7 @@ export default function CategoryNav() {
         <div className="flex overflow-x-auto py-2 px-4 sm:px-0 scrollbar-none gap-2 sm:gap-4">
           {categories.map((category) => (
             <Link key={category} href={`/menu/${category}`}>
-              <a
+              <div
                 className={cn(
                   "whitespace-nowrap px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-200",
                   "rounded-lg border border-transparent",
@@ -22,7 +22,7 @@ export default function CategoryNav() {
                 )}
               >
                 {category.replace("-", " ").toUpperCase()}
-              </a>
+              </div>
             </Link>
           ))}
         </div>
