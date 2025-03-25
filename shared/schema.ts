@@ -2,6 +2,13 @@ import { pgTable, text, serial, integer, timestamp, boolean } from "drizzle-orm/
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+/**
+ * IMPORTANT RULE FOR MENU ITEMS:
+ * When an item is copied to another submenu (like vegetarian),
+ * it MUST maintain its original ID from the general menu to ensure consistency.
+ * This preserves the global numbering system across all menu views.
+ */
+
 export const categories = [
   "breakfast",
   "appetizers",
