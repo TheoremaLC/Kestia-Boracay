@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { CalendarIcon, BookOpen } from "lucide-react";
+import { CalendarIcon, Calendar as CalendarFull } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { insertReservationSchema, seatingOptions, SeatingPreference } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
@@ -86,7 +86,7 @@ export default function Book() {
     <div className="mx-auto max-w-2xl pb-32">
       <Logo />
       <div className="flex flex-col items-center gap-2 mb-6">
-        <BookOpen className="h-8 w-8 text-[#E85303]" />
+        <CalendarFull className="h-8 w-8 text-[#E85303]" />
         <h1 className="text-3xl font-extrabold group drop-shadow-lg text-center">
           <span className="text-[#872519] group-hover:text-[#a32a1d] transition-colors duration-300 hover:text-shadow">B</span>
           <span className="text-[#a32a1d] group-hover:text-[#bf3022] transition-colors duration-300 hover:text-shadow">o</span>

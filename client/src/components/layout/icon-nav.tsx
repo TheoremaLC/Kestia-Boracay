@@ -13,7 +13,7 @@ import {
 const navItems = [
   { href: "/menu", label: "Menu", icon: Utensils, color: "text-[#872519]" },
   { href: "/offers", label: "Offers", icon: Percent, color: "text-[#E85303]" },
-  { href: "/book", label: "Booking", icon: CalendarRange, color: "text-[#003366]" },
+  { href: "/book", label: "Booking", icon: CalendarRange, color: "text-[#E85303]" },
   { href: "/music", label: "Music", icon: Music2, color: "text-[#8B0000]" },
   { href: "/events", label: "Events", icon: CalendarDays, color: "text-[#FF6600]" },
   { href: "/gallery", label: "Gallery", icon: Camera, color: "text-[#990099]" },
