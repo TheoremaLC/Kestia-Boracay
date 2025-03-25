@@ -57,7 +57,7 @@ class DbStorage implements IStorage {
     const allItems: MenuItem[] = [];
     let id = 1;
 
-    // Get items from all categories except vegetarian (we'll handle vegetarian specially)
+    // Get items from all categories except vegetarian (we'll handle vegetarian separately)
     Object.entries(menuData.default).forEach(([category, items]) => {
       if (Array.isArray(items) && category !== "vegetarian") {
         items.forEach((item: any) => {
@@ -70,76 +70,54 @@ class DbStorage implements IStorage {
       }
     });
 
-    // We don't add vegetarian items separately as they are duplicates of items in other categories
-    // Instead, they are handled specially in getMenuItemsByCategory
-
     return allItems;
   }
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
+    // For vegetarian category, create a list of items from other categories
     if (category === "vegetarian") {
-      // For vegetarian, we need to load directly from the JSON file to get the complete vegetarian menu
       const menuData = await import("../shared/menu-items.json", { assert: { type: "json" } });
-      const allItems: MenuItem[] = [];
-      let id = 1;
+      const allItems = await this.getMenuItems();
+      const vegetarianNames = [
+        "Vegetable Omelet",
+        "Bread & Butter & Jams", 
+        "MBS", 
+        "Fresh Bread", 
+        "Fresh Garden Salad",
+        "Pinakbet",
+        "Pumpkin Soup", 
+        "Vegetable Cream Soup",
+        "Roasted Vegetable Platter",
+        "Green Salad",
+        "Onion Tomato Salad",
+        "Sauteed Garlic Kangkong",
+        "Stir Fried Vegetables",
+        "Veggie Burger",
+        "Buls Palanta"
+      ];
       
-      // First add all non-vegetarian items to track correct global IDs
-      Object.entries(menuData.default).forEach(([cat, items]) => {
-        if (Array.isArray(items) && cat !== "vegetarian") {
-          items.forEach(() => {
-            id++; // Just increment to keep track of global IDs
-          });
-        }
-      });
+      // Get the IDs of vegetarian menu items from the main menu for consistent ID numbers
+      const vegetarianItems = allItems.filter(item => 
+        vegetarianNames.includes(item.name)
+      ).map(item => ({
+        ...item,
+        category: "vegetarian"
+      }));
       
-      // Now add the vegetarian items with their correct global IDs
-      // We need to identify which items from other categories are in the vegetarian section
-      if (Array.isArray(menuData.default.vegetarian)) {
-        menuData.default.vegetarian.forEach((item: any) => {
-          // For each vegetarian item, find its corresponding item in its original category to get the correct ID
-          let originalItem: any = null;
-          let originalId = -1;
-          
-          if (item.originalCategory) {
-            const originalCategoryItems = menuData.default[item.originalCategory];
-            if (Array.isArray(originalCategoryItems)) {
-              originalId = originalCategoryItems.findIndex((origItem: any) => origItem.name === item.name);
-              if (originalId !== -1) {
-                // Calculate the global ID for this item based on its position in the original category
-                let globalId = 1;
-                Object.entries(menuData.default).forEach(([cat, catItems]) => {
-                  if (cat === item.originalCategory) {
-                    globalId += originalId;
-                    return;
-                  } else if (cat !== "vegetarian" && Array.isArray(catItems)) {
-                    globalId += catItems.length;
-                  }
-                });
-                
-                allItems.push({
-                  id: globalId,
-                  ...item,
-                  category: "vegetarian"
-                });
-              }
-            }
-          }
-          
-          // If we couldn't find the original item (for items that are exclusively in vegetarian section)
-          if (originalId === -1) {
-            allItems.push({
-              id: id++,
-              ...item,
-              category: "vegetarian"
-            });
-          }
+      // Add the EXTRAS_SECTION header if needed
+      const extrasSection = allItems.find(item => item.name === "EXTRAS_SECTION");
+      if (extrasSection) {
+        vegetarianItems.push({
+          ...extrasSection,
+          category: "vegetarian"
         });
       }
       
-      return allItems;
+      // Sort by ID to maintain consistent ordering
+      return vegetarianItems.sort((a, b) => a.id - b.id);
     }
     
-    // For other categories, get the global IDs by filtering from all menu items
+    // For other categories, get items from the complete menu
     const allMenuItems = await this.getMenuItems();
     return allMenuItems.filter(item => item.category === category);
   }
