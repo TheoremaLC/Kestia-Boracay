@@ -117,7 +117,7 @@ export default function Book() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Name</FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-medium">Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -131,7 +131,7 @@ export default function Book() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Email</FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-medium">Email</FormLabel>
                 <FormControl>
                   <Input type="email" {...field} />
                 </FormControl>
@@ -145,7 +145,7 @@ export default function Book() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Phone <span className="text-xs text-[#872519]">(Optional)</span></FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-medium">Phone <span className="text-xs text-[#872519]">(Optional)</span></FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -160,7 +160,7 @@ export default function Book() {
               name="date"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Date</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-medium">Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -202,7 +202,7 @@ export default function Book() {
               name="time"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Time</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-medium">Time</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -232,7 +232,7 @@ export default function Book() {
               name="guests"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Number of Guests</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-medium">Number of Guests</FormLabel>
                   <FormControl>
                     <Input type="number" min={1} {...field} />
                   </FormControl>
@@ -246,7 +246,7 @@ export default function Book() {
               name="seatingPreference"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Seating Preference</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-medium">Seating Preference</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -269,7 +269,7 @@ export default function Book() {
             name="notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold text-lg">Special Requests</FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-medium">Special Requests</FormLabel>
                 <FormControl>
                   <Textarea {...field} />
                 </FormControl>
