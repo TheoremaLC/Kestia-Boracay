@@ -100,7 +100,7 @@ class DbStorage implements IStorage {
       result.push(...breakfastItems);
       
       // Add vegetarian soups
-      const soupItems = ["Vegetable Cream Soup", "Pumpkin Soup"].map(
+      const soupItems = ["Vegetable Cream Soup", "Pumpkin Soup", "Romanian Bean Soup"].map(
         name => findItem(name, "soups")
       ).filter(Boolean) as MenuItem[];
       
