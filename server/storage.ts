@@ -57,9 +57,9 @@ class DbStorage implements IStorage {
     const allItems: MenuItem[] = [];
     let id = 1;
 
-    // Get items from each category
+    // Get items from all categories except vegetarian (we'll handle vegetarian specially)
     Object.entries(menuData.default).forEach(([category, items]) => {
-      if (Array.isArray(items)) {
+      if (Array.isArray(items) && category !== "vegetarian") {
         items.forEach((item: any) => {
           allItems.push({
             id: id++,
@@ -69,6 +69,9 @@ class DbStorage implements IStorage {
         });
       }
     });
+
+    // We don't add vegetarian items separately as they are duplicates of items in other categories
+    // Instead, they are handled specially in getMenuItemsByCategory
 
     return allItems;
   }
@@ -121,8 +124,14 @@ class DbStorage implements IStorage {
 
   // Reservations
   async createReservation(reservation: InsertReservation): Promise<Reservation> {
+    // Convert the date string to a Date object as expected by the schema
+    const formattedReservation = {
+      ...reservation,
+      date: new Date(reservation.date)
+    };
+    
     const result = await db.insert(reservations)
-      .values(reservation)
+      .values(formattedReservation)
       .returning();
     return result[0];
   }
