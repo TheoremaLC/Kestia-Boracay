@@ -37,7 +37,7 @@ export default function Menu() {
         </div>
       ) : (
         <div className="space-y-4">
-          {menuItems?.map((item) => {
+          {menuItems?.map((item, index) => {
             if (item.name === "EXTRAS_SECTION") {
               return (
                 <div key={item.id} className="mt-6">
@@ -52,7 +52,12 @@ export default function Menu() {
                 </div>
               );
             }
-            return <MenuItem key={item.id} item={item} />;
+            
+            // Check if this item should be displayed as an extra
+            const extrasSection = menuItems.findIndex(i => i.name === "EXTRAS_SECTION");
+            const isAfterExtrasSection = extrasSection !== -1 && index > extrasSection;
+            
+            return <MenuItem key={item.id} item={item} isExtra={isAfterExtrasSection} />;
           })}
         </div>
       )}

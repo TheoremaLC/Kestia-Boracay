@@ -19,7 +19,7 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra, index }: Me
 
   if (isExtra) {
     return (
-      <div className="group flex items-center gap-2 sm:gap-4 py-2 sm:py-3 px-2 transition-all duration-300 bg-white/80 hover:bg-white/90 rounded-lg shadow-sm">
+      <div className="group flex items-center gap-2 sm:gap-4 py-2 sm:py-3 px-2 transition-all duration-300 bg-white/80 hover:bg-white/90 rounded-lg shadow-sm ml-4 sm:ml-6 md:ml-8">
         <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange text-white font-bold text-xs mr-1">
           {item.id}
         </span>
