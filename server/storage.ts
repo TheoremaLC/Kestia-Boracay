@@ -79,35 +79,31 @@ class DbStorage implements IStorage {
     
     // For vegetarian category, create a specialized list
     if (category === "vegetarian") {
-      // Find the vegetarian menu items and categorize them
-      const result: MenuItem[] = [];
-      const findItem = (name: string, sourceCategory: string) => {
-        const item = allItems.find(i => i.name === name && i.category === sourceCategory);
-        if (item) {
-          return {
-            ...item,
-            category: "vegetarian"
-          };
+      // Find the vegetarian menu items and add them directly without modifying their IDs
+      const vegetarianItems: MenuItem[] = [];
+      
+      // Helper function to find and add items to our vegetarian menu
+      const addItemsByName = (names: string[], sourceCategory: string) => {
+        for (const name of names) {
+          const item = allItems.find(i => i.name === name && i.category === sourceCategory);
+          if (item) {
+            // Create a new object with the same ID but vegetarian category
+            vegetarianItems.push({
+              ...item,
+              category: "vegetarian"
+            });
+          }
         }
-        return null;
       };
       
       // First add breakfast vegetarian items
-      const breakfastItems = ["Vegetable Omelet", "Bread & Butter & Jams", "MBS"].map(
-        name => findItem(name, "breakfast")
-      ).filter(Boolean) as MenuItem[];
-      
-      result.push(...breakfastItems);
+      addItemsByName(["Vegetable Omelet", "Bread & Butter & Jams", "MBS"], "breakfast");
       
       // Add vegetarian soups
-      const soupItems = ["Vegetable Cream Soup", "Pumpkin Soup", "Romanian Bean Soup"].map(
-        name => findItem(name, "soups")
-      ).filter(Boolean) as MenuItem[];
+      addItemsByName(["Vegetable Cream Soup", "Romanian Bean Soup"], "soups");
       
-      result.push(...soupItems);
-      
-      // Add vegetarian sides  
-      const sideItems = [
+      // Add vegetarian sides
+      addItemsByName([
         "Green Salad", 
         "Onion Tomato Salad", 
         "Sauteed Garlic Kangkong", 
@@ -115,43 +111,36 @@ class DbStorage implements IStorage {
         "Pickled Cabbage",
         "Pickled Tomato",
         "Pickled Cucumber"
-      ].map(name => findItem(name, "sides")).filter(Boolean) as MenuItem[];
-      
-      result.push(...sideItems);
+      ], "sides");
       
       // Add vegetarian main dishes
-      const mainItems = [
-        "Buls Palanta", 
-        "Veggie Burger", 
-        "Roasted Vegetable Platter"
-      ].map(name => findItem(name, "main-dishes")).filter(Boolean) as MenuItem[];
+      addItemsByName(["Buls Palanta"], "main-dishes");
       
-      result.push(...mainItems);
+      // Add the EXTRAS section
+      const extrasSection = allItems.find(item => 
+        item.name === "EXTRAS_SECTION" && item.category === "breakfast"
+      );
       
-      // Finally add the EXTRAS section and true extras only
-      const extrasSection = findItem("EXTRAS_SECTION", "breakfast");
       if (extrasSection) {
-        result.push(extrasSection);
+        vegetarianItems.push({
+          ...extrasSection,
+          category: "vegetarian"
+        });
         
-        // These are the vegetarian extras
-        const vegetarianExtras = [
+        // Add vegetarian extras
+        addItemsByName([
           "Yogurt", 
           "Bread", 
           "Onion salad",
           "Kestia rice",
           "Two Eggs any Style"
-        ].map(
-          name => findItem(name, "breakfast")
-        ).filter(Boolean) as MenuItem[];
-        
-        result.push(...vegetarianExtras);
+        ], "breakfast");
       }
       
-      // We don't sort by ID here because we want to maintain the specific category order
-      return result;
+      return vegetarianItems;
     }
     
-    // For other categories, get items from the complete menu and sort by ID
+    // For other categories, get items from the complete menu
     return allItems.filter(item => item.category === category);
   }
 
