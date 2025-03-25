@@ -58,12 +58,12 @@ export default function Contacts() {
             </CardHeader>
             <CardContent className="p-0 h-[400px]">
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.8360823194735!2d121.92425687422865!3d11.961204935629086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a4fe31ddddfdcd%3A0x2d76703bad2cf940!2sZone%20V%2C%20Bolabog%2C%20Balabag%2C%20Malay%2C%20Aklan!5e0!3m2!1sen!2sph!4v1711379025935!5m2!1sen!2sph"
-                width="100%"
-                height="400"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3873.5731023708297!2d121.9268401!3d11.9602192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a4f8e3ee7ddb3b%3A0xa5e6fa1435e7e1e3!2sKestia%20Boracay!5e0!3m2!1sen!2sus!4v1711379464563!5m2!1sen!2sus" 
+                width="100%" 
+                height="400" 
+                style={{ border: 0 }} 
+                allowFullScreen 
+                loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </CardContent>
