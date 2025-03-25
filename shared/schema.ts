@@ -29,6 +29,13 @@ export const events = pgTable("events", {
   imageUrl: text("image_url"),
 });
 
+export const tables = pgTable("tables", {
+  id: serial("id").primaryKey(),
+  tableNumber: integer("table_number").notNull(),
+  capacity: integer("capacity").notNull().default(4),
+  isActive: boolean("is_active").notNull().default(true),
+});
+
 export const reservationStatuses = ["pending", "confirmed", "completed", "cancelled"] as const;
 
 export const reservations = pgTable("reservations", {
@@ -36,9 +43,10 @@ export const reservations = pgTable("reservations", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
-  date: text("date").notNull(), 
+  date: timestamp("date").notNull(),
   time: text("time").notNull(),
   guests: integer("guests").notNull(),
+  tableId: integer("table_id").references(() => tables.id),
   notes: text("notes"),
   status: text("status").notNull().default("pending"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -46,8 +54,9 @@ export const reservations = pgTable("reservations", {
 
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: true });
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
+export const insertTableSchema = createInsertSchema(tables).omit({ id: true });
 export const insertReservationSchema = createInsertSchema(reservations)
-  .omit({ id: true, status: true, createdAt: true })
+  .omit({ id: true, status: true, createdAt: true, tableId: true })
   .extend({
     date: z.string().min(1, "Please select a date"),
     time: z.string().min(1, "Please select a time"),
@@ -60,6 +69,8 @@ export type MenuItem = typeof menuItems.$inferSelect;
 export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
 export type Event = typeof events.$inferSelect;
 export type InsertEvent = z.infer<typeof insertEventSchema>;
+export type Table = typeof tables.$inferSelect;
+export type InsertTable = z.infer<typeof insertTableSchema>;
 export type Reservation = typeof reservations.$inferSelect;
 export type InsertReservation = z.infer<typeof insertReservationSchema>;
 export type ReservationStatus = typeof reservationStatuses[number];

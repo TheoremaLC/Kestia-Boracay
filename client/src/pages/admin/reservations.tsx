@@ -66,22 +66,22 @@ export default function AdminReservations() {
   };
 
   const events = reservations?.map(reservation => {
-    // Parse date and time, ensuring correct format for FullCalendar
-    const [year, month, day] = reservation.date.split('-').map(Number);
+    // Create a valid ISO date-time string for the start time
+    const startDateTime = new Date(reservation.date);
     const [hours, minutes] = reservation.time.split(':').map(Number);
+    startDateTime.setHours(hours, minutes, 0);
 
-    // Format start time
-    const startTime = `${reservation.date}T${reservation.time}:00`;
+    // Create end time by adding 2 hours
+    const endDateTime = new Date(startDateTime);
+    endDateTime.setHours(startDateTime.getHours() + 2);
 
-    // Calculate end time (2 hours later)
-    const endHours = hours + 2;
-    const endTime = `${reservation.date}T${endHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+    const tableInfo = reservation.tableId ? ` (Table ${reservation.tableId})` : '';
 
     return {
       id: reservation.id.toString(),
-      title: `${reservation.name} (${reservation.guests} guests)`,
-      start: startTime,
-      end: endTime,
+      title: `${reservation.name} - ${reservation.guests} guests${tableInfo}`,
+      start: startDateTime.toISOString(),
+      end: endDateTime.toISOString(),
       backgroundColor: getEventColor(reservation.status),
       extendedProps: reservation
     };
