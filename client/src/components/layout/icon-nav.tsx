@@ -34,16 +34,16 @@ export default function IconNav() {
                 "hover:scale-105 active:scale-95",
                 location === item.href
                   ? `text-white bg-[#191919] shadow-sm`
-                  : `text-white hover:text-[#191919] hover:bg-white/90`
+                  : `text-white hover:bg-white/10 hover:shadow-inner`
               )}
             >
               <item.icon className={cn(
-                "h-5 w-5 sm:h-8 sm:w-8 mb-0.5 sm:mb-2 transition-transform duration-200",
-                "group-hover:rotate-3",
+                "h-5 w-5 sm:h-8 sm:w-8 mb-0.5 sm:mb-2 transition-all duration-200",
+                "hover:brightness-125 hover:filter",
                 location === item.href && "animate-[bounce_0.5s_ease-in-out]",
                 item.color
               )} />
-              <span className={`text-[10px] sm:text-sm font-bold line-clamp-1 ${location === item.href ? "text-white" : "text-white"}`}>{item.label}</span>
+              <span className="text-[10px] sm:text-sm font-bold line-clamp-1 text-white">{item.label}</span>
             </div>
           </Link>
         ))}
