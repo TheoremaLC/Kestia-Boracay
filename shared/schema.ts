@@ -42,10 +42,11 @@ export const reservations = pgTable("reservations", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  phone: text("phone").notNull(),
+  phone: text("phone"),
   date: timestamp("date").notNull(),
   time: text("time").notNull(),
   guests: integer("guests").notNull(),
+  seatingPreference: text("seating_preference").notNull().default("table"),
   tableId: integer("table_id").references(() => tables.id),
   notes: text("notes"),
   status: text("status").notNull().default("pending"),
@@ -55,6 +56,8 @@ export const reservations = pgTable("reservations", {
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: true });
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
 export const insertTableSchema = createInsertSchema(tables).omit({ id: true });
+export const seatingOptions = ["table", "bar"] as const;
+
 export const insertReservationSchema = createInsertSchema(reservations)
   .omit({ id: true, status: true, createdAt: true, tableId: true })
   .extend({
@@ -62,7 +65,10 @@ export const insertReservationSchema = createInsertSchema(reservations)
     time: z.string().min(1, "Please select a time"),
     guests: z.number().min(1, "Must have at least 1 guest").max(20, "Maximum 20 guests per reservation"),
     email: z.string().email("Invalid email format"),
-    phone: z.string().min(7, "Phone number is too short").max(15, "Phone number is too long"),
+    phone: z.string().min(7, "Phone number is too short").max(15, "Phone number is too long").optional(),
+    seatingPreference: z.enum(seatingOptions, {
+      errorMap: () => ({ message: "Please select a seating preference" }),
+    }),
   });
 
 export type MenuItem = typeof menuItems.$inferSelect;
@@ -74,3 +80,4 @@ export type InsertTable = z.infer<typeof insertTableSchema>;
 export type Reservation = typeof reservations.$inferSelect;
 export type InsertReservation = z.infer<typeof insertReservationSchema>;
 export type ReservationStatus = typeof reservationStatuses[number];
+export type SeatingPreference = typeof seatingOptions[number];

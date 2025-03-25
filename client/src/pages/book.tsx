@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { insertReservationSchema } from "@shared/schema";
+import { insertReservationSchema, seatingOptions, SeatingPreference } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { Logo } from "@/components/ui/logo";
 
@@ -45,6 +45,7 @@ export default function Book() {
       time: "",
       guests: 2,
       notes: "",
+      seatingPreference: "table" as SeatingPreference,
     },
   });
 
@@ -128,7 +129,7 @@ export default function Book() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>Phone <span className="text-xs text-[#872519]/60">(Optional)</span></FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -209,19 +210,43 @@ export default function Book() {
             />
           </div>
 
-          <FormField
-            control={form.control}
-            name="guests"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Number of Guests</FormLabel>
-                <FormControl>
-                  <Input type="number" min={1} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="grid gap-6 sm:grid-cols-2">
+            <FormField
+              control={form.control}
+              name="guests"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Number of Guests</FormLabel>
+                  <FormControl>
+                    <Input type="number" min={1} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="seatingPreference"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Seating Preference</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select seating preference" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="table">Table</SelectItem>
+                      <SelectItem value="bar">Bar</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <FormField
             control={form.control}
