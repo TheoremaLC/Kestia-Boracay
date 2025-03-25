@@ -138,20 +138,25 @@ class DbStorage implements IStorage {
           category: "vegetarian"
         });
         
-        // Add the extras with their original IDs
-        vegetarianMenu.extras.forEach(name => {
+        // Find all extras items with their original IDs and sort them by ID
+        const extrasItems = [];
+        for (const name of vegetarianMenu.extras) {
           // For extras, we need to find them in the breakfast category
           const originalItem = allItems.find(item => 
             item.name === name && item.category === "breakfast"
           );
           
           if (originalItem) {
-            vegetarianItems.push({
+            extrasItems.push({
               ...originalItem,
               category: "vegetarian"
             });
           }
-        });
+        }
+        
+        // Sort extras by ID in ascending order before adding to vegetarianItems
+        extrasItems.sort((a, b) => a.id - b.id);
+        vegetarianItems = [...vegetarianItems, ...extrasItems];
       }
       
       return vegetarianItems;
