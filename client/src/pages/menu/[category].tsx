@@ -62,8 +62,8 @@ export default function MenuCategory() {
                   />
                   <div className="mt-2 divide-[#872519]/10">
                     {menuItems.slice(index + 1).map((extraItem) => {
-                      // Keep the display number the same as the DB id
-                      const displayNumber = extraItem.id;
+                      // Start numbering extras at 7 instead of 8
+                      const displayNumber = extraItem.id - 1; // Subtract 1 to make it start at 7
                       return (
                         <MenuItem 
                           key={extraItem.id} 
@@ -80,7 +80,11 @@ export default function MenuCategory() {
               return null; 
             }
             // Create a display number that accounts for the removed EXTRAS_SECTION number
-            const displayNumber = item.id <= 6 ? item.id : item.id;
+            // Start numbering extras at 7
+            const displayNumber = 
+              item.id <= 6 ? item.id : // Items 1-6 keep their numbers
+              item.id >= 8 ? item.id - 1 : // Items 8+ (extras) get shifted down by 1 (8 becomes 7, etc)
+              item.id; // Default case
             return <MenuItem key={item.id} item={{...item, displayNumber}} />;
           })}
         </div>
