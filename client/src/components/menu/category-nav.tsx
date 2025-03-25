@@ -6,8 +6,8 @@ export default function CategoryNav() {
   const [location] = useLocation();
 
   return (
-    <nav className="mb-4 sm:mb-8 -mx-2 sm:mx-0">
-      <div className="sm:flex sm:justify-center">
+    <nav className="mb-4 sm:mb-8 -mx-2 sm:mx-0 sticky top-0 z-10">
+      <div className="sm:flex sm:justify-center bg-white/95 backdrop-blur-sm shadow-md py-2 rounded-b-lg">
         <div className="flex overflow-x-auto py-2 px-4 sm:px-0 scrollbar-none gap-2 sm:gap-4">
           {categories.map((category, index) => (
             <Link key={category} href={`/menu/${category}`}>
