@@ -82,7 +82,7 @@ class DbStorage implements IStorage {
       // Define which breakfast items are vegetarian
       const vegetarianBreakfastItems = ["Vegetable Omelet", "Bread & Butter & Jams", "MBS"];
       
-      // Define which extras are vegetarian
+      // Define only the true extras that are vegetarian (not regular items)
       const vegetarianExtrasItems = ["Yogurt", "Bread", "Onion salad"];
       
       // Define which main dishes are vegetarian
@@ -103,7 +103,7 @@ class DbStorage implements IStorage {
         "Stir Fried Vegetables"
       ];
       
-      // First add breakfast vegetarian items (top of the menu)
+      // Initialize the array with breakfast vegetarian items (top of the menu)
       const vegetarianItems = allItems
         .filter(item => 
           vegetarianBreakfastItems.includes(item.name) && 
@@ -113,32 +113,19 @@ class DbStorage implements IStorage {
           ...item,
           category: "vegetarian"
         }));
-    
-      // Add the EXTRAS_SECTION header 
-      const extrasSection = allItems.find(item => 
-        item.name === "EXTRAS_SECTION" && 
-        item.category === "breakfast"
-      );
       
-      if (extrasSection) {
-        vegetarianItems.push({
-          ...extrasSection,
-          category: "vegetarian"
-        });
-      }
-      
-      // Add vegetarian extras
-      const vegetarianExtras = allItems
+      // Add vegetarian sides (before the extras section)
+      const vegetarianSides = allItems
         .filter(item => 
-          vegetarianExtrasItems.includes(item.name) && 
-          item.category === "breakfast"
+          vegetarianSideItems.includes(item.name) && 
+          item.category === "sides"
         )
         .map(item => ({
           ...item,
           category: "vegetarian"
         }));
-      
-      vegetarianItems.push(...vegetarianExtras);
+        
+      vegetarianItems.push(...vegetarianSides);
       
       // Add vegetarian soups
       const vegetarianSoups = allItems
@@ -166,18 +153,31 @@ class DbStorage implements IStorage {
         
       vegetarianItems.push(...vegetarianMains);
       
-      // Add vegetarian sides
-      const vegetarianSides = allItems
+      // Now add the EXTRAS_SECTION header last
+      const extrasSection = allItems.find(item => 
+        item.name === "EXTRAS_SECTION" && 
+        item.category === "breakfast"
+      );
+      
+      if (extrasSection) {
+        vegetarianItems.push({
+          ...extrasSection,
+          category: "vegetarian"
+        });
+      }
+      
+      // Add only the true vegetarian extras
+      const vegetarianExtras = allItems
         .filter(item => 
-          vegetarianSideItems.includes(item.name) && 
-          item.category === "sides"
+          vegetarianExtrasItems.includes(item.name) && 
+          item.category === "breakfast"
         )
         .map(item => ({
           ...item,
           category: "vegetarian"
         }));
-        
-      vegetarianItems.push(...vegetarianSides);
+      
+      vegetarianItems.push(...vegetarianExtras);
       
       // Sort by ID to maintain consistent ordering
       return vegetarianItems.sort((a, b) => a.id - b.id);
