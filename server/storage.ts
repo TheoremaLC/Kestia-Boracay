@@ -79,42 +79,46 @@ class DbStorage implements IStorage {
     
     // For vegetarian category, create a specialized list
     if (category === "vegetarian") {
-      // Find the vegetarian menu items and add them directly without modifying their IDs
-      const vegetarianItems: MenuItem[] = [];
-      
-      // Helper function to find and add items to our vegetarian menu
-      const addItemsByName = (names: string[], sourceCategory: string) => {
-        for (const name of names) {
-          const item = allItems.find(i => i.name === name && i.category === sourceCategory);
-          if (item) {
-            // Create a new object with the same ID but vegetarian category
-            vegetarianItems.push({
-              ...item,
-              category: "vegetarian"
-            });
-          }
-        }
+      // Create a direct mapping to ensure we use the exact same IDs from the general menu
+      // This is the key to ensuring consistent ID numbering
+      const vegetarianMenu: {[key: string]: string[]} = {
+        "breakfast": ["Vegetable Omelet", "Bread & Butter & Jams", "MBS"],
+        "soups": ["Vegetable Cream Soup", "Romanian Bean Soup"],
+        "sides": [
+          "Green Salad", 
+          "Onion Tomato Salad", 
+          "Sauteed Garlic Kangkong", 
+          "Stir Fried Vegetables",
+          "Pickled Cabbage",
+          "Pickled Tomato",
+          "Pickled Cucumber"
+        ],
+        "main-dishes": ["Buls Palanta"],
+        "extras": ["Yogurt", "Bread", "Onion salad", "Kestia rice", "Two Eggs any Style"]
       };
       
-      // First add breakfast vegetarian items
-      addItemsByName(["Vegetable Omelet", "Bread & Butter & Jams", "MBS"], "breakfast");
+      // Find the vegetarian menu items by looking up their original entries in the main menu
+      let vegetarianItems: MenuItem[] = [];
       
-      // Add vegetarian soups
-      addItemsByName(["Vegetable Cream Soup", "Romanian Bean Soup"], "soups");
-      
-      // Add vegetarian sides
-      addItemsByName([
-        "Green Salad", 
-        "Onion Tomato Salad", 
-        "Sauteed Garlic Kangkong", 
-        "Stir Fried Vegetables",
-        "Pickled Cabbage",
-        "Pickled Tomato",
-        "Pickled Cucumber"
-      ], "sides");
-      
-      // Add vegetarian main dishes
-      addItemsByName(["Buls Palanta"], "main-dishes");
+      // Process regular vegetarian items
+      Object.entries(vegetarianMenu).forEach(([sourceCategory, itemNames]) => {
+        if (sourceCategory !== "extras") {
+          itemNames.forEach(name => {
+            // Find the original item with its ID from the main menu
+            const originalItem = allItems.find(item => 
+              item.name === name && item.category === sourceCategory
+            );
+            
+            if (originalItem) {
+              // Create a copy with the same ID but mark as vegetarian category
+              vegetarianItems.push({
+                ...originalItem,
+                category: "vegetarian"
+              });
+            }
+          });
+        }
+      });
       
       // Add the EXTRAS section
       const extrasSection = allItems.find(item => 
@@ -127,14 +131,20 @@ class DbStorage implements IStorage {
           category: "vegetarian"
         });
         
-        // Add vegetarian extras
-        addItemsByName([
-          "Yogurt", 
-          "Bread", 
-          "Onion salad",
-          "Kestia rice",
-          "Two Eggs any Style"
-        ], "breakfast");
+        // Add the extras with their original IDs
+        vegetarianMenu.extras.forEach(name => {
+          // For extras, we need to find them in the breakfast category
+          const originalItem = allItems.find(item => 
+            item.name === name && item.category === "breakfast"
+          );
+          
+          if (originalItem) {
+            vegetarianItems.push({
+              ...originalItem,
+              category: "vegetarian"
+            });
+          }
+        });
       }
       
       return vegetarianItems;
