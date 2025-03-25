@@ -36,7 +36,7 @@ export default function Gallery() {
   return (
     <div>
       <Logo />
-      <h1 className="mb-6 text-2xl font-bold text-center">Photo Gallery</h1>
+      <h1 className="mb-6 text-3xl md:text-4xl lg:text-5xl font-bold text-center gradient-text">Photo Gallery</h1>
 
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {galleryImages.map((image, index) => (

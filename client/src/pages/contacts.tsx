@@ -7,7 +7,7 @@ export default function Contacts() {
     <div className="pb-32">
       <Logo />
       <div className="container mx-auto px-4">
-        <h1 className="mb-6 text-2xl font-bold text-center">Contact Us</h1>
+        <h1 className="mb-6 text-3xl md:text-4xl lg:text-5xl font-bold text-center gradient-text">Contact Us</h1>
 
         <div className="space-y-6">
           <Card>
