@@ -62,8 +62,8 @@ export default function MenuCategory() {
                   />
                   <div className="mt-2 divide-[#872519]/10">
                     {menuItems.slice(index + 1).map((extraItem, extraIndex) => {
-                      // For breakfast menu only, start numbering at 7 for extras
-                      const specialDisplayNumber = category === "breakfast" ? 7 + extraIndex : extraItem.id;
+                      // For breakfast menu only, shift EXTRAS by -1 to make Bacon start at 7
+                      const specialDisplayNumber = (category === "breakfast" && extraItem.id >= 8) ? extraItem.id - 1 : extraItem.id;
                       return (
                         <MenuItem 
                           key={extraItem.id} 

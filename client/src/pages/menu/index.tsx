@@ -58,12 +58,8 @@ export default function Menu() {
             // Check if this is an extra item (ID between 8-20 inclusive)
             const isExtraItem = item.id >= 8 && item.id <= 20;
             
-            // Create a display number that accounts for the removed EXTRAS_SECTION number
-            // Start numbering extras at 7 
-            const displayNumber = 
-              item.id <= 6 ? item.id : // Items 1-6 keep their numbers
-              item.id >= 8 ? item.id - 1 : // Items 8+ (extras) get shifted down by 1 (8 becomes 7, etc)
-              item.id; // Default case
+            // Always use the original database IDs for consistency across menu views
+            const displayNumber = item.id;
             
             // Render menu items (with isExtra=true for items with IDs 8-20)
             return <MenuItem 
