@@ -58,8 +58,15 @@ export default function Menu() {
             // Check if this is an extra item (ID between 8-20 inclusive)
             const isExtraItem = item.id >= 8 && item.id <= 20;
             
+            // Create a display number that accounts for the removed EXTRAS_SECTION number
+            const displayNumber = item.id <= 6 ? item.id : item.id;
+            
             // Render menu items (with isExtra=true for items with IDs 8-20)
-            return <MenuItem key={item.id} item={item} isExtra={isExtraItem} />;
+            return <MenuItem 
+              key={item.id} 
+              item={{...item, displayNumber}} 
+              isExtra={isExtraItem} 
+            />;
           })}
         </div>
       )}
