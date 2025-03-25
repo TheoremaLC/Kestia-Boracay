@@ -74,22 +74,27 @@ class DbStorage implements IStorage {
   }
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
-    // Import JSON file dynamically to get fresh content
-    const menuData = await import("../shared/menu-items.json", { assert: { type: "json" } });
-    const categoryItems = menuData.default[category as keyof typeof menuData.default];
-
-    // If category doesn't exist or isn't an array, return empty array
-    if (!Array.isArray(categoryItems)) {
-      return [];
+    // First get all menu items with their global IDs
+    const allMenuItems = await this.getMenuItems();
+    
+    // Filter items by the requested category
+    if (category === "vegetarian") {
+      // For vegetarian category, get all items that are vegetarian across categories (excluding desserts)
+      return allMenuItems.filter(item => 
+        (item.name === "Vegetable Omelet" || 
+         item.name === "Bread & Butter & Jams" || 
+         item.name === "EXTRAS_SECTION" || 
+         item.name === "Fresh Bread" || 
+         item.name === "Fresh Garden Salad" ||
+         item.name === "Pinakbet" ||
+         item.name === "Pumpkin Soup" ||
+         item.name === "Roasted Vegetable Platter" ||
+         item.name === "Veggie Burger")
+      );
     }
-
-    // Map items with IDs and return only items from requested category
-    let id = 1;
-    return categoryItems.map(item => ({
-      id: id++,
-      ...item,
-      category
-    }));
+    
+    // For other categories, just filter by the category
+    return allMenuItems.filter(item => item.category === category);
   }
 
   async getMenuItem(id: number): Promise<MenuItem | undefined> {
