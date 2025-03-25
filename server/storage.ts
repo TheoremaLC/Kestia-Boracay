@@ -69,6 +69,20 @@ class DbStorage implements IStorage {
         });
       }
     });
+    
+    // CRITICAL FIX: Ensure Cheesecake is present in the general menu at position 54
+    // This is required to maintain menu item continuity and should not be removed
+    if (allItems.findIndex(item => item.name === "Cheesecake") === -1) {
+      // Only add if not already present
+      const cheesecakeItem = menuData.default.desserts.find((item: any) => item.name === "Cheesecake");
+      if (cheesecakeItem) {
+        allItems.push({
+          id: 54,  // Explicitly set ID to 54
+          ...cheesecakeItem,
+          category: "desserts"
+        });
+      }
+    }
 
     return allItems;
   }
