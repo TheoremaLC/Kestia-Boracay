@@ -16,13 +16,17 @@ import { insertReservationSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { Logo } from "@/components/ui/logo";
 
-// Generate time slots from 11:00 AM to 10:00 PM in 30-minute intervals
+// Time slot generation with 24-hour format
 const timeSlots = Array.from({ length: 23 }, (_, i) => {
   const hour = Math.floor(i / 2) + 11;
   const minute = i % 2 === 0 ? "00" : "30";
   const ampm = hour >= 12 ? "PM" : "AM";
   const displayHour = hour > 12 ? hour - 12 : hour;
-  return `${displayHour}:${minute} ${ampm}`;
+  const militaryHour = hour.toString().padStart(2, '0');
+  return {
+    display: `${displayHour}:${minute} ${ampm}`,
+    value: `${militaryHour}:${minute}`
+  };
 });
 
 export default function Book() {
@@ -46,11 +50,8 @@ export default function Book() {
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      const formattedTime = data.time.split(' ')[0]; // Extract time without AM/PM
-
       const formattedData = {
         ...data,
-        time: formattedTime,
         guests: Number(data.guests)
       };
 
@@ -192,9 +193,9 @@ export default function Book() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {timeSlots.map((time) => (
-                        <SelectItem key={time} value={time}>
-                          {time}
+                      {timeSlots.map((slot) => (
+                        <SelectItem key={slot.value} value={slot.value}>
+                          {slot.display}
                         </SelectItem>
                       ))}
                     </SelectContent>

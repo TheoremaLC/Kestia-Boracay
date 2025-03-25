@@ -67,7 +67,7 @@ export default function AdminReservations() {
 
   const events = reservations?.map(reservation => {
     const startTime = `${reservation.date}T${reservation.time}`;
-    const endTime = format(addHours(parseISO(startTime), 2), "yyyy-MM-dd'T'HH:mm");
+    const endTime = format(addHours(new Date(startTime), 2), "yyyy-MM-dd'T'HH:mm");
 
     return {
       id: reservation.id.toString(),
