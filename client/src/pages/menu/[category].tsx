@@ -50,7 +50,7 @@ export default function MenuCategory() {
       ) : (
         <div className="space-y-4">
           {menuItems?.map((item, index) => {
-            if (category === "breakfast" && item.name === "EXTRAS_SECTION") {
+            if ((category === "breakfast" || category === "vegetarian") && item.name === "EXTRAS_SECTION") {
               return (
                 <div key={`section-${index}`} className="mt-6">
                   <MenuItem 
@@ -61,14 +61,14 @@ export default function MenuCategory() {
                     isSubsectionTitle={true} 
                   />
                   <div className="mt-2 divide-[#872519]/10">
-                    {menuItems.slice(index + 1).map((extraItem) => {
+                    {menuItems.slice(index + 1).map((extraItem, extraIndex) => {
                       // Start numbering extras at 7 instead of 8
-                      const displayNumber = extraItem.id - 1; // Subtract 1 to make it start at 7
+                      const displayNumber = index + extraIndex + 7; // Start at 7 and increment
                       return (
                         <MenuItem 
                           key={extraItem.id} 
                           item={{...extraItem, displayNumber}} 
-                          isExtra={extraItem.id >= 8 && extraItem.id <= 20}
+                          isExtra={true}
                         />
                       );
                     })}
@@ -76,7 +76,7 @@ export default function MenuCategory() {
                 </div>
               );
             }
-            if (category === "breakfast" && menuItems.find((i, idx) => idx < index && i.name === "EXTRAS_SECTION")) {
+            if ((category === "breakfast" || category === "vegetarian") && menuItems.find((i, idx) => idx < index && i.name === "EXTRAS_SECTION")) {
               return null; 
             }
             // Create a display number that accounts for the removed EXTRAS_SECTION number
