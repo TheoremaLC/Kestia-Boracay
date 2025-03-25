@@ -65,7 +65,7 @@ export default function MenuCategory() {
                       <MenuItem 
                         key={extraItem.id} 
                         item={extraItem} 
-                        isExtra={true}
+                        isExtra={extraItem.id >= 8 && extraItem.id <= 20}
                       />
                     ))}
                   </div>
