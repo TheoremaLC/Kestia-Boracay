@@ -79,111 +79,70 @@ class DbStorage implements IStorage {
     
     // For vegetarian category, create a specialized list
     if (category === "vegetarian") {
-      // Define which breakfast items are vegetarian
-      const vegetarianBreakfastItems = ["Vegetable Omelet", "Bread & Butter & Jams", "MBS"];
+      // Find the vegetarian menu items and categorize them
+      const result: MenuItem[] = [];
+      const findItem = (name: string, sourceCategory: string) => {
+        const item = allItems.find(i => i.name === name && i.category === sourceCategory);
+        if (item) {
+          return {
+            ...item,
+            category: "vegetarian"
+          };
+        }
+        return null;
+      };
       
-      // Define only the true extras that are vegetarian (not regular items)
-      const vegetarianExtrasItems = ["Yogurt", "Bread", "Onion salad"];
+      // First add breakfast vegetarian items
+      const breakfastItems = ["Vegetable Omelet", "Bread & Butter & Jams", "MBS"].map(
+        name => findItem(name, "breakfast")
+      ).filter(Boolean) as MenuItem[];
       
-      // Define which main dishes are vegetarian
-      const vegetarianMainItems = [
-        "Buls Palanta", 
-        "Veggie Burger", 
-        "Roasted Vegetable Platter"
-      ];
+      result.push(...breakfastItems);
       
-      // Define which soups are vegetarian
-      const vegetarianSoupItems = ["Vegetable Cream Soup", "Pumpkin Soup"];
+      // Add vegetarian soups
+      const soupItems = ["Vegetable Cream Soup", "Pumpkin Soup"].map(
+        name => findItem(name, "soups")
+      ).filter(Boolean) as MenuItem[];
       
-      // Define which sides are vegetarian  
-      const vegetarianSideItems = [
+      result.push(...soupItems);
+      
+      // Add vegetarian sides  
+      const sideItems = [
         "Green Salad", 
         "Onion Tomato Salad", 
         "Sauteed Garlic Kangkong", 
         "Stir Fried Vegetables"
-      ];
+      ].map(name => findItem(name, "sides")).filter(Boolean) as MenuItem[];
       
-      // Initialize the array with breakfast vegetarian items (top of the menu)
-      const vegetarianItems = allItems
-        .filter(item => 
-          vegetarianBreakfastItems.includes(item.name) && 
-          item.category === "breakfast"
-        )
-        .map(item => ({
-          ...item,
-          category: "vegetarian"
-        }));
-      
-      // Add vegetarian sides (before the extras section)
-      const vegetarianSides = allItems
-        .filter(item => 
-          vegetarianSideItems.includes(item.name) && 
-          item.category === "sides"
-        )
-        .map(item => ({
-          ...item,
-          category: "vegetarian"
-        }));
-        
-      vegetarianItems.push(...vegetarianSides);
-      
-      // Add vegetarian soups
-      const vegetarianSoups = allItems
-        .filter(item => 
-          vegetarianSoupItems.includes(item.name) && 
-          item.category === "soups"
-        )
-        .map(item => ({
-          ...item,
-          category: "vegetarian"
-        }));
-        
-      vegetarianItems.push(...vegetarianSoups);
+      result.push(...sideItems);
       
       // Add vegetarian main dishes
-      const vegetarianMains = allItems
-        .filter(item => 
-          vegetarianMainItems.includes(item.name) && 
-          item.category === "main-dishes"
-        )
-        .map(item => ({
-          ...item,
-          category: "vegetarian"
-        }));
-        
-      vegetarianItems.push(...vegetarianMains);
+      const mainItems = [
+        "Buls Palanta", 
+        "Veggie Burger", 
+        "Roasted Vegetable Platter"
+      ].map(name => findItem(name, "main-dishes")).filter(Boolean) as MenuItem[];
       
-      // Now add the EXTRAS_SECTION header last
-      const extrasSection = allItems.find(item => 
-        item.name === "EXTRAS_SECTION" && 
-        item.category === "breakfast"
-      );
+      result.push(...mainItems);
       
+      // Finally add the EXTRAS section and true extras only
+      const extrasSection = findItem("EXTRAS_SECTION", "breakfast");
       if (extrasSection) {
-        vegetarianItems.push({
-          ...extrasSection,
-          category: "vegetarian"
-        });
+        result.push(extrasSection);
+        
+        // These are the only true extras
+        const vegetarianExtras = ["Yogurt", "Bread", "Onion salad"].map(
+          name => findItem(name, "breakfast")
+        ).filter(Boolean) as MenuItem[];
+        
+        result.push(...vegetarianExtras);
       }
       
-      // Add only the true vegetarian extras
-      const vegetarianExtras = allItems
-        .filter(item => 
-          vegetarianExtrasItems.includes(item.name) && 
-          item.category === "breakfast"
-        )
-        .map(item => ({
-          ...item,
-          category: "vegetarian"
-        }));
-      
-      vegetarianItems.push(...vegetarianExtras);
-      
-      // Sort by ID to maintain consistent ordering
-      return vegetarianItems.sort((a, b) => a.id - b.id);
+      // We don't sort by ID here because we want to maintain the specific category order
+      return result;
     }
     
-    // For other categories, get items from the complete menu
+    // For other categories, get items from the complete menu and sort by ID
     return allItems.filter(item => item.category === category);
   }
 
