@@ -37,9 +37,23 @@ export default function Menu() {
         </div>
       ) : (
         <div className="space-y-4">
-          {menuItems?.map((item) => (
-            <MenuItem key={item.id} item={item} />
-          ))}
+          {menuItems?.map((item) => {
+            if (item.name === "EXTRAS_SECTION") {
+              return (
+                <div key={item.id} className="mt-6">
+                  <MenuItem 
+                    key={item.id}
+                    item={{ 
+                      ...item,
+                      name: "EXTRAS" 
+                    }} 
+                    isSubsectionTitle={true} 
+                  />
+                </div>
+              );
+            }
+            return <MenuItem key={item.id} item={item} />;
+          })}
         </div>
       )}
     </div>
