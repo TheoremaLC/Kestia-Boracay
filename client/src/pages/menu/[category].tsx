@@ -61,13 +61,12 @@ export default function MenuCategory() {
                     isSubsectionTitle={true} 
                   />
                   <div className="mt-2 divide-[#872519]/10">
-                    {menuItems.slice(index + 1).map((extraItem, extraIndex) => {
-                      // Start numbering extras at 7 instead of 8
-                      const displayNumber = index + extraIndex + 7; // Start at 7 and increment
+                    {menuItems.slice(index + 1).map((extraItem) => {
+                      // Use the original ID from the database
                       return (
                         <MenuItem 
                           key={extraItem.id} 
-                          item={{...extraItem, displayNumber}} 
+                          item={extraItem} 
                           isExtra={true}
                         />
                       );
@@ -79,13 +78,8 @@ export default function MenuCategory() {
             if ((category === "breakfast" || category === "vegetarian") && menuItems.find((i, idx) => idx < index && i.name === "EXTRAS_SECTION")) {
               return null; 
             }
-            // Create a display number that accounts for the removed EXTRAS_SECTION number
-            // Start numbering extras at 7
-            const displayNumber = 
-              item.id <= 6 ? item.id : // Items 1-6 keep their numbers
-              item.id >= 8 ? item.id - 1 : // Items 8+ (extras) get shifted down by 1 (8 becomes 7, etc)
-              item.id; // Default case
-            return <MenuItem key={item.id} item={{...item, displayNumber}} />;
+            // Always use the original ID from the database
+            return <MenuItem key={item.id} item={item} />;
           })}
         </div>
       )}

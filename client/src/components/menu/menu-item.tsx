@@ -20,8 +20,8 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra, index }: Me
     );
   }
 
-  // Use displayNumber if provided, otherwise use item.id
-  const displayId = item.displayNumber !== undefined ? item.displayNumber : item.id;
+  // Always use the original item.id to maintain global menu numbering
+  const displayId = item.id;
 
   if (isExtra) {
     return (
