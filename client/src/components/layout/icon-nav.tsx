@@ -28,7 +28,7 @@ export default function IconNav() {
       <div className="grid grid-cols-7 gap-2 sm:gap-4 p-2 sm:p-4">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
-            <a
+            <div
               className={cn(
                 "flex flex-col items-center justify-center p-1 sm:p-3 rounded-lg transition-all duration-200 ease-in-out",
                 "hover:scale-105 active:scale-95",
@@ -44,7 +44,7 @@ export default function IconNav() {
                 item.color
               )} />
               <span className="text-[10px] sm:text-sm font-medium line-clamp-1">{item.label}</span>
-            </a>
+            </div>
           </Link>
         ))}
       </div>
