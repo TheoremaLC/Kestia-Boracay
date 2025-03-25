@@ -13,7 +13,7 @@ export default function CategoryNav() {
             <Link key={category} href={`/menu/${category}`}>
               <div
                 className={cn(
-                  "whitespace-nowrap px-3 sm:px-5 py-1.5 sm:py-2.5 text-sm sm:text-base md:text-lg font-medium transition-all duration-200",
+                  "whitespace-nowrap px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg md:text-xl font-bold transition-all duration-200",
                   "rounded-lg border",
                   "hover:scale-105 active:scale-95",
                   location === `/menu/${category}`
