@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import type { Reservation, ReservationStatus } from "@shared/schema";
 import { reservationStatuses } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+import {format} from 'date-fns'
 
 export default function AdminReservations() {
   const { toast } = useToast();
@@ -73,8 +74,8 @@ export default function AdminReservations() {
     const startTime = `${reservation.date}T${reservation.time}:00`;
 
     // Calculate end time (2 hours later)
-    const endHours = (hours + 2).toString().padStart(2, '0');
-    const endTime = `${reservation.date}T${endHours}:${minutes}:00`;
+    const endHours = hours + 2;
+    const endTime = `${reservation.date}T${endHours.toString().padStart(2, '0')}:${minutes}`;
 
     return {
       id: reservation.id.toString(),
