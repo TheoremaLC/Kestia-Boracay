@@ -75,7 +75,7 @@ export default function AdminReservations() {
 
     // Calculate end time (2 hours later)
     const endHours = hours + 2;
-    const endTime = `${reservation.date}T${endHours.toString().padStart(2, '0')}:${minutes}:00`;
+    const endTime = `${reservation.date}T${endHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
 
     return {
       id: reservation.id.toString(),
@@ -140,6 +140,10 @@ export default function AdminReservations() {
             slotDuration="00:30:00"
             slotLabelInterval="01:00"
             scrollTime="11:00:00"
+            nowIndicator={true}
+            eventDisplay="block"
+            displayEventTime={true}
+            displayEventEnd={true}
           />
         </div>
 
