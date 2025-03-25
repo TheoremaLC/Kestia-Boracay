@@ -564,6 +564,15 @@
       "originalCategory": "breakfast"
     },
     {
+      "name": "Two Eggs any Style",
+      "description": "",
+      "price": 12900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
+    },
+    {
       "name": "Yogurt",
       "description": "",
       "price": 8900,
