@@ -43,21 +43,22 @@ export default function Book() {
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      // Format the date to YYYY-MM-DD before sending
+      // Format the data before sending
       const formattedData = {
         ...data,
         date: format(data.date, "yyyy-MM-dd"),
-        // Convert time from 12-hour to 24-hour format
-        time: data.time.split(' ')[0], // Remove AM/PM
+        time: data.time.split(' ')[0], // Extract time without AM/PM
         guests: Number(data.guests)
       };
 
-      try {
-        await apiRequest("POST", "/api/reservations", formattedData);
-      } catch (error: any) {
-        console.error('Reservation error:', error);
+      console.log('Sending reservation data:', formattedData); // Debug log
+
+      const response = await apiRequest("POST", "/api/reservations", formattedData);
+      if (!response.ok) {
+        const error = await response.json();
         throw new Error(error.message || 'Failed to make reservation');
       }
+      return response.json();
     },
     onSuccess: () => {
       toast({
@@ -72,6 +73,7 @@ export default function Book() {
         description: error.message || "Failed to make reservation. Please try again.",
         variant: "destructive",
       });
+      console.error('Reservation error:', error); // Debug log
     },
   });
 

@@ -30,11 +30,16 @@ export async function registerRoutes(app: Express) {
 
   app.post("/api/reservations", async (req, res) => {
     try {
+      console.log('Received reservation data:', req.body); // Debug log
       const reservation = insertReservationSchema.parse(req.body);
       const created = await storage.createReservation(reservation);
       res.status(201).json(created);
-    } catch (error) {
-      res.status(400).json({ error: "Invalid reservation data" });
+    } catch (error: any) {
+      console.error('Reservation validation error:', error); // Debug log
+      res.status(400).json({ 
+        error: "Invalid reservation data",
+        details: error.errors || error.message 
+      });
     }
   });
 
