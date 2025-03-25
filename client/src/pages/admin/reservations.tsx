@@ -79,7 +79,7 @@ export default function AdminReservations() {
 
     return {
       id: reservation.id.toString(),
-      title: `${reservation.name} - ${reservation.guests} guests${tableInfo}`,
+      title: `${reservation.name} - ${reservation.guests} guests (${reservation.seatingPreference})${tableInfo}`,
       start: startDateTime.toISOString(),
       end: endDateTime.toISOString(),
       backgroundColor: getEventColor(reservation.status),
@@ -108,7 +108,8 @@ export default function AdminReservations() {
                 description: (
                   <div className="mt-2 space-y-1">
                     <p>Guests: {reservation.guests}</p>
-                    <p>Phone: {reservation.phone}</p>
+                    <p>Seating: {reservation.seatingPreference.charAt(0).toUpperCase() + reservation.seatingPreference.slice(1)}</p>
+                    <p>Phone: {reservation.phone || 'Not provided'}</p>
                     <p>Email: {reservation.email}</p>
                     <p>Notes: {reservation.notes || 'No notes'}</p>
                     <Select
@@ -169,10 +170,10 @@ export default function AdminReservations() {
                         {reservation.time}
                       </p>
                       <p className="text-sm text-[#872519]/80">
-                        {reservation.guests} guests
+                        {reservation.guests} guests ({reservation.seatingPreference.charAt(0).toUpperCase() + reservation.seatingPreference.slice(1)} seating)
                       </p>
                       <p className="text-sm text-[#872519]/80">
-                        Phone: {reservation.phone}
+                        Phone: {reservation.phone || 'Not provided'}
                       </p>
                       <p className="text-sm text-[#872519]/80">
                         Email: {reservation.email}
