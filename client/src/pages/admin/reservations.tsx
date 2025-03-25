@@ -76,8 +76,8 @@ export default function AdminReservations() {
     return {
       id: reservation.id.toString(),
       title: `${reservation.name} (${reservation.guests} guests)`,
-      start: startDate.toISOString(),
-      end: endDate.toISOString(),
+      start: startDate,
+      end: endDate,
       backgroundColor: getEventColor(reservation.status),
       extendedProps: reservation
     };
