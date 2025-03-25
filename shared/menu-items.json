@@ -560,6 +560,61 @@
       "imageUrl": null,
       "isSpecial": true,
       "originalCategory": "main-dishes"
+    },
+    {
+      "name": "EXTRAS_SECTION",
+      "description": "",
+      "price": 0,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "isSection": true,
+      "originalCategory": "breakfast"
+    },
+    {
+      "name": "Yogurt",
+      "description": "",
+      "price": 8900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
+    },
+    {
+      "name": "Kestia rice",
+      "description": "",
+      "price": 9900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
+    },
+    {
+      "name": "Onion salad",
+      "description": "",
+      "price": 7900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
+    },
+    {
+      "name": "Egg",
+      "description": "",
+      "price": 6900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
+    },
+    {
+      "name": "Bread",
+      "description": "",
+      "price": 5900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
     }
   ]
 }
