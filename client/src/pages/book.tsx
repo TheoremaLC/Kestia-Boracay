@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { format, addHours } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -84,6 +84,13 @@ export default function Book() {
     <div className="mx-auto max-w-2xl pb-32">
       <Logo />
       <h1 className="mb-6 text-2xl font-bold text-center">Book a Table</h1>
+
+      <div className="mb-8 p-4 bg-white/20 rounded-lg text-[#872519]/80">
+        <p className="text-sm">
+          Note: Table reservations are for a 2-hour dining period. If you'd like to stay longer and 
+          there are no other reservations, you're welcome to continue enjoying your time with us.
+        </p>
+      </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-6">
@@ -193,6 +200,9 @@ export default function Book() {
                     </SelectContent>
                   </Select>
                   <FormMessage />
+                  <p className="text-xs text-[#872519]/70 mt-1">
+                    Standard reservation duration: 2 hours
+                  </p>
                 </FormItem>
               )}
             />

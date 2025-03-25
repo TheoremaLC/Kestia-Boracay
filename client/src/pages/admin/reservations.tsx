@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
+import { format, addHours, parseISO } from "date-fns";
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -65,13 +65,19 @@ export default function AdminReservations() {
     }
   };
 
-  const events = reservations?.map(reservation => ({
-    id: reservation.id.toString(),
-    title: `${reservation.name} (${reservation.guests} guests)`,
-    start: `${reservation.date}T${reservation.time}`,
-    backgroundColor: getEventColor(reservation.status),
-    extendedProps: reservation
-  })) || [];
+  const events = reservations?.map(reservation => {
+    const startTime = `${reservation.date}T${reservation.time}`;
+    const endTime = format(addHours(parseISO(startTime), 2), "yyyy-MM-dd'T'HH:mm");
+
+    return {
+      id: reservation.id.toString(),
+      title: `${reservation.name} (${reservation.guests} guests)`,
+      start: startTime,
+      end: endTime,
+      backgroundColor: getEventColor(reservation.status),
+      extendedProps: reservation
+    };
+  }) || [];
 
   return (
     <AdminLayout>
