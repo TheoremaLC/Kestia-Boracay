@@ -24,7 +24,7 @@ export default function IconNav() {
   const [location] = useLocation();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-[#36CAB0]/20 border-t border-[#36CAB0]/30">
+    <div className="fixed bottom-0 left-0 right-0 bg-[#36CAB0] border-t border-[#36CAB0]">
       <div className="grid grid-cols-7 gap-2 sm:gap-4 p-2 sm:p-4">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
@@ -33,8 +33,8 @@ export default function IconNav() {
                 "flex flex-col items-center justify-center p-1 sm:p-3 rounded-lg transition-all duration-200 ease-in-out",
                 "hover:scale-105 active:scale-95",
                 location === item.href
-                  ? `${item.color} bg-primary/5 shadow-sm`
-                  : `text-muted-foreground hover:${item.color} hover:bg-primary/5`
+                  ? `${item.color} bg-white shadow-sm`
+                  : `text-white hover:${item.color} hover:bg-white/90`
               )}
             >
               <item.icon className={cn(
