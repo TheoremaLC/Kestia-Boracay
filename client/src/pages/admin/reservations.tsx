@@ -66,7 +66,7 @@ export default function AdminReservations() {
   };
 
   const events = reservations?.map(reservation => {
-    // Create a Date object from the reservation date
+    // Parse date and time, ensuring correct format for FullCalendar
     const [year, month, day] = reservation.date.split('-').map(Number);
     const [hours, minutes] = reservation.time.split(':').map(Number);
 
