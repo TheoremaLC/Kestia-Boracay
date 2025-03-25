@@ -25,12 +25,12 @@ export default function IconNav() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-[#36CAB0] border-t border-[#36CAB0]">
-      <div className="grid grid-cols-7 gap-2 sm:gap-4 p-2 sm:p-4">
+      <div className="grid grid-cols-7 gap-2 sm:gap-4 py-2.5 px-2 sm:p-4">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <div
               className={cn(
-                "flex flex-col items-center justify-center p-1 sm:p-3 rounded-lg transition-all duration-200 ease-in-out",
+                "flex flex-col items-center justify-center p-1.5 sm:p-3 rounded-lg transition-all duration-200 ease-in-out",
                 "hover:scale-105 active:scale-95",
                 location === item.href
                   ? `text-white bg-white/20 shadow-inner ring-1 ring-white/30`
@@ -38,12 +38,12 @@ export default function IconNav() {
               )}
             >
               <item.icon className={cn(
-                "h-5 w-5 sm:h-8 sm:w-8 mb-0.5 sm:mb-2 transition-all duration-200",
+                "h-6 w-6 sm:h-8 sm:w-8 mb-0.5 sm:mb-2 transition-all duration-200",
                 "hover:brightness-125 hover:filter",
                 location === item.href && "brightness-125 filter animate-[bounce_0.5s_ease-in-out]",
                 item.color
               )} />
-              <span className="text-[10px] sm:text-sm font-bold line-clamp-1 text-white">{item.label}</span>
+              <span className="text-[11px] sm:text-sm font-bold line-clamp-1 text-white">{item.label}</span>
             </div>
           </Link>
         ))}
