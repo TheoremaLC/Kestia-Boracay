@@ -13,7 +13,7 @@ export function Logo({ className }: LogoProps) {
         <img 
           src={`/kestia_logo_final.svg?v=${Date.now()}`}
           alt="Kestía Boracay Logo" 
-          className="h-20 sm:h-28 md:h-36 w-auto object-contain"
+          className="h-28 sm:h-40 md:h-48 w-auto object-contain"
         />
       </div>
     </Link>
