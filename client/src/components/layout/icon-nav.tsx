@@ -33,17 +33,17 @@ export default function IconNav() {
                 "flex flex-col items-center justify-center p-1 sm:p-3 rounded-lg transition-all duration-200 ease-in-out",
                 "hover:scale-105 active:scale-95",
                 location === item.href
-                  ? `${item.color} bg-white shadow-sm`
-                  : `text-white hover:${item.color} hover:bg-white/90`
+                  ? `text-white bg-[#191919] shadow-sm`
+                  : `text-white hover:text-[#191919] hover:bg-white/90`
               )}
             >
               <item.icon className={cn(
                 "h-5 w-5 sm:h-8 sm:w-8 mb-0.5 sm:mb-2 transition-transform duration-200",
                 "group-hover:rotate-3",
                 location === item.href && "animate-[bounce_0.5s_ease-in-out]",
-                location === item.href ? item.color : "text-white font-bold"
+                item.color
               )} />
-              <span className={`text-[10px] sm:text-sm font-bold line-clamp-1 ${location === item.href ? item.color : "text-white"}`}>{item.label}</span>
+              <span className={`text-[10px] sm:text-sm font-bold line-clamp-1 ${location === item.href ? "text-white" : "text-white"}`}>{item.label}</span>
             </div>
           </Link>
         ))}
