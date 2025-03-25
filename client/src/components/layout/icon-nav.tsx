@@ -24,7 +24,7 @@ export default function IconNav() {
   const [location] = useLocation();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t">
+    <div className="fixed bottom-0 left-0 right-0 bg-[#36CAB0]/20 border-t border-[#36CAB0]/30">
       <div className="grid grid-cols-7 gap-2 sm:gap-4 p-2 sm:p-4">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>

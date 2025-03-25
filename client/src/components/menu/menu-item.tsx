@@ -19,7 +19,7 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra, index }: Me
 
   if (isExtra) {
     return (
-      <div className="group flex items-center gap-2 sm:gap-4 py-2 sm:py-3 px-2 transition-all duration-300 hover:bg-white/20 rounded-lg">
+      <div className="group flex items-center gap-2 sm:gap-4 py-2 sm:py-3 px-2 transition-all duration-300 bg-white/80 hover:bg-white/90 rounded-lg shadow-sm">
         <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange text-white font-bold text-xs mr-1">
           {index !== undefined ? index + 1 : item.id}
         </span>
@@ -35,7 +35,7 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra, index }: Me
   }
 
   return (
-    <div className="group py-3 sm:py-4 px-2 transition-all duration-300 hover:bg-white/20 rounded-lg">
+    <div className="group py-3 sm:py-4 px-3 transition-all duration-300 bg-white/80 hover:bg-white/90 rounded-lg shadow-sm">
       <div className="flex items-center justify-between gap-2 mb-1">
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-burgundy text-white font-bold text-sm">
