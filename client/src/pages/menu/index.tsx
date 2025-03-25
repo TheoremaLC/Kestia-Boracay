@@ -17,8 +17,8 @@ export default function Menu() {
       <CategoryNav />
       
       <div className="px-4 py-2 mb-4 border border-dashed border-burgundy rounded-lg bg-white/50">
-        <p className="text-sm text-center flex items-center justify-center gap-1">
-          <FaStar className="text-amber-500" /> 
+        <p className="text-sm text-center flex items-center justify-center gap-1.5">
+          <FaStar className="text-[rgb(var(--color-yellow))] h-5 w-5" /> 
           <span className="color-burgundy font-medium">Items marked with a star symbol should be confirmed for availability with your server. Daily menu may vary.</span>
         </p>
       </div>

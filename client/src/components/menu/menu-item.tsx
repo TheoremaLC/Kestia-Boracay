@@ -25,7 +25,7 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra, index }: Me
         </span>
         <span className="flex-grow text-sm sm:text-base md:text-lg font-medium color-burgundy group-hover:translate-x-1 transition-transform flex items-center">
           {item.name}
-          <FaStar className="inline-block ml-1 text-xs text-amber-500" />
+          {item.isSpecial && <FaStar className="inline-block ml-1 text-xs text-[rgb(var(--color-yellow))]" />}
         </span>
         <span className="text-sm sm:text-base font-bold color-orange opacity-90 group-hover:opacity-100">
           ₱{(item.price / 100).toFixed(2)}
@@ -43,7 +43,7 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra, index }: Me
           </span>
           <h3 className="text-base sm:text-lg md:text-xl font-semibold color-burgundy">
             {item.name}
-            <FaStar className="inline-block ml-1 text-sm text-amber-500" />
+            {item.isSpecial && <FaStar className="inline-block ml-1 text-sm text-[rgb(var(--color-yellow))]" />}
           </h3>
         </div>
         <span className="text-base sm:text-lg font-bold whitespace-nowrap color-orange">
