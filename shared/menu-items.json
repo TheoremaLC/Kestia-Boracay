@@ -451,5 +451,115 @@
       "imageUrl": null,
       "isSpecial": false
     }
+  ],
+  "vegetarian": [
+    {
+      "name": "Vegetable Omelet",
+      "description": "Fresh vegetables folded into fluffy eggs",
+      "price": 29900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
+    },
+    {
+      "name": "MBS",
+      "description": "Creamy polenta served with salty cheese and rich sour cream — a simple, comforting Romanian classic.",
+      "price": 29900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
+    },
+    {
+      "name": "Bread & Butter & Jams",
+      "description": "Fresh bread served with butter and assorted jams",
+      "price": 29900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "breakfast"
+    },
+    {
+      "name": "Vegetable Cream Soup",
+      "description": "Smooth and creamy vegetable soup",
+      "price": 29900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "soups"
+    },
+    {
+      "name": "Green Salad",
+      "description": "Fresh mixed greens with house dressing",
+      "price": 25900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "sides"
+    },
+    {
+      "name": "Onion Tomato Salad",
+      "description": "Simple and refreshing salad with onions and tomatoes",
+      "price": 22900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "sides"
+    },
+    {
+      "name": "Sauteed Garlic Kangkong",
+      "description": "Sautéed water spinach with garlic",
+      "price": 25900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "sides"
+    },
+    {
+      "name": "Stir Fried Vegetables",
+      "description": "Assorted vegetables stir-fried to perfection",
+      "price": 28900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "sides"
+    },
+    {
+      "name": "Pickled Cabbage",
+      "description": "Traditional pickled cabbage",
+      "price": 15900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "sides"
+    },
+    {
+      "name": "Pickled Tomato",
+      "description": "Fresh pickled tomatoes",
+      "price": 15900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "sides"
+    },
+    {
+      "name": "Pickled Cucumber",
+      "description": "Crisp pickled cucumbers",
+      "price": 15900,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": false,
+      "originalCategory": "sides"
+    },
+    {
+      "name": "Buls Palanta",
+      "description": "A beloved Romanian comfort dish of creamy polenta crowned with tangy cheese and a perfectly runny egg. Finished with a velvety sauce, it's a hearty taste of home with a modern twist.",
+      "price": 38000,
+      "category": "vegetarian",
+      "imageUrl": null,
+      "isSpecial": true,
+      "originalCategory": "main-dishes"
+    }
   ]
 }

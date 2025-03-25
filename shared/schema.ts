@@ -8,7 +8,8 @@ export const categories = [
   "soups",
   "main-dishes",
   "sides",
-  "desserts"
+  "desserts",
+  "vegetarian"
 ] as const;
 
 export const menuItems = pgTable("menu_items", {
