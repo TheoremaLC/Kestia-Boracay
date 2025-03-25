@@ -14,7 +14,7 @@ interface MenuItemProps {
 export default function MenuItem({ item, isSubsectionTitle, isExtra, index }: MenuItemProps) {
   if (isSubsectionTitle) {
     return (
-      <div className="mt-6 sm:mt-8 mb-2 sm:mb-4">
+      <div className="mt-6 sm:mt-8 mb-2 sm:mb-4 ml-4 sm:ml-6 md:ml-8">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold gradient-text">{item.name}</h2>
       </div>
     );
