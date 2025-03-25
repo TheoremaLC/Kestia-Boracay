@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { format, addHours, parseISO } from "date-fns";
+import { format, addHours } from "date-fns";
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -66,14 +66,18 @@ export default function AdminReservations() {
   };
 
   const events = reservations?.map(reservation => {
-    const startTime = `${reservation.date}T${reservation.time}`;
-    const endTime = format(addHours(new Date(startTime), 2), "yyyy-MM-dd'T'HH:mm");
+    // Create a Date object from the reservation date
+    const [year, month, day] = reservation.date.split('-').map(Number);
+    const [hours, minutes] = reservation.time.split(':').map(Number);
+
+    const startDate = new Date(year, month - 1, day, hours, minutes);
+    const endDate = addHours(startDate, 2);
 
     return {
       id: reservation.id.toString(),
       title: `${reservation.name} (${reservation.guests} guests)`,
-      start: startTime,
-      end: endTime,
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
       backgroundColor: getEventColor(reservation.status),
       extendedProps: reservation
     };
