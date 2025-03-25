@@ -55,13 +55,14 @@ export default function Menu() {
               );
             }
             
-            // Check if this is an extra item (ID between 8-20 inclusive)
-            const isExtraItem = item.id >= 8 && item.id <= 20;
+            // Check if this is an extra item (ID between 8-19 inclusive)
+            // Quiche Lorraine Tart (ID 20) should not be treated as an extra
+            const isExtraItem = item.id >= 8 && item.id <= 19;
             
             // Always use the original database IDs for consistency across menu views
             const displayNumber = item.id;
             
-            // Render menu items (with isExtra=true for items with IDs 8-20)
+            // Render menu items (with isExtra=true for items with IDs 8-19)
             return <MenuItem 
               key={item.id} 
               item={{...item, displayNumber}} 
