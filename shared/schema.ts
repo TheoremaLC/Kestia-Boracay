@@ -29,6 +29,8 @@ export const events = pgTable("events", {
   imageUrl: text("image_url"),
 });
 
+export const reservationStatuses = ["pending", "confirmed", "completed", "cancelled"] as const;
+
 export const reservations = pgTable("reservations", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -38,12 +40,14 @@ export const reservations = pgTable("reservations", {
   time: text("time").notNull(),
   guests: integer("guests").notNull(),
   notes: text("notes"),
+  status: text("status").notNull().default("pending"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: true });
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
 export const insertReservationSchema = createInsertSchema(reservations)
-  .omit({ id: true })
+  .omit({ id: true, status: true, createdAt: true })
   .extend({
     time: z.string().min(1, "Please select a time"),
   });
@@ -54,3 +58,4 @@ export type Event = typeof events.$inferSelect;
 export type InsertEvent = z.infer<typeof insertEventSchema>;
 export type Reservation = typeof reservations.$inferSelect;
 export type InsertReservation = z.infer<typeof insertReservationSchema>;
+export type ReservationStatus = typeof reservationStatuses[number];

@@ -23,6 +23,11 @@ export async function registerRoutes(app: Express) {
   });
 
   // Reservations
+  app.get("/api/reservations", async (_req, res) => {
+    const reservations = await storage.getReservations();
+    res.json(reservations);
+  });
+
   app.post("/api/reservations", async (req, res) => {
     try {
       const reservation = insertReservationSchema.parse(req.body);
@@ -30,6 +35,18 @@ export async function registerRoutes(app: Express) {
       res.status(201).json(created);
     } catch (error) {
       res.status(400).json({ error: "Invalid reservation data" });
+    }
+  });
+
+  // Update reservation status
+  app.patch("/api/reservations/:id/status", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { status } = req.body;
+      const updated = await storage.updateReservationStatus(id, status);
+      res.json(updated);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to update reservation status" });
     }
   });
 

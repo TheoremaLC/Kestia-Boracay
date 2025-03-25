@@ -5,7 +5,12 @@ import type {
   InsertEvent,
   Reservation,
   InsertReservation,
+  ReservationStatus,
 } from "@shared/schema";
+import postgres from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { eq } from 'drizzle-orm';
+import { menuItems, events, reservations } from "@shared/schema";
 
 export interface IStorage {
   // Menu Items
@@ -18,27 +23,30 @@ export interface IStorage {
   getEvents(): Promise<Event[]>;
   createEvent(event: InsertEvent): Promise<Event>;
 
-  // Reservations
+  // Reservations 
   createReservation(reservation: InsertReservation): Promise<Reservation>;
   getReservations(): Promise<Reservation[]>;
+  updateReservationStatus(id: number, status: ReservationStatus): Promise<Reservation>;
 }
 
-class MemStorage implements IStorage {
+const pool = new postgres.Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+const db = drizzle(pool);
+
+class DbStorage implements IStorage {
   private events: Map<number, Event>;
-  private reservations: Map<number, Reservation>;
   private currentIds: {
     menuItems: number;
     events: number;
-    reservations: number;
   };
 
   constructor() {
     this.events = new Map();
-    this.reservations = new Map();
     this.currentIds = {
       menuItems: 1,
       events: 1,
-      reservations: 1,
     };
   }
 
@@ -68,7 +76,7 @@ class MemStorage implements IStorage {
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
     // Import JSON file dynamically to get fresh content
     const menuData = await import("../shared/menu-items.json", { assert: { type: "json" } });
-    const categoryItems = menuData.default[category];
+    const categoryItems = menuData.default[category as keyof typeof menuData.default];
 
     // If category doesn't exist or isn't an array, return empty array
     if (!Array.isArray(categoryItems)) {
@@ -108,15 +116,28 @@ class MemStorage implements IStorage {
 
   // Reservations
   async createReservation(reservation: InsertReservation): Promise<Reservation> {
-    const id = this.currentIds.reservations++;
-    const newReservation = { id, ...reservation } as Reservation;
-    this.reservations.set(id, newReservation);
-    return newReservation;
+    const result = await db.insert(reservations)
+      .values(reservation)
+      .returning();
+    return result[0];
   }
 
   async getReservations(): Promise<Reservation[]> {
-    return Array.from(this.reservations.values());
+    return db.select().from(reservations);
+  }
+
+  async updateReservationStatus(id: number, status: ReservationStatus): Promise<Reservation> {
+    const result = await db.update(reservations)
+      .set({ status })
+      .where(eq(reservations.id, id))
+      .returning();
+
+    if (!result[0]) {
+      throw new Error(`Reservation with ID ${id} not found`);
+    }
+
+    return result[0];
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DbStorage();

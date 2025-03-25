@@ -12,6 +12,8 @@ import Book from "@/pages/book";
 import Gallery from "@/pages/gallery";
 import Music from "@/pages/music";
 import Contacts from "@/pages/contacts";
+import AdminLogin from "@/pages/admin/login";
+import AdminReservations from "@/pages/admin/reservations";
 
 function Router() {
   return (
@@ -27,6 +29,8 @@ function Router() {
           <Route path="/music" component={Music} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/contacts" component={Contacts} />
+          <Route path="/admin/login" component={AdminLogin} />
+          <Route path="/admin/reservations" component={AdminReservations} />
           <Route component={NotFound} />
         </Switch>
       </main>
