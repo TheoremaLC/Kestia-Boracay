@@ -11,13 +11,13 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { href: "/menu", label: "Menu", icon: Utensils, color: "text-[#E85303]" },
-  { href: "/offers", label: "Offers", icon: Percent, color: "text-[#E85303]" },
-  { href: "/book", label: "Reservations", icon: CalendarRange, color: "text-[#36CAB0]" },
-  { href: "/music", label: "Music", icon: Music2, color: "text-[#36CAB0]" },
+  { href: "/menu", label: "Menu", icon: Utensils, color: "text-[#872519]" },
+  { href: "/offers", label: "Offers", icon: Percent, color: "text-[#872519]" },
+  { href: "/book", label: "Reservations", icon: CalendarRange, color: "text-[#872519]" },
+  { href: "/music", label: "Music", icon: Music2, color: "text-[#872519]" },
   { href: "/events", label: "Events", icon: CalendarDays, color: "text-[#872519]" },
   { href: "/gallery", label: "Gallery", icon: Camera, color: "text-[#872519]" },
-  { href: "/contacts", label: "Contacts", icon: MapPin, color: "text-[#E85303]" },
+  { href: "/contacts", label: "Contacts", icon: MapPin, color: "text-[#872519]" },
 ];
 
 export default function IconNav() {
@@ -41,9 +41,9 @@ export default function IconNav() {
                 "h-5 w-5 sm:h-8 sm:w-8 mb-0.5 sm:mb-2 transition-transform duration-200",
                 "group-hover:rotate-3",
                 location === item.href && "animate-[bounce_0.5s_ease-in-out]",
-                item.color
+                location === item.href ? item.color : "text-[#872519] font-bold"
               )} />
-              <span className="text-[10px] sm:text-sm font-medium line-clamp-1">{item.label}</span>
+              <span className={`text-[10px] sm:text-sm font-bold line-clamp-1 ${location === item.href ? item.color : "text-white"}`}>{item.label}</span>
             </div>
           </Link>
         ))}
