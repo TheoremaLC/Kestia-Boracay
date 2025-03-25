@@ -75,7 +75,7 @@ export default function AdminReservations() {
 
     // Calculate end time (2 hours later)
     const endHours = hours + 2;
-    const endTime = `${reservation.date}T${endHours.toString().padStart(2, '0')}:${minutes}`;
+    const endTime = `${reservation.date}T${hours.toString().padStart(2, '0')}:${minutes}`;
 
     return {
       id: reservation.id.toString(),
