@@ -45,7 +45,7 @@ export default function Contacts() {
                   <MapPin className="h-5 w-5 text-primary" />
                   <div>
                     <h3 className="font-medium">Address</h3>
-                    <p className="text-muted-foreground">Kestia Boracay, Bulabog Beach, Balabag, Malay, Aklan, Philippines</p>
+                    <p className="text-muted-foreground">Malay, Aklan, Philippines</p>
                   </div>
                 </div>
               </div>
@@ -58,7 +58,7 @@ export default function Contacts() {
             </CardHeader>
             <CardContent className="p-0 h-[400px]">
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3940.9129391069125!2d121.93193717472767!3d11.957432788531806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTHCsDU3JzI2LjgiTiAxMjHCsDU2JzAyLjUiRQ!5e0!3m2!1sen!2sus!4v1711380650000!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d500.8153467374392!2d121.93047399999999!3d11.961273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1711381229493!5m2!1sen!2sus"
                 width="100%" 
                 height="400" 
                 style={{ border: 0 }} 
