@@ -138,14 +138,6 @@
       "isSpecial": false
     },
     {
-      "name": "Egg",
-      "description": "",
-      "price": 6900,
-      "category": "breakfast",
-      "imageUrl": null,
-      "isSpecial": false
-    },
-    {
       "name": "Bread",
       "description": "",
       "price": 5900,
@@ -593,15 +585,6 @@
       "name": "Onion salad",
       "description": "",
       "price": 7900,
-      "category": "vegetarian",
-      "imageUrl": null,
-      "isSpecial": false,
-      "originalCategory": "breakfast"
-    },
-    {
-      "name": "Egg",
-      "description": "",
-      "price": 6900,
       "category": "vegetarian",
       "imageUrl": null,
       "isSpecial": false,
