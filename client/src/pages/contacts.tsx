@@ -7,7 +7,18 @@ export default function Contacts() {
     <div className="pb-32">
       <Logo />
       <div className="container mx-auto px-4">
-        <h1 className="mb-6 text-3xl md:text-4xl lg:text-5xl font-bold text-center gradient-text">Contact Us</h1>
+        <h1 className="mb-6 text-3xl md:text-4xl lg:text-5xl font-extrabold group drop-shadow-lg text-center">
+          <span className="text-[#872519] group-hover:text-[#a32a1d] transition-colors duration-300 hover:text-shadow">C</span>
+          <span className="text-[#a32a1d] group-hover:text-[#bf3022] transition-colors duration-300 hover:text-shadow">o</span>
+          <span className="text-[#bf3022] group-hover:text-[#d53727] transition-colors duration-300 hover:text-shadow">n</span>
+          <span className="text-[#d53727] group-hover:text-[#e0442c] transition-colors duration-300 hover:text-shadow">t</span>
+          <span className="text-[#e0442c] group-hover:text-[#e85303] transition-colors duration-300 hover:text-shadow">a</span>
+          <span className="text-[#e85303] group-hover:text-[#f06306] transition-colors duration-300 hover:text-shadow">c</span>
+          <span className="text-[#f06306] group-hover:text-[#f37509] transition-colors duration-300 hover:text-shadow">t</span>
+          <span className="text-[#f37509] group-hover:text-[#f2860b] transition-colors duration-300 hover:text-shadow"> </span>
+          <span className="text-[#f2860b] group-hover:text-[#eb9812] transition-colors duration-300 hover:text-shadow">U</span>
+          <span className="text-[#eb9812] group-hover:text-[#bfd12c] transition-colors duration-300 hover:text-shadow">s</span>
+        </h1>
 
         <div className="space-y-6">
           <Card>
