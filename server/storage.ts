@@ -74,38 +74,52 @@ class DbStorage implements IStorage {
   }
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
-    // For vegetarian category, create a list of items from other categories
+    // Load all menu items with their global IDs
+    const allItems = await this.getMenuItems();
+    
+    // For vegetarian category, create a specialized list
     if (category === "vegetarian") {
-      const menuData = await import("../shared/menu-items.json", { assert: { type: "json" } });
-      const allItems = await this.getMenuItems();
-      const vegetarianNames = [
-        "Vegetable Omelet",
-        "Bread & Butter & Jams", 
-        "MBS", 
-        "Fresh Bread", 
-        "Fresh Garden Salad",
-        "Pinakbet",
-        "Pumpkin Soup", 
-        "Vegetable Cream Soup",
-        "Roasted Vegetable Platter",
-        "Green Salad",
-        "Onion Tomato Salad",
-        "Sauteed Garlic Kangkong",
-        "Stir Fried Vegetables",
-        "Veggie Burger",
-        "Buls Palanta"
+      // Define which breakfast items are vegetarian
+      const vegetarianBreakfastItems = ["Vegetable Omelet", "Bread & Butter & Jams", "MBS"];
+      
+      // Define which extras are vegetarian
+      const vegetarianExtrasItems = ["Yogurt", "Bread", "Onion salad"];
+      
+      // Define which main dishes are vegetarian
+      const vegetarianMainItems = [
+        "Buls Palanta", 
+        "Veggie Burger", 
+        "Roasted Vegetable Platter"
       ];
       
-      // Get the IDs of vegetarian menu items from the main menu for consistent ID numbers
-      const vegetarianItems = allItems.filter(item => 
-        vegetarianNames.includes(item.name)
-      ).map(item => ({
-        ...item,
-        category: "vegetarian"
-      }));
+      // Define which soups are vegetarian
+      const vegetarianSoupItems = ["Vegetable Cream Soup", "Pumpkin Soup"];
       
-      // Add the EXTRAS_SECTION header if needed
-      const extrasSection = allItems.find(item => item.name === "EXTRAS_SECTION");
+      // Define which sides are vegetarian  
+      const vegetarianSideItems = [
+        "Green Salad", 
+        "Onion Tomato Salad", 
+        "Sauteed Garlic Kangkong", 
+        "Stir Fried Vegetables"
+      ];
+      
+      // First add breakfast vegetarian items (top of the menu)
+      const vegetarianItems = allItems
+        .filter(item => 
+          vegetarianBreakfastItems.includes(item.name) && 
+          item.category === "breakfast"
+        )
+        .map(item => ({
+          ...item,
+          category: "vegetarian"
+        }));
+    
+      // Add the EXTRAS_SECTION header 
+      const extrasSection = allItems.find(item => 
+        item.name === "EXTRAS_SECTION" && 
+        item.category === "breakfast"
+      );
+      
       if (extrasSection) {
         vegetarianItems.push({
           ...extrasSection,
@@ -113,13 +127,64 @@ class DbStorage implements IStorage {
         });
       }
       
+      // Add vegetarian extras
+      const vegetarianExtras = allItems
+        .filter(item => 
+          vegetarianExtrasItems.includes(item.name) && 
+          item.category === "breakfast"
+        )
+        .map(item => ({
+          ...item,
+          category: "vegetarian"
+        }));
+      
+      vegetarianItems.push(...vegetarianExtras);
+      
+      // Add vegetarian soups
+      const vegetarianSoups = allItems
+        .filter(item => 
+          vegetarianSoupItems.includes(item.name) && 
+          item.category === "soups"
+        )
+        .map(item => ({
+          ...item,
+          category: "vegetarian"
+        }));
+        
+      vegetarianItems.push(...vegetarianSoups);
+      
+      // Add vegetarian main dishes
+      const vegetarianMains = allItems
+        .filter(item => 
+          vegetarianMainItems.includes(item.name) && 
+          item.category === "main-dishes"
+        )
+        .map(item => ({
+          ...item,
+          category: "vegetarian"
+        }));
+        
+      vegetarianItems.push(...vegetarianMains);
+      
+      // Add vegetarian sides
+      const vegetarianSides = allItems
+        .filter(item => 
+          vegetarianSideItems.includes(item.name) && 
+          item.category === "sides"
+        )
+        .map(item => ({
+          ...item,
+          category: "vegetarian"
+        }));
+        
+      vegetarianItems.push(...vegetarianSides);
+      
       // Sort by ID to maintain consistent ordering
       return vegetarianItems.sort((a, b) => a.id - b.id);
     }
     
     // For other categories, get items from the complete menu
-    const allMenuItems = await this.getMenuItems();
-    return allMenuItems.filter(item => item.category === category);
+    return allItems.filter(item => item.category === category);
   }
 
   async getMenuItem(id: number): Promise<MenuItem | undefined> {
