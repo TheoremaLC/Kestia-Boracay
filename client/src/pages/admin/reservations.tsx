@@ -76,8 +76,8 @@ export default function AdminReservations() {
     return {
       id: reservation.id.toString(),
       title: `${reservation.name} (${reservation.guests} guests)`,
-      start: startDate,
-      end: endDate,
+      start: format(startDate, "yyyy-MM-dd'T'HH:mm:ss"),
+      end: format(endDate, "yyyy-MM-dd'T'HH:mm:ss"),
       backgroundColor: getEventColor(reservation.status),
       extendedProps: reservation
     };
@@ -132,6 +132,10 @@ export default function AdminReservations() {
             slotMaxTime="23:00:00"
             height="auto"
             aspectRatio={1.8}
+            allDaySlot={false}
+            slotDuration="00:30:00"
+            slotLabelInterval="01:00"
+            scrollTime="11:00:00"
           />
         </div>
 
