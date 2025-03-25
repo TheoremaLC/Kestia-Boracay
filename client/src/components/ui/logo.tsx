@@ -6,12 +6,12 @@ interface LogoProps {
 }
 
 export function Logo({ className }: LogoProps) {
-  // Using the screenshot with the framed logo
+  // Using the newly uploaded logo with frame
   return (
     <Link href="/">
       <div className={cn("flex justify-center items-center mb-4 sm:mb-8", className)}>
         <img 
-          src="/new_logo_with_frame.png?t=20250325"
+          src="/kestia_logo_page2.png?t=20250326"
           alt="Kestía Boracay Logo" 
           className="h-20 sm:h-28 md:h-36 w-auto object-contain"
         />
