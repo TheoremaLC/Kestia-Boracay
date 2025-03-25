@@ -59,8 +59,9 @@ export default function Menu() {
             // Quiche Lorraine Tart (ID 20) should not be treated as an extra
             const isExtraItem = item.id >= 8 && item.id <= 19;
             
-            // Always use the original database IDs for consistency across menu views
-            const displayNumber = item.id;
+            // For extras items starting at ID 8, display them starting from 7 in the general menu
+            // This preserves the original ID system across different views
+            const displayNumber = isExtraItem ? item.id - 1 : item.id;
             
             // Render menu items (with isExtra=true for items with IDs 8-19)
             return <MenuItem 
