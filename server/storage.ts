@@ -111,7 +111,10 @@ class DbStorage implements IStorage {
         "Green Salad", 
         "Onion Tomato Salad", 
         "Sauteed Garlic Kangkong", 
-        "Stir Fried Vegetables"
+        "Stir Fried Vegetables",
+        "Pickled Cabbage",
+        "Pickled Tomato",
+        "Pickled Cucumber"
       ].map(name => findItem(name, "sides")).filter(Boolean) as MenuItem[];
       
       result.push(...sideItems);
@@ -130,8 +133,14 @@ class DbStorage implements IStorage {
       if (extrasSection) {
         result.push(extrasSection);
         
-        // These are the only true extras
-        const vegetarianExtras = ["Yogurt", "Bread", "Onion salad"].map(
+        // These are the vegetarian extras
+        const vegetarianExtras = [
+          "Yogurt", 
+          "Bread", 
+          "Onion salad",
+          "Kestia rice",
+          "Two Eggs any Style"
+        ].map(
           name => findItem(name, "breakfast")
         ).filter(Boolean) as MenuItem[];
         
