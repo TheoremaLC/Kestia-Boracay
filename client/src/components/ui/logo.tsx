@@ -6,12 +6,12 @@ interface LogoProps {
 }
 
 export function Logo({ className }: LogoProps) {
-  // Using the exact logo from attached assets with frame
+  // Using the SVG version of the logo with frame
   return (
     <Link href="/">
       <div className={cn("flex justify-center items-center mb-4 sm:mb-8", className)}>
         <img 
-          src={`/kestia_logo_frame_final.png?v=${Date.now()}`}
+          src={`/kestia_logo_page2.svg?t=${Date.now()}`}
           alt="Kestía Boracay Logo" 
           className="h-20 sm:h-28 md:h-36 w-auto object-contain"
         />
