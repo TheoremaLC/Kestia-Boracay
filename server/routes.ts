@@ -16,6 +16,17 @@ export async function registerRoutes(app: Express) {
     res.json(items);
   });
 
+  // Debug endpoint to check IDs
+  app.get("/api/debug/menu", async (_req, res) => {
+    const allItems = await storage.getMenuItems();
+    const simplifiedItems = allItems.map(item => ({
+      id: item.id,
+      name: item.name,
+      category: item.category
+    }));
+    res.json(simplifiedItems);
+  });
+  
   // Events
   app.get("/api/events", async (_req, res) => {
     const events = await storage.getEvents();
