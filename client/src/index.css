@@ -7,20 +7,94 @@
 @layer base {
   :root {
     --color-yellow: 246, 246, 190;
+    --color-burgundy: 135, 37, 25;       /* #872519 */
+    --color-orange: 232, 83, 3;          /* #E85303 */
+    --color-turquoise: 54, 202, 176;     /* #36CAB0 */
   }
 
   * {
     @apply border-border;
   }
 
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
   body {
     @apply font-['Public+Sans'] antialiased text-foreground;
     background: linear-gradient(135deg, 
-      rgba(246, 246, 190, 0.9) 0%,
-      rgba(246, 246, 190, 0.7) 50%,
-      rgba(246, 246, 190, 0.5) 100%
+      rgba(246, 246, 190, 0.9),
+      rgba(54, 202, 176, 0.5),
+      rgba(232, 83, 3, 0.3),
+      rgba(135, 37, 25, 0.5),
+      rgba(246, 246, 190, 0.9)
     );
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
     min-height: 100vh;
+  }
+
+  /* Gradient text effect for headings */
+  .gradient-text {
+    background: linear-gradient(90deg, 
+      rgb(var(--color-burgundy)), 
+      rgb(var(--color-orange)),
+      rgb(var(--color-turquoise))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: textGradient 8s linear infinite;
+  }
+
+  @keyframes textGradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Gradient borders for elements */
+  .gradient-border {
+    position: relative;
+    border: none;
+  }
+  
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(45deg, 
+      rgb(var(--color-burgundy)), 
+      rgb(var(--color-orange)),
+      rgb(var(--color-turquoise)),
+      rgb(var(--color-burgundy))
+    );
+    background-size: 400% 400%;
+    animation: gradientAnimation 8s ease infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
   }
 
   /* Ensure good contrast for content areas */
@@ -28,7 +102,7 @@
   .navigation-menu,
   .dropdown-menu,
   .dialog {
-    @apply bg-white/95 backdrop-blur-sm shadow-sm;
+    @apply bg-white/85 backdrop-blur-sm shadow-sm;
   }
 
   /* Smooth transitions */
