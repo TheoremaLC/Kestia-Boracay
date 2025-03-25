@@ -3,10 +3,18 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 /**
- * IMPORTANT RULE FOR MENU ITEMS:
- * When an item is copied to another submenu (like vegetarian),
- * it MUST maintain its original ID from the general menu to ensure consistency.
- * This preserves the global numbering system across all menu views.
+ * CRITICAL REQUIREMENT - DO NOT MODIFY MENU ID NUMBERING SYSTEM
+ * 
+ * The ID system for menu items is finalized and must NEVER be changed:
+ * 
+ * 1. Every menu item maintains its EXACT original ID across ALL menu views (general, vegetarian, etc.)
+ * 2. Extras items start at ID 7 (not 8) in ALL menus - this is achieved by displaying ID-1 for extras items
+ * 3. Quiche Lorraine Tart (ID 20) must always display outside of extras section
+ * 4. Vegetarian menu items maintain identical IDs to their counterparts in the main menu
+ * 5. All extras sections must display items in ascending ID order
+ * 
+ * This configuration is FINAL and preserved for global consistency.
+ * Any future changes must preserve this numbering system to maintain menu integrity.
  */
 
 export const categories = [

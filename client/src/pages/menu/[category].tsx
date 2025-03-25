@@ -62,8 +62,10 @@ export default function MenuCategory() {
                   />
                   <div className="mt-2 divide-[#872519]/10">
                     {menuItems.slice(index + 1).map((extraItem, extraIndex) => {
-                      // For all menu sections, shift EXTRAS by -1 to make them start at 7 
-                      // (vegetarian menu already has sorted extras from the backend)
+                      // FINALIZED CONFIGURATION - DO NOT MODIFY
+                      // Critical rule: All extras (with IDs >= 8) must display showing ID-1 
+                      // This creates a consistent system where extras start at ID 7 across all menus
+                      // This exact implementation must be preserved to maintain global menu consistency
                       const specialDisplayNumber = extraItem.id >= 8 ? extraItem.id - 1 : extraItem.id;
                       return (
                         <MenuItem 

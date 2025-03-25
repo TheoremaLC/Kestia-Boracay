@@ -80,13 +80,16 @@ class DbStorage implements IStorage {
     // For vegetarian category, create a specialized list
     if (category === "vegetarian") {
       /**
-       * IMPORTANT RULE: When an item is copied to another submenu (like vegetarian),
-       * it MUST maintain its original ID from the general menu to ensure consistency.
-       * This preserves the global numbering system across all menu views.
+       * FINALIZED MENU ID SYSTEM - DO NOT MODIFY
        * 
-       * The implementation below ensures that each item keeps its exact original ID
-       * by finding the original item in the main menu and using its ID when creating
-       * the specialized vegetarian menu.
+       * This implementation ensures perfect consistency across all menu views:
+       * 1. Every vegetarian item maintains its EXACT original ID from the general menu
+       * 2. All extras start at ID 7 (display value adjustment happens in the frontend components)
+       * 3. Extras are sorted by ID in ascending order for consistent display
+       * 4. Quiche Lorraine (ID 20) is correctly shown outside extras (see frontend component)
+       * 
+       * This ID system is FINAL and must be preserved exactly as implemented here.
+       * Do not alter the ID assignment logic or extras ordering under any circumstances.
        */
       const vegetarianMenu: {[key: string]: string[]} = {
         "breakfast": ["Vegetable Omelet", "Bread & Butter & Jams", "MBS"],
