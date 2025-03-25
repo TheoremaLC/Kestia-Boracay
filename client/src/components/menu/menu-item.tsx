@@ -37,7 +37,12 @@ export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemP
         </span>
       </div>
       {item.description && (
-        <p className="text-sm sm:text-base font-medium text-[#872519]/80">{item.description}</p>
+        <p className="text-sm sm:text-base font-medium" style={{
+          background: 'linear-gradient(90deg, rgba(135, 37, 25, 0.9), rgba(135, 37, 25, 0.7))',
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          color: 'transparent'
+        }}>{item.description}</p>
       )}
     </div>
   );

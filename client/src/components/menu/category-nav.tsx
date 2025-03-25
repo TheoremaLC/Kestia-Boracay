@@ -14,14 +14,16 @@ export default function CategoryNav() {
               <div
                 className={cn(
                   "whitespace-nowrap px-3 sm:px-5 py-1.5 sm:py-2.5 text-sm sm:text-base md:text-lg font-medium transition-all duration-200",
-                  "rounded-lg border border-transparent",
+                  "rounded-lg border",
                   "hover:scale-105 active:scale-95",
                   location === `/menu/${category}`
-                    ? "bg-[#E85303] text-white font-semibold shadow-md transform -translate-y-0.5"
-                    : "text-[#872519] hover:text-[#36CAB0] hover:border-[#36CAB0] hover:bg-[#36CAB0]/5"
+                    ? "gradient-border font-semibold shadow-md transform -translate-y-0.5"
+                    : "border-transparent hover:border-[#36CAB0] hover:bg-[#36CAB0]/5"
                 )}
               >
-                {category.replace("-", " ").toUpperCase()}
+                <span className={location === `/menu/${category}` ? "gradient-text" : ""}>
+                  {category.replace("-", " ").toUpperCase()}
+                </span>
               </div>
             </Link>
           ))}
