@@ -10,7 +10,7 @@ export default function Offers() {
         <div className="flex flex-col items-center gap-2">
           <Clock className="h-8 w-8 text-[#E85303]" />
           <h1 className="text-3xl font-bold text-[#872519]">Happy Hour</h1>
-          <p className="text-lg text-[#872519]/80 font-medium">Every day 16:00 - 19:00</p>
+          <p className="text-lg text-[#872519]/80 font-medium">Every day <span className="font-bold">16:00h - 19:00h</span></p>
         </div>
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-4xl mx-auto">
