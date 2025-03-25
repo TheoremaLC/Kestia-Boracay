@@ -61,12 +61,16 @@ export default function MenuCategory() {
                     isSubsectionTitle={true} 
                   />
                   <div className="mt-2 divide-[#872519]/10">
-                    {menuItems.slice(index + 1).map((extraItem) => {
-                      // Use the original ID from the database
+                    {menuItems.slice(index + 1).map((extraItem, extraIndex) => {
+                      // For breakfast menu only, start numbering at 7 for extras
+                      const specialDisplayNumber = category === "breakfast" ? 7 + extraIndex : extraItem.id;
                       return (
                         <MenuItem 
                           key={extraItem.id} 
-                          item={extraItem} 
+                          item={{
+                            ...extraItem, 
+                            displayNumber: specialDisplayNumber
+                          }} 
                           isExtra={true}
                         />
                       );
