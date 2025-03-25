@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, BookOpen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { insertReservationSchema, seatingOptions, SeatingPreference } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
@@ -85,7 +85,23 @@ export default function Book() {
   return (
     <div className="mx-auto max-w-2xl pb-32">
       <Logo />
-      <h1 className="mb-6 text-2xl font-bold text-center">Book a Table</h1>
+      <div className="flex flex-col items-center gap-2 mb-6">
+        <BookOpen className="h-8 w-8 text-[#E85303]" />
+        <h1 className="text-3xl font-extrabold group drop-shadow-lg text-center">
+          <span className="text-[#872519] group-hover:text-[#a32a1d] transition-colors duration-300 hover:text-shadow">B</span>
+          <span className="text-[#a32a1d] group-hover:text-[#bf3022] transition-colors duration-300 hover:text-shadow">o</span>
+          <span className="text-[#bf3022] group-hover:text-[#d53727] transition-colors duration-300 hover:text-shadow">o</span>
+          <span className="text-[#d53727] group-hover:text-[#e0442c] transition-colors duration-300 hover:text-shadow">k</span>
+          <span className="text-[#e0442c] group-hover:text-[#e85303] transition-colors duration-300 hover:text-shadow"> </span>
+          <span className="text-[#e85303] group-hover:text-[#f06306] transition-colors duration-300 hover:text-shadow">a</span>
+          <span className="text-[#f06306] group-hover:text-[#f37509] transition-colors duration-300 hover:text-shadow"> </span>
+          <span className="text-[#f37509] group-hover:text-[#f2860b] transition-colors duration-300 hover:text-shadow">T</span>
+          <span className="text-[#f2860b] group-hover:text-[#eb9812] transition-colors duration-300 hover:text-shadow">a</span>
+          <span className="text-[#eb9812] group-hover:text-[#e2ab1a] transition-colors duration-300 hover:text-shadow">b</span>
+          <span className="text-[#e2ab1a] group-hover:text-[#d5be23] transition-colors duration-300 hover:text-shadow">l</span>
+          <span className="text-[#d5be23] group-hover:text-[#36cab0] transition-colors duration-300 hover:text-shadow">e</span>
+        </h1>
+      </div>
 
       <div className="mb-8 p-4 bg-white/20 rounded-lg text-[#872519]/80">
         <p className="text-sm">
@@ -101,7 +117,7 @@ export default function Book() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -115,7 +131,7 @@ export default function Book() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Email</FormLabel>
                 <FormControl>
                   <Input type="email" {...field} />
                 </FormControl>
@@ -129,7 +145,7 @@ export default function Book() {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone <span className="text-xs text-[#872519]/60">(Optional)</span></FormLabel>
+                <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Phone <span className="text-xs text-[#872519]">(Optional)</span></FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -144,7 +160,7 @@ export default function Book() {
               name="date"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -186,7 +202,7 @@ export default function Book() {
               name="time"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Time</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Time</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -216,7 +232,7 @@ export default function Book() {
               name="guests"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Number of Guests</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Number of Guests</FormLabel>
                   <FormControl>
                     <Input type="number" min={1} {...field} />
                   </FormControl>
@@ -230,7 +246,7 @@ export default function Book() {
               name="seatingPreference"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Seating Preference</FormLabel>
+                  <FormLabel className="bg-gradient-to-r from-[#872519] to-[#e85303] bg-clip-text text-transparent font-bold">Seating Preference</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
