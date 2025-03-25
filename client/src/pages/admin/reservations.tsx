@@ -128,7 +128,7 @@ export default function AdminReservations() {
                 ),
               });
             }}
-            slotMinTime="10:00:00"
+            slotMinTime="11:00:00"
             slotMaxTime="23:00:00"
             height="auto"
             aspectRatio={1.8}
