@@ -31,9 +31,10 @@ export function Map({ className }: MapProps) {
 
         await loader.load();
 
+        // Updated precise coordinates from Google Maps link: https://maps.app.goo.gl/SYc67fbNwMaRYdtF9
         const restaurantLocation = {
-          lat: 11.356991, // Boracay Station 2 coordinates
-          lng: 121.959667
+          lat: 11.9602192, // Kestia Boracay precise coordinates
+          lng: 121.9268401
         };
 
         const map = new google.maps.Map(mapRef.current, {
