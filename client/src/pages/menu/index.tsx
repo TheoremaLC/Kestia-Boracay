@@ -38,9 +38,14 @@ export default function Menu() {
       ) : (
         <div className="space-y-4">
           {menuItems?.map((item, index) => {
+            // If this is the EXTRAS_SECTION header
             if (item.name === "EXTRAS_SECTION") {
+              // Find the index of the extras section
+              const extrasIdx = index;
+              
               return (
                 <div key={item.id} className="mt-6">
+                  {/* Render the EXTRAS title */}
                   <MenuItem 
                     key={item.id}
                     item={{ 
@@ -49,15 +54,30 @@ export default function Menu() {
                     }} 
                     isSubsectionTitle={true} 
                   />
+                  
+                  {/* Render all extras items with indentation */}
+                  <div className="mt-2">
+                    {menuItems.slice(index + 1).map((extraItem) => (
+                      <MenuItem 
+                        key={extraItem.id} 
+                        item={extraItem} 
+                        isExtra={true}
+                      />
+                    ))}
+                  </div>
                 </div>
               );
             }
             
-            // Check if this item should be displayed as an extra
+            // Skip rendering items that come after the EXTRAS_SECTION header
+            // as they were already rendered in the block above
             const extrasSection = menuItems.findIndex(i => i.name === "EXTRAS_SECTION");
-            const isAfterExtrasSection = extrasSection !== -1 && index > extrasSection;
+            if (extrasSection !== -1 && index > extrasSection) {
+              return null;
+            }
             
-            return <MenuItem key={item.id} item={item} isExtra={isAfterExtrasSection} />;
+            // Render normal menu items
+            return <MenuItem key={item.id} item={item} />;
           })}
         </div>
       )}
