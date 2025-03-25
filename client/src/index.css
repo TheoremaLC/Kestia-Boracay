@@ -30,15 +30,7 @@
 
   body {
     @apply font-['Public+Sans'] antialiased text-foreground;
-    background: linear-gradient(135deg, 
-      rgba(246, 246, 190, 0.9),
-      rgba(54, 202, 176, 0.5),
-      rgba(232, 83, 3, 0.3),
-      rgba(135, 37, 25, 0.5),
-      rgba(246, 246, 190, 0.9)
-    );
-    background-size: 400% 400%;
-    animation: gradientAnimation 15s ease infinite;
+    background: white;
     min-height: 100vh;
   }
 
@@ -110,5 +102,33 @@
   .button,
   .link {
     @apply transition-all duration-200;
+  }
+
+  /* Static brand colors */
+  .color-burgundy {
+    color: rgb(var(--color-burgundy));
+  }
+  
+  .color-orange {
+    color: rgb(var(--color-orange));
+  }
+  
+  .color-turquoise {
+    color: rgb(var(--color-turquoise));
+  }
+  
+  .bg-burgundy {
+    background-color: rgb(var(--color-burgundy));
+    color: white;
+  }
+  
+  .bg-orange {
+    background-color: rgb(var(--color-orange));
+    color: white;
+  }
+  
+  .bg-turquoise {
+    background-color: rgb(var(--color-turquoise));
+    color: white;
   }
 }

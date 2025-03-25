@@ -1,9 +1,11 @@
 import type { MenuItem } from "@shared/schema";
+import { FaStar } from "react-icons/fa";
 
 interface MenuItemProps {
   item: MenuItem;
   isSubsectionTitle?: boolean;
   isExtra?: boolean;
+  index?: number;
 }
 
 export default function MenuItem({ item, isSubsectionTitle, isExtra }: MenuItemProps) {

@@ -9,7 +9,7 @@ export default function CategoryNav() {
     <nav className="mb-4 sm:mb-8 -mx-2 sm:mx-0">
       <div className="sm:flex sm:justify-center">
         <div className="flex overflow-x-auto py-2 px-4 sm:px-0 scrollbar-none gap-2 sm:gap-4">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <Link key={category} href={`/menu/${category}`}>
               <div
                 className={cn(
@@ -21,7 +21,16 @@ export default function CategoryNav() {
                     : "border-transparent hover:border-[#36CAB0] hover:bg-[#36CAB0]/5"
                 )}
               >
-                <span className={location === `/menu/${category}` ? "gradient-text" : ""}>
+                <span className={cn(
+                  "font-bold", 
+                  location === `/menu/${category}` 
+                    ? "color-burgundy" 
+                    : index % 3 === 0 
+                      ? "color-burgundy"
+                      : index % 3 === 1
+                        ? "color-orange"
+                        : "color-turquoise"
+                )}>
                   {category.replace("-", " ").toUpperCase()}
                 </span>
               </div>
