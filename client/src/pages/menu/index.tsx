@@ -37,8 +37,8 @@ export default function Menu() {
         </div>
       ) : (
         <div className="space-y-4">
-          {menuItems?.map((item, index) => (
-            <MenuItem key={item.id} item={item} index={index} />
+          {menuItems?.map((item) => (
+            <MenuItem key={item.id} item={item} />
           ))}
         </div>
       )}

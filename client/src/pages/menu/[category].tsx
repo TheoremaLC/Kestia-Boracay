@@ -56,17 +56,16 @@ export default function MenuCategory() {
                   <MenuItem 
                     item={{ 
                       ...item,
-                      name: "Extras" 
+                      name: "EXTRAS" 
                     }} 
                     isSubsectionTitle={true} 
                   />
                   <div className="mt-2 divide-[#872519]/10">
-                    {menuItems.slice(index + 1).map((extraItem, extraIndex) => (
+                    {menuItems.slice(index + 1).map((extraItem) => (
                       <MenuItem 
                         key={extraItem.id} 
                         item={extraItem} 
                         isExtra={true}
-                        index={extraIndex}
                       />
                     ))}
                   </div>
@@ -76,7 +75,7 @@ export default function MenuCategory() {
             if (category === "breakfast" && menuItems.find((i, idx) => idx < index && i.name === "EXTRAS_SECTION")) {
               return null; 
             }
-            return <MenuItem key={item.id} item={item} index={index} />;
+            return <MenuItem key={item.id} item={item} />;
           })}
         </div>
       )}
