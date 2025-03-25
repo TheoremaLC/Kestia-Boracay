@@ -9,7 +9,18 @@ export default function Offers() {
       <div className="text-center space-y-4">
         <div className="flex flex-col items-center gap-2">
           <Clock className="h-8 w-8 text-[#E85303]" />
-          <h1 className="text-3xl font-bold text-[#872519]">Happy Hour</h1>
+          <h1 className="text-4xl font-extrabold group drop-shadow-lg">
+            <span className="text-[#872519] group-hover:text-[#a32a1d] transition-colors duration-300 hover:text-shadow">H</span>
+            <span className="text-[#a32a1d] group-hover:text-[#bf3022] transition-colors duration-300 hover:text-shadow">a</span>
+            <span className="text-[#bf3022] group-hover:text-[#d53727] transition-colors duration-300 hover:text-shadow">p</span>
+            <span className="text-[#d53727] group-hover:text-[#e0442c] transition-colors duration-300 hover:text-shadow">p</span>
+            <span className="text-[#e0442c] group-hover:text-[#e85303] transition-colors duration-300 hover:text-shadow">y</span>
+            <span className="text-[#e85303] group-hover:text-[#f06306] transition-colors duration-300 hover:text-shadow"> </span>
+            <span className="text-[#f06306] group-hover:text-[#f37509] transition-colors duration-300 hover:text-shadow">H</span>
+            <span className="text-[#f37509] group-hover:text-[#f2860b] transition-colors duration-300 hover:text-shadow">o</span>
+            <span className="text-[#f2860b] group-hover:text-[#eb9812] transition-colors duration-300 hover:text-shadow">u</span>
+            <span className="text-[#eb9812] group-hover:text-[#872519] transition-colors duration-300 hover:text-shadow">r</span>
+          </h1>
           <p className="text-lg text-[#872519]/80 font-medium">Every day <span className="font-bold">16:00h - 19:00h</span></p>
         </div>
 
