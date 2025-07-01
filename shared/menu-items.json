@@ -187,6 +187,14 @@
       "category": "appetizers",
       "imageUrl": null,
       "isSpecial": true
+    },
+    {
+      "name": "Olives & crackers",
+      "description": "Olives with herbs in olive oil and graham crackers",
+      "price": 300,
+      "category": "appetizers",
+      "imageUrl": "",
+      "isSpecial": false
     }
   ],
   "soups": [
