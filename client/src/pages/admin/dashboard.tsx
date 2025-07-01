@@ -43,60 +43,89 @@ export default function AdminDashboard() {
       <div className="space-y-6">
         <h2 className="text-2xl font-bold text-[#872519]">Dashboard</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Menu Items</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#872519]">{menuItems?.length || 0}</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Unique Visitors</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#872519]">{visitorStats?.totalUniqueVisitors || 0}</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Returning Visitors</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#e85303]">{visitorStats?.returningVisitors || 0}</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">New Today</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#872519]">{visitorStats?.newVisitorsToday || 0}</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Returning Today</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#e85303]">{visitorStats?.returningVisitorsToday || 0}</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Reservations</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-[#872519]">{reservations?.length || 0}</div>
-            </CardContent>
-          </Card>
+        {/* Menu Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-[#872519]">Menu</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Menu Items</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#872519]">{menuItems?.length || 0}</div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Reservations Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-[#872519]">Reservations</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Reservations</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#872519]">{reservations?.length || 0}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Today's Reservations</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#e85303]">{todayReservations.length}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Pending Reservations</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#872519]">{pendingReservations.length}</div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Website Traffic Section */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-[#872519]">Website Traffic</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Unique Visitors</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#872519]">{visitorStats?.totalUniqueVisitors || 0}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Returning Visitors</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#e85303]">{visitorStats?.returningVisitors || 0}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">New Visitors Today</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#872519]">{visitorStats?.newVisitorsToday || 0}</div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Returning Visitors Today</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-[#e85303]">{visitorStats?.returningVisitorsToday || 0}</div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
