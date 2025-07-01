@@ -22,7 +22,7 @@ export default function AdminMenu() {
     name: "",
     description: "",
     price: 0,
-    category: "main-dishes",
+    category: "breakfast",
     imageUrl: "",
     isSpecial: false,
   });
@@ -45,7 +45,7 @@ export default function AdminMenu() {
         name: "",
         description: "",
         price: 0,
-        category: "main-dishes",
+        category: "breakfast",
         imageUrl: "",
         isSpecial: false,
       });
@@ -193,21 +193,24 @@ export default function AdminMenu() {
                   value={newItem.price}
                   onChange={(e) => setNewItem({ ...newItem, price: parseInt(e.target.value) || 0 })}
                 />
-                <Select
-                  value={newItem.category}
-                  onValueChange={(value) => setNewItem({ ...newItem, category: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Category *</label>
+                  <Select
+                    value={newItem.category}
+                    onValueChange={(value) => setNewItem({ ...newItem, category: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.filter(cat => cat !== "vegetarian").map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <Input
                   placeholder="Image URL (optional)"
                   value={newItem.imageUrl}
