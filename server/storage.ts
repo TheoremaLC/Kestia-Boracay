@@ -1,3 +1,4 @@
+
 import type {
   MenuItem,
   InsertMenuItem,
@@ -7,10 +8,8 @@ import type {
   InsertReservation,
   ReservationStatus,
 } from "@shared/schema";
-import postgres from 'pg';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { eq } from 'drizzle-orm';
-import { menuItems, events, reservations } from "@shared/schema";
+import { promises as fs } from 'fs';
+import path from 'path';
 
 export interface IStorage {
   // Menu Items
@@ -18,6 +17,8 @@ export interface IStorage {
   getMenuItemsByCategory(category: string): Promise<MenuItem[]>;
   getMenuItem(id: number): Promise<MenuItem | undefined>;
   createMenuItem(item: InsertMenuItem): Promise<MenuItem>;
+  updateMenuItem(id: number, updates: Partial<MenuItem>): Promise<MenuItem>;
+  deleteMenuItem(id: number): Promise<void>;
 
   // Events
   getEvents(): Promise<Event[]>;
@@ -29,18 +30,13 @@ export interface IStorage {
   updateReservationStatus(id: number, status: ReservationStatus): Promise<Reservation>;
 }
 
-const pool = new postgres.Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-
-const db = drizzle(pool);
-
-class DbStorage implements IStorage {
+class JsonStorage implements IStorage {
   private events: Map<number, Event>;
   private currentIds: {
     menuItems: number;
     events: number;
   };
+  private menuFilePath = path.join(process.cwd(), 'shared/menu-items.json');
 
   constructor() {
     this.events = new Map();
@@ -50,15 +46,33 @@ class DbStorage implements IStorage {
     };
   }
 
+  private async readMenuFile(): Promise<any> {
+    try {
+      const fileContent = await fs.readFile(this.menuFilePath, 'utf-8');
+      return JSON.parse(fileContent);
+    } catch (error) {
+      console.error('Error reading menu file:', error);
+      return {};
+    }
+  }
+
+  private async writeMenuFile(data: any): Promise<void> {
+    try {
+      await fs.writeFile(this.menuFilePath, JSON.stringify(data, null, 2), 'utf-8');
+    } catch (error) {
+      console.error('Error writing menu file:', error);
+      throw new Error('Failed to update menu file');
+    }
+  }
+
   // Menu Items
   async getMenuItems(): Promise<MenuItem[]> {
-    // Import JSON file dynamically to get fresh content
-    const menuData = await import("../shared/menu-items.json", { assert: { type: "json" } });
+    const menuData = await this.readMenuFile();
     const allItems: MenuItem[] = [];
     let id = 1;
 
     // Get items from all categories except vegetarian (we'll handle vegetarian separately)
-    Object.entries(menuData.default).forEach(([category, items]) => {
+    Object.entries(menuData).forEach(([category, items]) => {
       if (Array.isArray(items) && category !== "vegetarian") {
         items.forEach((item: any) => {
           allItems.push({
@@ -75,7 +89,7 @@ class DbStorage implements IStorage {
     // manually add Cheesecake to ensure it appears in all menu views
     if (allItems.length < 54 || allItems[53]?.name !== "Cheesecake") {
       // Find Cheesecake in the JSON data
-      const cheesecakeItem = menuData.default.desserts.find((item: any) => 
+      const cheesecakeItem = menuData.desserts.find((item: any) => 
         item.name === "Cheesecake"
       );
 
@@ -203,33 +217,109 @@ class DbStorage implements IStorage {
   }
 
   async createMenuItem(item: InsertMenuItem): Promise<MenuItem> {
-    const result = await db.insert(menuItems)
-      .values(item)
-      .returning();
-    return result[0];
+    const menuData = await this.readMenuFile();
+    const allItems = await this.getMenuItems();
+    
+    // Find the highest ID and add 1
+    const newId = Math.max(...allItems.map(item => item.id), 0) + 1;
+    
+    const newItem: MenuItem = {
+      id: newId,
+      ...item
+    };
+
+    // Add to the appropriate category in the JSON structure
+    if (!menuData[item.category]) {
+      menuData[item.category] = [];
+    }
+    
+    menuData[item.category].push({
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      category: item.category,
+      imageUrl: item.imageUrl,
+      isSpecial: item.isSpecial
+    });
+
+    await this.writeMenuFile(menuData);
+    return newItem;
   }
 
-  async updateMenuItem(id: number, item: Partial<MenuItem>): Promise<MenuItem> {
-    const result = await db.update(menuItems)
-      .set(item)
-      .where(eq(menuItems.id, id))
-      .returning();
-
-    if (!result[0]) {
+  async updateMenuItem(id: number, updates: Partial<MenuItem>): Promise<MenuItem> {
+    const menuData = await this.readMenuFile();
+    const allItems = await this.getMenuItems();
+    const existingItem = allItems.find(item => item.id === id);
+    
+    if (!existingItem) {
       throw new Error(`Menu item with ID ${id} not found`);
     }
 
-    return result[0];
+    // Find the item in the JSON structure and update it
+    let itemFound = false;
+    for (const [category, items] of Object.entries(menuData)) {
+      if (Array.isArray(items)) {
+        const itemIndex = items.findIndex((item: any) => 
+          item.name === existingItem.name && category === existingItem.category
+        );
+        
+        if (itemIndex !== -1) {
+          // Update the item
+          items[itemIndex] = {
+            ...items[itemIndex],
+            ...updates,
+            category: items[itemIndex].category // Preserve original category
+          };
+          itemFound = true;
+          break;
+        }
+      }
+    }
+
+    if (!itemFound) {
+      throw new Error(`Menu item with ID ${id} not found in JSON structure`);
+    }
+
+    await this.writeMenuFile(menuData);
+    
+    // Return the updated item
+    return {
+      ...existingItem,
+      ...updates,
+      id: existingItem.id // Preserve ID
+    };
   }
 
   async deleteMenuItem(id: number): Promise<void> {
-    const result = await db.delete(menuItems)
-      .where(eq(menuItems.id, id))
-      .returning();
-
-    if (!result[0]) {
+    const menuData = await this.readMenuFile();
+    const allItems = await this.getMenuItems();
+    const existingItem = allItems.find(item => item.id === id);
+    
+    if (!existingItem) {
       throw new Error(`Menu item with ID ${id} not found`);
     }
+
+    // Find and remove the item from the JSON structure
+    let itemFound = false;
+    for (const [category, items] of Object.entries(menuData)) {
+      if (Array.isArray(items)) {
+        const itemIndex = items.findIndex((item: any) => 
+          item.name === existingItem.name && category === existingItem.category
+        );
+        
+        if (itemIndex !== -1) {
+          items.splice(itemIndex, 1);
+          itemFound = true;
+          break;
+        }
+      }
+    }
+
+    if (!itemFound) {
+      throw new Error(`Menu item with ID ${id} not found in JSON structure`);
+    }
+
+    await this.writeMenuFile(menuData);
   }
 
   // Events
@@ -247,25 +337,16 @@ class DbStorage implements IStorage {
   // Reservations
   // TEMPORARILY DISABLED - Reservations methods
   async getReservations(): Promise<Reservation[]> {
-    // return await db.select().from(reservations).orderBy(desc(reservations.createdAt));
     return [];
   }
 
   async createReservation(reservation: InsertReservation): Promise<Reservation> {
-    // const [created] = await db.insert(reservations).values(reservation).returning();
-    // return created;
     throw new Error("Reservations temporarily disabled");
   }
 
   async updateReservationStatus(id: number, status: ReservationStatus): Promise<Reservation> {
-    // const [updated] = await db
-    //   .update(reservations)
-    //   .set({ status })
-    //   .where(eq(reservations.id, id))
-    //   .returning();
-    // return updated;
     throw new Error("Reservations temporarily disabled");
   }
 }
 
-export const storage = new DbStorage();
+export const storage = new JsonStorage();
