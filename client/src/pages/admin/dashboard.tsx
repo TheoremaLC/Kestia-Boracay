@@ -6,6 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Reservation, MenuItem } from "@shared/schema";
 
+interface VisitorStats {
+  totalUniqueVisitors: number;
+  returningVisitors: number;
+  newVisitorsToday: number;
+  returningVisitorsToday: number;
+}
+
 export default function AdminDashboard() {
   const [, setLocation] = useLocation();
 
@@ -16,6 +23,11 @@ export default function AdminDashboard() {
 
   const { data: menuItems } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
+  });
+
+  const { data: visitorStats } = useQuery<VisitorStats>({
+    queryKey: ["/api/visitor-stats"],
+    refetchInterval: 30000, // Refresh every 30 seconds
   });
 
   const todayReservations = reservations?.filter(r => {
@@ -31,7 +43,7 @@ export default function AdminDashboard() {
       <div className="space-y-6">
         <h2 className="text-2xl font-bold text-[#872519]">Dashboard</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Menu Items</CardTitle>
@@ -43,19 +55,37 @@ export default function AdminDashboard() {
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Today's Reservations</CardTitle>
+              <CardTitle className="text-sm font-medium">Unique Visitors</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-[#872519]">{todayReservations.length}</div>
+              <div className="text-2xl font-bold text-[#872519]">{visitorStats?.totalUniqueVisitors || 0}</div>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Reservations</CardTitle>
+              <CardTitle className="text-sm font-medium">Returning Visitors</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-[#e85303]">{pendingReservations.length}</div>
+              <div className="text-2xl font-bold text-[#e85303]">{visitorStats?.returningVisitors || 0}</div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">New Today</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-[#872519]">{visitorStats?.newVisitorsToday || 0}</div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Returning Today</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-[#e85303]">{visitorStats?.returningVisitorsToday || 0}</div>
             </CardContent>
           </Card>
           

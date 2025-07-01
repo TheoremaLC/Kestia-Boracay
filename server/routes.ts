@@ -2,8 +2,29 @@ import type { Express } from "express";
 import { createServer } from "http";
 import { storage } from "./storage";
 import { insertReservationSchema } from "@shared/schema";
+import { visitorTracker } from "./visitor-tracking";
 
 export async function registerRoutes(app: Express) {
+  // Visitor tracking middleware for main site pages
+  app.use((req, res, next) => {
+    // Only track non-API, non-admin requests
+    if (!req.path.startsWith('/api') && !req.path.startsWith('/admin')) {
+      const ip = req.ip || req.connection.remoteAddress || 'unknown';
+      const userAgent = req.get('User-Agent') || 'unknown';
+      visitorTracker.trackVisitor(ip, userAgent).catch(console.error);
+    }
+    next();
+  });
+
+  // Visitor stats endpoint
+  app.get("/api/visitor-stats", async (_req, res) => {
+    try {
+      const stats = await visitorTracker.getStats();
+      res.json(stats);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get visitor stats" });
+    }
+  });
   // Menu Items
   app.get("/api/menu", async (_req, res) => {
     const items = await storage.getMenuItems();
