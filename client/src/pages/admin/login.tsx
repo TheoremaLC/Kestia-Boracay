@@ -1,21 +1,46 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Logo } from "@/components/ui/logo";
 import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+
+  // Load saved credentials on component mount
+  useEffect(() => {
+    const savedCredentials = localStorage.getItem("adminCredentials");
+    if (savedCredentials) {
+      const { username: savedUsername, password: savedPassword } = JSON.parse(savedCredentials);
+      setUsername(savedUsername);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // For demo purposes, using simple credentials
     if (username === "admin" && password === "kestia2024") {
       localStorage.setItem("adminAuth", "true");
+      
+      // Save or clear credentials based on remember me checkbox
+      if (rememberMe) {
+        localStorage.setItem("adminCredentials", JSON.stringify({
+          username,
+          password
+        }));
+      } else {
+        localStorage.removeItem("adminCredentials");
+      }
+      
       setLocation("/admin/dashboard");
     } else {
       toast({
@@ -46,6 +71,19 @@ export default function AdminLogin() {
             placeholder="Password"
             className="w-full"
           />
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="remember"
+              checked={rememberMe}
+              onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+            />
+            <label
+              htmlFor="remember"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Remember me
+            </label>
+          </div>
           <Button type="submit" className="w-full">
             Login
           </Button>
