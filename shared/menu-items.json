@@ -11,10 +11,11 @@
     {
       "name": "Tapsilog",
       "description": "Filipino breakfast with marinated beef, garlic rice, and fried egg",
-      "price": 32900,
+      "price": 32500,
       "category": "breakfast",
       "imageUrl": null,
-      "isSpecial": false
+      "isSpecial": false,
+      "id": 2
     },
     {
       "name": "Vegetable Omelet",
