@@ -3,6 +3,7 @@ import { createServer } from "http";
 import { storage } from "./storage";
 import { insertReservationSchema } from "@shared/schema";
 import { visitorTracker } from "./visitor-tracking";
+import { offersStorage } from "./offers-storage";
 
 export async function registerRoutes(app: Express) {
   // Visitor tracking middleware for main site pages
@@ -81,6 +82,54 @@ export async function registerRoutes(app: Express) {
   app.get("/api/events", async (_req, res) => {
     const events = await storage.getEvents();
     res.json(events);
+  });
+
+  // Offers
+  app.get("/api/offers", async (_req, res) => {
+    try {
+      const offers = await offersStorage.getOffers();
+      res.json(offers);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get offers" });
+    }
+  });
+
+  app.get("/api/offers/active", async (_req, res) => {
+    try {
+      const offers = await offersStorage.getActiveOffers();
+      res.json(offers);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get active offers" });
+    }
+  });
+
+  app.post("/api/offers", async (req, res) => {
+    try {
+      const offer = await offersStorage.createOffer(req.body);
+      res.status(201).json(offer);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to create offer" });
+    }
+  });
+
+  app.put("/api/offers/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const offer = await offersStorage.updateOffer(id, req.body);
+      res.json(offer);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to update offer" });
+    }
+  });
+
+  app.delete("/api/offers/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await offersStorage.deleteOffer(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(400).json({ error: "Failed to delete offer" });
+    }
   });
 
   // Reservations - TEMPORARILY DISABLED

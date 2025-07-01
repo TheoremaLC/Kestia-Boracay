@@ -57,6 +57,13 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             >
               Reservations
             </Button>
+            <Button
+              variant={location === "/admin/offers" ? "default" : "outline"}
+              onClick={() => setLocation("/admin/offers")}
+              className={location === "/admin/offers" ? "bg-[#872519]" : ""}
+            >
+              Offers
+            </Button>
           </div>
         </nav>
         

@@ -1,7 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
 import { Logo } from "@/components/ui/logo";
 import { Clock } from "lucide-react";
 
+interface OfferItem {
+  id: number;
+  name: string;
+  price: number;
+  isActive: boolean;
+}
+
 export default function Offers() {
+  const { data: offers, isLoading } = useQuery<OfferItem[]>({
+    queryKey: ["/api/offers/active"],
+  });
+
+  const formatPrice = (price: number) => {
+    return `₱${(price / 100).toFixed(0)}`;
+  };
+
   return (
     <div className="pb-32">
       <Logo />
@@ -24,27 +40,24 @@ export default function Offers() {
           <p className="text-lg text-[#872519]/80 font-medium">Every day <span className="font-bold">16:00h - 19:00h</span></p>
         </div>
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-4xl mx-auto">
-          <div className="group text-center hover:transform hover:-translate-y-1 transition-all duration-300">
-            <h3 className="text-lg font-semibold text-[#872519]">SMB</h3>
-            <p className="text-2xl font-bold text-[#E85303]">₱70</p>
+        {isLoading ? (
+          <div className="text-center py-8">Loading offers...</div>
+        ) : (
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-4xl mx-auto">
+            {offers?.map((offer) => (
+              <div key={offer.id} className="group text-center hover:transform hover:-translate-y-1 transition-all duration-300">
+                <h3 className="text-lg font-semibold text-[#872519]">{offer.name}</h3>
+                <p className="text-2xl font-bold text-[#E85303]">{formatPrice(offer.price)}</p>
+              </div>
+            ))}
           </div>
+        )}
 
-          <div className="group text-center hover:transform hover:-translate-y-1 transition-all duration-300">
-            <h3 className="text-lg font-semibold text-[#872519]">SML</h3>
-            <p className="text-2xl font-bold text-[#E85303]">₱80</p>
+        {offers && offers.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            No offers available at the moment.
           </div>
-
-          <div className="group text-center hover:transform hover:-translate-y-1 transition-all duration-300">
-            <h3 className="text-lg font-semibold text-[#872519]">Red Horse</h3>
-            <p className="text-2xl font-bold text-[#E85303]">₱80</p>
-          </div>
-
-          <div className="group text-center hover:transform hover:-translate-y-1 transition-all duration-300">
-            <h3 className="text-lg font-semibold text-[#872519]">Rum Coke</h3>
-            <p className="text-2xl font-bold text-[#E85303]">₱100</p>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

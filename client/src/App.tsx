@@ -16,6 +16,7 @@ import AdminLogin from "@/pages/admin/login";
 import AdminDashboard from "@/pages/admin/dashboard";
 import AdminMenu from "@/pages/admin/menu";
 import AdminReservations from "@/pages/admin/reservations";
+import AdminOffers from "./pages/admin/offers";
 
 function Router() {
   return (
