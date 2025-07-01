@@ -13,8 +13,9 @@ import Gallery from "@/pages/gallery";
 import Music from "@/pages/music";
 import Contacts from "@/pages/contacts";
 import AdminLogin from "@/pages/admin/login";
+import AdminDashboard from "@/pages/admin/dashboard";
+import AdminMenu from "@/pages/admin/menu";
 import AdminReservations from "@/pages/admin/reservations";
-import { lazy } from "react";
 
 function Router() {
   return (
@@ -31,8 +32,8 @@ function Router() {
           <Route path="/gallery" component={Gallery} />
           <Route path="/contacts" component={Contacts} />
           <Route path="/admin/login" component={AdminLogin} />
-          <Route path="/admin/dashboard" component={lazy(() => import("./pages/admin/dashboard"))} />
-          <Route path="/admin/menu" component={lazy(() => import("./pages/admin/menu"))} />
+          <Route path="/admin/dashboard" component={AdminDashboard} />
+          <Route path="/admin/menu" component={AdminMenu} />
           <Route path="/admin/reservations" component={AdminReservations} />
           <Route component={NotFound} />
         </Switch>
