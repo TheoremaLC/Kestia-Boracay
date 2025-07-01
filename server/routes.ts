@@ -16,6 +16,35 @@ export async function registerRoutes(app: Express) {
     res.json(items);
   });
 
+  app.post("/api/menu", async (req, res) => {
+    try {
+      const item = await storage.createMenuItem(req.body);
+      res.status(201).json(item);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to create menu item" });
+    }
+  });
+
+  app.put("/api/menu/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const item = await storage.updateMenuItem(id, req.body);
+      res.json(item);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to update menu item" });
+    }
+  });
+
+  app.delete("/api/menu/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteMenuItem(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(400).json({ error: "Failed to delete menu item" });
+    }
+  });
+
   // Debug endpoint to check IDs
   app.get("/api/debug/menu", async (_req, res) => {
     const allItems = await storage.getMenuItems();

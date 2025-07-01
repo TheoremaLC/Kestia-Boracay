@@ -203,8 +203,33 @@ class DbStorage implements IStorage {
   }
 
   async createMenuItem(item: InsertMenuItem): Promise<MenuItem> {
-    const id = this.currentIds.menuItems++;
-    return { id, ...item } as MenuItem;
+    const result = await db.insert(menuItems)
+      .values(item)
+      .returning();
+    return result[0];
+  }
+
+  async updateMenuItem(id: number, item: Partial<MenuItem>): Promise<MenuItem> {
+    const result = await db.update(menuItems)
+      .set(item)
+      .where(eq(menuItems.id, id))
+      .returning();
+
+    if (!result[0]) {
+      throw new Error(`Menu item with ID ${id} not found`);
+    }
+
+    return result[0];
+  }
+
+  async deleteMenuItem(id: number): Promise<void> {
+    const result = await db.delete(menuItems)
+      .where(eq(menuItems.id, id))
+      .returning();
+
+    if (!result[0]) {
+      throw new Error(`Menu item with ID ${id} not found`);
+    }
   }
 
   // Events

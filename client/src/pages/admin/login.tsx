@@ -16,7 +16,7 @@ export default function AdminLogin() {
     // For demo purposes, using simple credentials
     if (username === "admin" && password === "kestia2024") {
       localStorage.setItem("adminAuth", "true");
-      setLocation("/admin/reservations");
+      setLocation("/admin/dashboard");
     } else {
       toast({
         title: "Error",
