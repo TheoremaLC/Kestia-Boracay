@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "SMB",
+    "price": 7000,
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "name": "SML",
+    "price": 8000,
+    "isActive": true
+  },
+  {
+    "id": 3,
+    "name": "Red Horse",
+    "price": 8000,
+    "isActive": true
+  },
+  {
+    "id": 4,
+    "name": "Rum Coke",
+    "price": 10000,
+    "isActive": true
+  }
+]
