@@ -28,6 +28,7 @@ export default function AdminMenu() {
   });
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const { data: menuItems, isLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
@@ -139,11 +140,32 @@ export default function AdminMenu() {
     return acc;
   }, {} as Record<string, MenuItem[]>) || {};
 
+  const filteredGroupedItems = selectedCategory === "all" 
+    ? groupedItems 
+    : Object.fromEntries(
+        Object.entries(groupedItems).filter(([category]) => category === selectedCategory)
+      );
+
   return (
     <AdminLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-[#872519]">Menu Management</h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold text-[#872519]">Menu Management</h2>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-48">
+                <SelectValue placeholder="Filter by category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
               <Button className="bg-[#872519] hover:bg-[#a32a1d]">
@@ -212,7 +234,7 @@ export default function AdminMenu() {
           <div className="text-center">Loading menu items...</div>
         ) : (
           <div className="space-y-6">
-            {Object.entries(groupedItems).map(([category, items]) => (
+            {Object.entries(filteredGroupedItems).map(([category, items]) => (
               <Card key={category}>
                 <CardHeader>
                   <CardTitle className="text-[#872519]">
