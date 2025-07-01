@@ -9,9 +9,10 @@ import type { Reservation, MenuItem } from "@shared/schema";
 export default function AdminDashboard() {
   const [, setLocation] = useLocation();
 
-  const { data: reservations } = useQuery<Reservation[]>({
-    queryKey: ["/api/reservations"],
-  });
+  // const { data: reservations } = useQuery<Reservation[]>({
+  //   queryKey: ["/api/reservations"],
+  // });
+  const reservations: Reservation[] = [];
 
   const { data: menuItems } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
@@ -82,9 +83,10 @@ export default function AdminDashboard() {
               </Button>
               <Button 
                 onClick={() => setLocation("/admin/reservations")}
-                className="w-full bg-[#e85303] hover:bg-[#f06306]"
+                className="w-full bg-gray-400 hover:bg-gray-500"
+                disabled
               >
-                Manage Reservations
+                Manage Reservations (Coming Soon)
               </Button>
             </CardContent>
           </Card>

@@ -69,7 +69,7 @@ class DbStorage implements IStorage {
         });
       }
     });
-    
+
     // CRITICAL FIX: Auto-correction for menu consistency
     // If allItems doesn't include 54 items (which should include Cheesecake),
     // manually add Cheesecake to ensure it appears in all menu views
@@ -78,7 +78,7 @@ class DbStorage implements IStorage {
       const cheesecakeItem = menuData.default.desserts.find((item: any) => 
         item.name === "Cheesecake"
       );
-      
+
       if (cheesecakeItem) {
         // If we already have a position 54, ensure it's Cheesecake
         if (allItems.length >= 54) {
@@ -104,7 +104,7 @@ class DbStorage implements IStorage {
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
     // Load all menu items with their global IDs
     const allItems = await this.getMenuItems();
-    
+
     // For vegetarian category, create a specialized list
     if (category === "vegetarian") {
       /**
@@ -134,10 +134,10 @@ class DbStorage implements IStorage {
         "main-dishes": ["Buls Palanta"],
         "extras": ["Yogurt", "Bread", "Onion salad", "Kestia rice", "Two Eggs any Style"]
       };
-      
+
       // Find the vegetarian menu items by looking up their original entries in the main menu
       let vegetarianItems: MenuItem[] = [];
-      
+
       // Process regular vegetarian items
       Object.entries(vegetarianMenu).forEach(([sourceCategory, itemNames]) => {
         if (sourceCategory !== "extras") {
@@ -146,7 +146,7 @@ class DbStorage implements IStorage {
             const originalItem = allItems.find(item => 
               item.name === name && item.category === sourceCategory
             );
-            
+
             if (originalItem) {
               // Create a copy with the same ID but mark as vegetarian category
               vegetarianItems.push({
@@ -157,18 +157,18 @@ class DbStorage implements IStorage {
           });
         }
       });
-      
+
       // Add the EXTRAS section
       const extrasSection = allItems.find(item => 
         item.name === "EXTRAS_SECTION" && item.category === "breakfast"
       );
-      
+
       if (extrasSection) {
         vegetarianItems.push({
           ...extrasSection,
           category: "vegetarian"
         });
-        
+
         // Find all extras items with their original IDs and sort them by ID
         const extrasItems = [];
         for (const name of vegetarianMenu.extras) {
@@ -176,7 +176,7 @@ class DbStorage implements IStorage {
           const originalItem = allItems.find(item => 
             item.name === name && item.category === "breakfast"
           );
-          
+
           if (originalItem) {
             extrasItems.push({
               ...originalItem,
@@ -184,15 +184,15 @@ class DbStorage implements IStorage {
             });
           }
         }
-        
+
         // Sort extras by ID in ascending order before adding to vegetarianItems
         extrasItems.sort((a, b) => a.id - b.id);
         vegetarianItems = [...vegetarianItems, ...extrasItems];
       }
-      
+
       return vegetarianItems;
     }
-    
+
     // For other categories, get items from the complete menu
     return allItems.filter(item => item.category === category);
   }
@@ -245,34 +245,26 @@ class DbStorage implements IStorage {
   }
 
   // Reservations
-  async createReservation(reservation: InsertReservation): Promise<Reservation> {
-    // Convert the date string to a Date object as expected by the schema
-    const formattedReservation = {
-      ...reservation,
-      date: new Date(reservation.date)
-    };
-    
-    const result = await db.insert(reservations)
-      .values(formattedReservation)
-      .returning();
-    return result[0];
+  // TEMPORARILY DISABLED - Reservations methods
+  async getReservations(): Promise<Reservation[]> {
+    // return await db.select().from(reservations).orderBy(desc(reservations.createdAt));
+    return [];
   }
 
-  async getReservations(): Promise<Reservation[]> {
-    return db.select().from(reservations);
+  async createReservation(reservation: InsertReservation): Promise<Reservation> {
+    // const [created] = await db.insert(reservations).values(reservation).returning();
+    // return created;
+    throw new Error("Reservations temporarily disabled");
   }
 
   async updateReservationStatus(id: number, status: ReservationStatus): Promise<Reservation> {
-    const result = await db.update(reservations)
-      .set({ status })
-      .where(eq(reservations.id, id))
-      .returning();
-
-    if (!result[0]) {
-      throw new Error(`Reservation with ID ${id} not found`);
-    }
-
-    return result[0];
+    // const [updated] = await db
+    //   .update(reservations)
+    //   .set({ status })
+    //   .where(eq(reservations.id, id))
+    //   .returning();
+    // return updated;
+    throw new Error("Reservations temporarily disabled");
   }
 }
 

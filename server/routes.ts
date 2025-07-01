@@ -62,37 +62,39 @@ export async function registerRoutes(app: Express) {
     res.json(events);
   });
 
-  // Reservations
+  // Reservations - TEMPORARILY DISABLED
   app.get("/api/reservations", async (_req, res) => {
-    const reservations = await storage.getReservations();
-    res.json(reservations);
+    // const reservations = await storage.getReservations();
+    res.json([]);
   });
 
   app.post("/api/reservations", async (req, res) => {
-    try {
-      console.log('Received reservation data:', req.body); // Debug log
-      const reservation = insertReservationSchema.parse(req.body);
-      const created = await storage.createReservation(reservation);
-      res.status(201).json(created);
-    } catch (error: any) {
-      console.error('Reservation validation error:', error); // Debug log
-      res.status(400).json({ 
-        error: "Invalid reservation data",
-        details: error.errors || error.message 
-      });
-    }
+    // try {
+    //   console.log('Received reservation data:', req.body); // Debug log
+    //   const reservation = insertReservationSchema.parse(req.body);
+    //   const created = await storage.createReservation(reservation);
+    //   res.status(201).json(created);
+    // } catch (error: any) {
+    //   console.error('Reservation validation error:', error); // Debug log
+    //   res.status(400).json({ 
+    //     error: "Invalid reservation data",
+    //     details: error.errors || error.message 
+    //   });
+    // }
+    res.status(503).json({ error: "Reservations temporarily disabled" });
   });
 
   // Update reservation status
   app.patch("/api/reservations/:id/status", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const { status } = req.body;
-      const updated = await storage.updateReservationStatus(id, status);
-      res.json(updated);
-    } catch (error) {
-      res.status(400).json({ error: "Failed to update reservation status" });
-    }
+    // try {
+    //   const id = parseInt(req.params.id);
+    //   const { status } = req.body;
+    //   const updated = await storage.updateReservationStatus(id, status);
+    //   res.json(updated);
+    // } catch (error) {
+    //   res.status(400).json({ error: "Failed to update reservation status" });
+    // }
+    res.status(503).json({ error: "Reservations temporarily disabled" });
   });
 
   const httpServer = createServer(app);
