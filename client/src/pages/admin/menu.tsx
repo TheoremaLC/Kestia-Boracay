@@ -106,7 +106,7 @@ export default function AdminMenu() {
   });
 
   const formatPrice = (price: number) => {
-    return `${(price / 100).toFixed(2)} RON`;
+    return `₱${(price / 100).toFixed(2)}`;
   };
 
   const handleAddItem = () => {
