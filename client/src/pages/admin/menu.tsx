@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { categories } from "@shared/schema";
 import type { MenuItem, InsertMenuItem } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+import { FaStar } from "react-icons/fa";
 
 export default function AdminMenu() {
   const { toast } = useToast();
@@ -105,6 +106,33 @@ export default function AdminMenu() {
     },
   });
 
+  const toggleStarMutation = useMutation({
+    mutationFn: async ({ id, isSpecial }: { id: number; isSpecial: boolean }) => {
+      const item = menuItems?.find(item => item.id === id);
+      if (!item) throw new Error("Item not found");
+      
+      const updatedItem = { ...item, isSpecial };
+      await apiRequest("PUT", `/api/menu/${id}`, updatedItem);
+      return updatedItem;
+    },
+    onSuccess: (updatedItem) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
+      toast({
+        title: "Success",
+        description: updatedItem.isSpecial 
+          ? `${updatedItem.name} is now marked as special!` 
+          : `${updatedItem.name} is no longer marked as special.`,
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update item status. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const formatPrice = (price: number) => {
     return `₱${(price / 100).toFixed(2)}`;
   };
@@ -130,6 +158,10 @@ export default function AdminMenu() {
     if (confirm("Are you sure you want to delete this menu item?")) {
       deleteItemMutation.mutate(id);
     }
+  };
+
+  const handleToggleStar = (id: number, currentStarStatus: boolean) => {
+    toggleStarMutation.mutate({ id, isSpecial: !currentStarStatus });
   };
 
   const groupedItems = menuItems?.reduce((acc, item) => {
@@ -213,14 +245,14 @@ export default function AdminMenu() {
                 </div>
                 <Input
                   placeholder="Image URL (optional)"
-                  value={newItem.imageUrl}
+                  value={newItem.imageUrl || ""}
                   onChange={(e) => setNewItem({ ...newItem, imageUrl: e.target.value })}
                 />
                 <div className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     id="isSpecial"
-                    checked={newItem.isSpecial}
+                    checked={newItem.isSpecial || false}
                     onChange={(e) => setNewItem({ ...newItem, isSpecial: e.target.checked })}
                   />
                   <label htmlFor="isSpecial">Special item</label>
@@ -261,6 +293,19 @@ export default function AdminMenu() {
                           <p className="font-semibold text-[#872519] mt-2">{formatPrice(item.price)}</p>
                         </div>
                         <div className="flex gap-2">
+                          <Button
+                            variant={item.isSpecial ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => handleToggleStar(item.id, item.isSpecial || false)}
+                            disabled={toggleStarMutation.isPending}
+                            className={item.isSpecial 
+                              ? "bg-yellow-500 hover:bg-yellow-600 text-white" 
+                              : "border-yellow-500 text-yellow-600 hover:bg-yellow-50"
+                            }
+                            data-testid={`toggle-star-${item.id}`}
+                          >
+                            <FaStar className="h-4 w-4" />
+                          </Button>
                           <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
                             <DialogTrigger asChild>
                               <Button
@@ -317,7 +362,7 @@ export default function AdminMenu() {
                                     <input
                                       type="checkbox"
                                       id="editIsSpecial"
-                                      checked={editingItem.isSpecial}
+                                      checked={editingItem.isSpecial || false}
                                       onChange={(e) => setEditingItem({ ...editingItem, isSpecial: e.target.checked })}
                                     />
                                     <label htmlFor="editIsSpecial">Special item</label>
