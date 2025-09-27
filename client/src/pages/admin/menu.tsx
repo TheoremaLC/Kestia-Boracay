@@ -296,18 +296,12 @@ export default function AdminMenu() {
                         </div>
                         <div className="flex gap-2">
                           <Button
-                            variant={item.isSpecial ? "default" : "outline"}
+                            variant="outline"
                             size="sm"
-                            onClick={() => handleToggleStar(item.id, item.isSpecial || false)}
-                            disabled={toggleStarMutation.isPending}
-                            className={item.isSpecial 
-                              ? "bg-yellow-500 hover:bg-yellow-600 text-white min-w-[40px] h-[36px]" 
-                              : "border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50 min-w-[40px] h-[36px]"
-                            }
-                            data-testid={`toggle-star-${item.id}`}
-                            title={item.isSpecial ? "Remove from special items" : "Mark as special item"}
+                            onClick={() => alert(`Toggle star for item ${item.id}`)}
+                            className="bg-yellow-500 text-white hover:bg-yellow-600"
                           >
-                            <FaStar className="h-5 w-5" />
+                            ⭐
                           </Button>
                           <Dialog 
                             open={isEditDialogOpen && editDialogItemId === item.id} 
