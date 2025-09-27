@@ -29,6 +29,7 @@ export default function AdminMenu() {
   });
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editDialogItemId, setEditDialogItemId] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const { data: menuItems, isLoading } = useQuery<MenuItem[]>({
@@ -71,6 +72,7 @@ export default function AdminMenu() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
       setIsEditDialogOpen(false);
+      setEditDialogItemId(null);
       setEditingItem(null);
       toast({
         title: "Success",
@@ -299,19 +301,35 @@ export default function AdminMenu() {
                             onClick={() => handleToggleStar(item.id, item.isSpecial || false)}
                             disabled={toggleStarMutation.isPending}
                             className={item.isSpecial 
-                              ? "bg-yellow-500 hover:bg-yellow-600 text-white" 
-                              : "border-yellow-500 text-yellow-600 hover:bg-yellow-50"
+                              ? "bg-yellow-500 hover:bg-yellow-600 text-white min-w-[40px] h-[36px]" 
+                              : "border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50 min-w-[40px] h-[36px]"
                             }
                             data-testid={`toggle-star-${item.id}`}
+                            title={item.isSpecial ? "Remove from special items" : "Mark as special item"}
                           >
-                            <FaStar className="h-4 w-4" />
+                            <FaStar className="h-5 w-5" />
                           </Button>
-                          <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                          <Dialog 
+                            open={isEditDialogOpen && editDialogItemId === item.id} 
+                            onOpenChange={(open) => {
+                              setIsEditDialogOpen(open);
+                              if (open) {
+                                setEditDialogItemId(item.id);
+                                setEditingItem(item);
+                              } else {
+                                setEditDialogItemId(null);
+                                setEditingItem(null);
+                              }
+                            }}
+                          >
                             <DialogTrigger asChild>
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => setEditingItem(item)}
+                                onClick={() => {
+                                  setEditingItem(item);
+                                  setEditDialogItemId(item.id);
+                                }}
                               >
                                 Edit
                               </Button>
