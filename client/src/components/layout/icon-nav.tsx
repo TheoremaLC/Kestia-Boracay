@@ -8,12 +8,12 @@ import {
   Percent,
   Utensils,
   MapPin,
-  Coffee,
+  Wine,
 } from "lucide-react";
 
 const navItems = [
   { href: "/menu", label: "Food", icon: Utensils, color: "text-[#872519]" },
-  { href: "/drinks", label: "Drinks", icon: Coffee, color: "text-[#8B4513]" },
+  { href: "/drinks", label: "Drinks", icon: Wine, color: "text-[#8B4513]" },
   { href: "/offers", label: "Offers", icon: Percent, color: "text-[#E85303]" },
   { href: "/book", label: "Booking", icon: CalendarRange, color: "text-[#E85303]" },
   { href: "/music", label: "Music", icon: Music2, color: "text-[#8B0000]" },
