@@ -27,6 +27,14 @@ export const categories = [
   "vegetarian"
 ] as const;
 
+export const drinkCategories = [
+  "coffee",
+  "wines", 
+  "beers",
+  "spirits",
+  "non-alcoholics"
+] as const;
+
 export const menuItems = pgTable("menu_items", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
