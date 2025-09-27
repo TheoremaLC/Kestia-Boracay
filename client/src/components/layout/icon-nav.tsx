@@ -8,10 +8,12 @@ import {
   Percent,
   Utensils,
   MapPin,
+  Coffee,
 } from "lucide-react";
 
 const navItems = [
-  { href: "/menu", label: "Menu", icon: Utensils, color: "text-[#872519]" },
+  { href: "/menu", label: "Food", icon: Utensils, color: "text-[#872519]" },
+  { href: "/drinks", label: "Drinks", icon: Coffee, color: "text-[#8B4513]" },
   { href: "/offers", label: "Offers", icon: Percent, color: "text-[#E85303]" },
   { href: "/book", label: "Booking", icon: CalendarRange, color: "text-[#E85303]" },
   { href: "/music", label: "Music", icon: Music2, color: "text-[#8B0000]" },
@@ -25,7 +27,7 @@ export default function IconNav() {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-[#36CAB0] border-t border-[#36CAB0]">
-      <div className="grid grid-cols-7 gap-2 sm:gap-4 py-2.5 px-2 sm:p-4">
+      <div className="grid grid-cols-8 gap-1 sm:gap-3 py-2.5 px-1 sm:p-4">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <div
