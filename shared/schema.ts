@@ -32,6 +32,7 @@ export const drinkCategories = [
   "wines", 
   "beers",
   "spirits",
+  "cocktails",
   "non-alcoholics"
 ] as const;
 

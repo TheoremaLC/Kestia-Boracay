@@ -7,7 +7,7 @@ export default function DrinkCategoryNav() {
 
   return (
     <nav className="mb-4 sm:mb-8 -mx-2 sm:mx-0 sticky top-0 z-10">
-      <div className="flex overflow-x-auto py-3 px-2 sm:px-4 scrollbar-none gap-2 sm:gap-4 bg-white/90 backdrop-blur-sm shadow-sm">
+      <div className="flex overflow-x-auto py-3 px-2 sm:px-4 scrollbar-none gap-2 sm:gap-4 bg-white/90 backdrop-blur-sm shadow-sm justify-center">
         {drinkCategories.map((category, index) => (
           <Link key={category} href={`/drinks/${category}`}>
             <div

@@ -167,6 +167,56 @@
       "isSpecial": true
     }
   ],
+  "cocktails": [
+    {
+      "name": "Blue Lagoon",
+      "description": "Vibrant blue cocktail with vodka, blue curaçao, and lemonade",
+      "price": 32000,
+      "category": "cocktails",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Sex on the Beach",
+      "description": "Tropical cocktail with vodka, peach schnapps, cranberry and pineapple juice",
+      "price": 30000,
+      "category": "cocktails",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Long Island Iced Tea",
+      "description": "Strong cocktail with multiple spirits and cola",
+      "price": 35000,
+      "category": "cocktails",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Cosmopolitan",
+      "description": "Classic pink cocktail with vodka, triple sec, cranberry juice, and lime",
+      "price": 33000,
+      "category": "cocktails",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Tequila Sunrise",
+      "description": "Beautiful layered cocktail with tequila, orange juice, and grenadine",
+      "price": 28000,
+      "category": "cocktails",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Margarita",
+      "description": "Classic tequila cocktail with lime juice and triple sec, served with salt rim",
+      "price": 30000,
+      "category": "cocktails",
+      "imageUrl": null,
+      "isSpecial": false
+    }
+  ],
   "non-alcoholics": [
     {
       "name": "Fresh Coconut Water",
