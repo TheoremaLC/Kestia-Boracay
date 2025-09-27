@@ -20,6 +20,14 @@ export interface IStorage {
   updateMenuItem(id: number, updates: Partial<MenuItem>): Promise<MenuItem>;
   deleteMenuItem(id: number): Promise<void>;
 
+  // Drinks
+  getDrinks(): Promise<MenuItem[]>;
+  getDrinksByCategory(category: string): Promise<MenuItem[]>;
+  getDrink(id: number): Promise<MenuItem | undefined>;
+  createDrink(item: InsertMenuItem): Promise<MenuItem>;
+  updateDrink(id: number, updates: Partial<MenuItem>): Promise<MenuItem>;
+  deleteDrink(id: number): Promise<void>;
+
   // Events
   getEvents(): Promise<Event[]>;
   createEvent(event: InsertEvent): Promise<Event>;
@@ -37,6 +45,7 @@ class JsonStorage implements IStorage {
     events: number;
   };
   private menuFilePath = path.join(process.cwd(), 'shared/menu-items.json');
+  private drinksFilePath = path.join(process.cwd(), 'shared/drinks.json');
 
   constructor() {
     this.events = new Map();
@@ -62,6 +71,25 @@ class JsonStorage implements IStorage {
     } catch (error) {
       console.error('Error writing menu file:', error);
       throw new Error('Failed to update menu file');
+    }
+  }
+
+  private async readDrinksFile(): Promise<any> {
+    try {
+      const fileContent = await fs.readFile(this.drinksFilePath, 'utf-8');
+      return JSON.parse(fileContent);
+    } catch (error) {
+      console.error('Error reading drinks file:', error);
+      return {};
+    }
+  }
+
+  private async writeDrinksFile(data: any): Promise<void> {
+    try {
+      await fs.writeFile(this.drinksFilePath, JSON.stringify(data, null, 2), 'utf-8');
+    } catch (error) {
+      console.error('Error writing drinks file:', error);
+      throw new Error('Failed to update drinks file');
     }
   }
 
@@ -225,7 +253,12 @@ class JsonStorage implements IStorage {
     
     const newItem: MenuItem = {
       id: newId,
-      ...item
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      category: item.category,
+      imageUrl: item.imageUrl || null,
+      isSpecial: item.isSpecial || false
     };
 
     // Add to the appropriate category in the JSON structure
@@ -320,6 +353,148 @@ class JsonStorage implements IStorage {
     }
 
     await this.writeMenuFile(menuData);
+  }
+
+  // Drinks Methods
+  async getDrinks(): Promise<MenuItem[]> {
+    const drinksData = await this.readDrinksFile();
+    const allDrinks: MenuItem[] = [];
+    let id = 1000; // Start drinks IDs at 1000 to avoid conflicts with menu items
+
+    Object.entries(drinksData).forEach(([category, items]) => {
+      if (Array.isArray(items)) {
+        items.forEach((item: any) => {
+          allDrinks.push({
+            id: id++,
+            ...item,
+            category
+          });
+        });
+      }
+    });
+
+    return allDrinks;
+  }
+
+  async getDrinksByCategory(category: string): Promise<MenuItem[]> {
+    const allDrinks = await this.getDrinks();
+    return allDrinks.filter(drink => drink.category === category);
+  }
+
+  async getDrink(id: number): Promise<MenuItem | undefined> {
+    const allDrinks = await this.getDrinks();
+    return allDrinks.find(drink => drink.id === id);
+  }
+
+  async createDrink(item: InsertMenuItem): Promise<MenuItem> {
+    const drinksData = await this.readDrinksFile();
+    const allDrinks = await this.getDrinks();
+    
+    // Find the highest ID and add 1
+    const newId = Math.max(...allDrinks.map(drink => drink.id), 999) + 1;
+    
+    const newDrink: MenuItem = {
+      id: newId,
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      category: item.category,
+      imageUrl: item.imageUrl || null,
+      isSpecial: item.isSpecial || false
+    };
+
+    // Add to the appropriate category in the JSON structure
+    if (!drinksData[item.category]) {
+      drinksData[item.category] = [];
+    }
+    
+    drinksData[item.category].push({
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      category: item.category,
+      imageUrl: item.imageUrl,
+      isSpecial: item.isSpecial
+    });
+
+    await this.writeDrinksFile(drinksData);
+    return newDrink;
+  }
+
+  async updateDrink(id: number, updates: Partial<MenuItem>): Promise<MenuItem> {
+    const drinksData = await this.readDrinksFile();
+    const allDrinks = await this.getDrinks();
+    const existingDrink = allDrinks.find(drink => drink.id === id);
+    
+    if (!existingDrink) {
+      throw new Error(`Drink with ID ${id} not found`);
+    }
+
+    // Find the drink in the JSON structure and update it
+    let drinkFound = false;
+    for (const [category, items] of Object.entries(drinksData)) {
+      if (Array.isArray(items)) {
+        const drinkIndex = items.findIndex((drink: any) => 
+          drink.name === existingDrink.name && category === existingDrink.category
+        );
+        
+        if (drinkIndex !== -1) {
+          // Update the drink
+          items[drinkIndex] = {
+            ...items[drinkIndex],
+            ...updates,
+            category: items[drinkIndex].category // Preserve original category
+          };
+          drinkFound = true;
+          break;
+        }
+      }
+    }
+
+    if (!drinkFound) {
+      throw new Error(`Drink with ID ${id} not found in JSON structure`);
+    }
+
+    await this.writeDrinksFile(drinksData);
+    
+    // Return the updated drink
+    return {
+      ...existingDrink,
+      ...updates,
+      id: existingDrink.id // Preserve ID
+    };
+  }
+
+  async deleteDrink(id: number): Promise<void> {
+    const drinksData = await this.readDrinksFile();
+    const allDrinks = await this.getDrinks();
+    const existingDrink = allDrinks.find(drink => drink.id === id);
+    
+    if (!existingDrink) {
+      throw new Error(`Drink with ID ${id} not found`);
+    }
+
+    // Find and remove the drink from the JSON structure
+    let drinkFound = false;
+    for (const [category, items] of Object.entries(drinksData)) {
+      if (Array.isArray(items)) {
+        const drinkIndex = items.findIndex((drink: any) => 
+          drink.name === existingDrink.name && category === existingDrink.category
+        );
+        
+        if (drinkIndex !== -1) {
+          items.splice(drinkIndex, 1);
+          drinkFound = true;
+          break;
+        }
+      }
+    }
+
+    if (!drinkFound) {
+      throw new Error(`Drink with ID ${id} not found in JSON structure`);
+    }
+
+    await this.writeDrinksFile(drinksData);
   }
 
   // Events
