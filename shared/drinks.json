@@ -1,0 +1,228 @@
+{
+  "coffee": [
+    {
+      "name": "Espresso",
+      "description": "Rich and aromatic single shot of our premium espresso blend",
+      "price": 12000,
+      "category": "coffee",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Americano",
+      "description": "Smooth espresso with hot water, perfect for any time of day",
+      "price": 15000,
+      "category": "coffee",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Cappuccino",
+      "description": "Perfect balance of espresso, steamed milk, and milk foam",
+      "price": 18000,
+      "category": "coffee",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Latte",
+      "description": "Creamy espresso with steamed milk and light foam",
+      "price": 19000,
+      "category": "coffee",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Macchiato",
+      "description": "Espresso marked with a dollop of steamed milk foam",
+      "price": 17000,
+      "category": "coffee",
+      "imageUrl": null,
+      "isSpecial": false
+    }
+  ],
+  "wines": [
+    {
+      "name": "House Red Wine",
+      "description": "Full-bodied local red wine with rich berry notes",
+      "price": 25000,
+      "category": "wines",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "House White Wine",
+      "description": "Crisp and refreshing white wine with citrus undertones",
+      "price": 25000,
+      "category": "wines",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Sangria",
+      "description": "Refreshing red wine punch with fresh fruits and spices",
+      "price": 28000,
+      "category": "wines",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Rosé Wine",
+      "description": "Light and elegant rosé with floral and fruit aromas",
+      "price": 30000,
+      "category": "wines",
+      "imageUrl": null,
+      "isSpecial": false
+    }
+  ],
+  "beers": [
+    {
+      "name": "San Miguel Pale Pilsen",
+      "description": "The Philippines' flagship beer, light and refreshing",
+      "price": 8000,
+      "category": "beers",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Red Horse Beer",
+      "description": "Strong full-flavored beer with extra kick",
+      "price": 9000,
+      "category": "beers",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Stella Artois",
+      "description": "Premium Belgian lager with a crisp, clean taste",
+      "price": 15000,
+      "category": "beers",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Corona",
+      "description": "Light Mexican beer perfect with a lime wedge",
+      "price": 12000,
+      "category": "beers",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Craft Beer Selection",
+      "description": "Rotating selection of local and international craft beers",
+      "price": 18000,
+      "category": "beers",
+      "imageUrl": null,
+      "isSpecial": true
+    }
+  ],
+  "spirits": [
+    {
+      "name": "Tanduay Rum",
+      "description": "Premium Filipino rum, smooth and rich",
+      "price": 20000,
+      "category": "spirits",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Vodka Tonic",
+      "description": "Premium vodka with tonic water and lime",
+      "price": 22000,
+      "category": "spirits",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Whiskey on the Rocks",
+      "description": "Premium whiskey served over ice",
+      "price": 25000,
+      "category": "spirits",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Gin & Tonic",
+      "description": "Classic gin and tonic with fresh lime",
+      "price": 20000,
+      "category": "spirits",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Mojito",
+      "description": "Fresh mint, lime, sugar, and white rum - the perfect tropical cocktail",
+      "price": 28000,
+      "category": "spirits",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Piña Colada",
+      "description": "Tropical blend of rum, coconut cream, and pineapple juice",
+      "price": 30000,
+      "category": "spirits",
+      "imageUrl": null,
+      "isSpecial": true
+    }
+  ],
+  "non-alcoholics": [
+    {
+      "name": "Fresh Coconut Water",
+      "description": "Refreshing natural coconut water straight from the shell",
+      "price": 8000,
+      "category": "non-alcoholics",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Mango Shake",
+      "description": "Creamy shake made with fresh Philippine mangoes",
+      "price": 12000,
+      "category": "non-alcoholics",
+      "imageUrl": null,
+      "isSpecial": true
+    },
+    {
+      "name": "Calamansi Juice",
+      "description": "Fresh citrus drink made from local calamansi limes",
+      "price": 7000,
+      "category": "non-alcoholics",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Iced Tea",
+      "description": "Refreshing iced tea with lemon",
+      "price": 6000,
+      "category": "non-alcoholics",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Soft Drinks",
+      "description": "Coca-Cola, Sprite, Orange, and other popular sodas",
+      "price": 5000,
+      "category": "non-alcoholics",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Mineral Water",
+      "description": "Bottled mineral water",
+      "price": 3500,
+      "category": "non-alcoholics",
+      "imageUrl": null,
+      "isSpecial": false
+    },
+    {
+      "name": "Virgin Mojito",
+      "description": "Refreshing mint and lime mocktail without alcohol",
+      "price": 15000,
+      "category": "non-alcoholics",
+      "imageUrl": null,
+      "isSpecial": false
+    }
+  ]
+}

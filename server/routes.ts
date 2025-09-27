@@ -77,6 +77,58 @@ export async function registerRoutes(app: Express) {
     }));
     res.json(simplifiedItems);
   });
+
+  // Drinks
+  app.get("/api/drinks", async (_req, res) => {
+    const items = await storage.getDrinks();
+    res.json(items);
+  });
+
+  app.get("/api/drinks/:category", async (req, res) => {
+    const category = req.params.category;
+    const items = await storage.getDrinksByCategory(category);
+    res.json(items);
+  });
+
+  app.post("/api/drinks", async (req, res) => {
+    try {
+      const item = await storage.createDrink(req.body);
+      res.status(201).json(item);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to create drink item" });
+    }
+  });
+
+  app.put("/api/drinks/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const item = await storage.updateDrink(id, req.body);
+      res.json(item);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to update drink item" });
+    }
+  });
+
+  app.delete("/api/drinks/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteDrink(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(400).json({ error: "Failed to delete drink item" });
+    }
+  });
+
+  // Debug endpoint to check drink IDs
+  app.get("/api/debug/drinks", async (_req, res) => {
+    const allItems = await storage.getDrinks();
+    const simplifiedItems = allItems.map(item => ({
+      id: item.id,
+      name: item.name,
+      category: item.category
+    }));
+    res.json(simplifiedItems);
+  });
   
   // Events
   app.get("/api/events", async (_req, res) => {

@@ -6,6 +6,8 @@ import IconNav from "@/components/layout/icon-nav";
 import NotFound from "@/pages/not-found";
 import Menu from "@/pages/menu";
 import MenuCategory from "@/pages/menu/[category]";
+import Drinks from "@/pages/drinks";
+import DrinkCategory from "@/pages/drinks/[category]";
 import Offers from "@/pages/offers";
 import Events from "@/pages/events";
 import Book from "@/pages/book";
@@ -26,6 +28,8 @@ function Router() {
           <Route path="/" component={Menu} />
           <Route path="/menu" component={Menu} />
           <Route path="/menu/:category" component={MenuCategory} />
+          <Route path="/drinks" component={Drinks} />
+          <Route path="/drinks/:category" component={DrinkCategory} />
           <Route path="/offers" component={Offers} />
           <Route path="/events" component={Events} />
           <Route path="/book" component={Book} />
