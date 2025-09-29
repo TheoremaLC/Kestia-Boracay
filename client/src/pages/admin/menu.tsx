@@ -298,10 +298,11 @@ export default function AdminMenu() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => alert(`Toggle star for item ${item.id}`)}
-                            className="bg-yellow-500 text-white hover:bg-yellow-600"
+                            onClick={() => handleToggleStar(item.id, item.isSpecial || false)}
+                            className={`${item.isSpecial ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}`}
+                            disabled={toggleStarMutation.isPending}
                           >
-                            ⭐
+                            {item.isSpecial ? '⭐' : '☆'}
                           </Button>
                           <Dialog 
                             open={isEditDialogOpen && editDialogItemId === item.id} 
