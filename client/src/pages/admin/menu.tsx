@@ -250,15 +250,6 @@ export default function AdminMenu() {
                   value={newItem.imageUrl || ""}
                   onChange={(e) => setNewItem({ ...newItem, imageUrl: e.target.value })}
                 />
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="isSpecial"
-                    checked={newItem.isSpecial || false}
-                    onChange={(e) => setNewItem({ ...newItem, isSpecial: e.target.checked })}
-                  />
-                  <label htmlFor="isSpecial">Special item</label>
-                </div>
                 <Button onClick={handleAddItem} className="w-full">
                   Add Item
                 </Button>
@@ -371,15 +362,6 @@ export default function AdminMenu() {
                                     value={editingItem.imageUrl || ""}
                                     onChange={(e) => setEditingItem({ ...editingItem, imageUrl: e.target.value })}
                                   />
-                                  <div className="flex items-center space-x-2">
-                                    <input
-                                      type="checkbox"
-                                      id="editIsSpecial"
-                                      checked={editingItem.isSpecial || false}
-                                      onChange={(e) => setEditingItem({ ...editingItem, isSpecial: e.target.checked })}
-                                    />
-                                    <label htmlFor="editIsSpecial">Special item</label>
-                                  </div>
                                   <Button onClick={handleEditItem} className="w-full">
                                     Update Item
                                   </Button>

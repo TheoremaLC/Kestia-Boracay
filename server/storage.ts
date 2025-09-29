@@ -323,6 +323,50 @@ class JsonStorage implements IStorage {
     };
   }
 
+  async updateMenuItem(id: number, updates: Partial<MenuItem>): Promise<MenuItem> {
+    const menuData = await this.readMenuFile();
+    const allItems = await this.getMenuItems();
+    const existingItem = allItems.find(item => item.id === id);
+    
+    if (!existingItem) {
+      throw new Error(`Menu item with ID ${id} not found`);
+    }
+
+    // Find the item in the JSON structure and update it
+    let itemFound = false;
+    for (const [category, items] of Object.entries(menuData)) {
+      if (Array.isArray(items)) {
+        const itemIndex = items.findIndex((item: any) => 
+          item.name === existingItem.name && category === existingItem.category
+        );
+        
+        if (itemIndex !== -1) {
+          // Update the item
+          items[itemIndex] = {
+            ...items[itemIndex],
+            ...updates,
+            category: items[itemIndex].category // Preserve original category
+          };
+          itemFound = true;
+          break;
+        }
+      }
+    }
+
+    if (!itemFound) {
+      throw new Error(`Menu item with ID ${id} not found in JSON structure`);
+    }
+
+    await this.writeMenuFile(menuData);
+    
+    // Return the updated item
+    return {
+      ...existingItem,
+      ...updates,
+      id: existingItem.id // Preserve ID
+    };
+  }
+
   async deleteMenuItem(id: number): Promise<void> {
     const menuData = await this.readMenuFile();
     const allItems = await this.getMenuItems();
