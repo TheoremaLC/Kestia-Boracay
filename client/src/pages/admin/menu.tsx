@@ -290,8 +290,9 @@ export default function AdminMenu() {
                             variant="outline"
                             size="sm"
                             onClick={() => handleToggleStar(item.id, item.isSpecial || false)}
-                            className={`${item.isSpecial ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}`}
+                            className={item.isSpecial ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}
                             disabled={toggleStarMutation.isPending}
+                            data-testid={`star-button-${item.id}`}
                           >
                             {item.isSpecial ? '⭐' : '☆'}
                           </Button>
