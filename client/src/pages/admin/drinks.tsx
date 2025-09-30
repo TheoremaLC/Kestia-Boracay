@@ -182,20 +182,26 @@ export default function AdminDrinks() {
     <AdminLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Filter by category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                {drinkCategories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={selectedCategory === "all" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory("all")}
+              className={selectedCategory === "all" ? "bg-[#872519]" : ""}
+            >
+              All
+            </Button>
+            {drinkCategories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(category)}
+                className={selectedCategory === category ? "bg-[#872519]" : ""}
+              >
+                {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+              </Button>
+            ))}
           </div>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
