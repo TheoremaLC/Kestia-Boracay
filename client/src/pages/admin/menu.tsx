@@ -185,7 +185,6 @@ export default function AdminMenu() {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold text-[#872519]">Food</h2>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Filter by category" />
