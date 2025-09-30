@@ -6,7 +6,8 @@
       "price": 45900,
       "category": "breakfast",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1
     },
     {
       "name": "Tapsilog",

@@ -287,14 +287,16 @@ export default function AdminMenu() {
                         </div>
                         <div className="flex gap-2">
                           <Button
-                            variant="outline"
+                            variant="ghost"
                             size="sm"
                             onClick={() => handleToggleStar(item.id, item.isSpecial || false)}
-                            className={item.isSpecial ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}
+                            className="p-0 h-auto hover:bg-transparent"
                             disabled={toggleStarMutation.isPending}
                             data-testid={`star-button-${item.id}`}
                           >
-                            {item.isSpecial ? '⭐' : '☆'}
+                            <span className={`text-2xl ${item.isSpecial ? 'text-yellow-500' : 'text-gray-400'}`}>
+                              {item.isSpecial ? '⭐' : '☆'}
+                            </span>
                           </Button>
                           <Dialog 
                             open={isEditDialogOpen && editDialogItemId === item.id} 
