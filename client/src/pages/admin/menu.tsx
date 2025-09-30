@@ -120,10 +120,10 @@ export default function AdminMenu() {
     onSuccess: (updatedItem) => {
       queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
       toast({
-        title: "Success",
+        title: "Updated",
         description: updatedItem.isSpecial 
-          ? `${updatedItem.name} is now marked as special!` 
-          : `${updatedItem.name} is no longer marked as special.`,
+          ? `${updatedItem.name} requires availability confirmation with server before serving.` 
+          : `${updatedItem.name} no longer requires availability confirmation.`,
       });
     },
     onError: () => {
