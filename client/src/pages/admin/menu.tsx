@@ -276,11 +276,6 @@ export default function AdminMenu() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
                             <h3 className="font-semibold">{item.name}</h3>
-                            {item.isSpecial && (
-                              <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-                                Special
-                              </Badge>
-                            )}
                           </div>
                           <p className="text-sm text-gray-600 mt-1">{item.description}</p>
                           <p className="font-semibold text-[#872519] mt-2">{formatPrice(item.price)}</p>
