@@ -6,7 +6,8 @@
       "price": 12000,
       "category": "coffee",
       "imageUrl": null,
-      "isSpecial": false
+      "isSpecial": true,
+      "id": 1000
     },
     {
       "name": "Americano",
@@ -22,7 +23,8 @@
       "price": 18000,
       "category": "coffee",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1002
     },
     {
       "name": "Latte",
@@ -64,7 +66,8 @@
       "price": 28000,
       "category": "wines",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1007
     },
     {
       "name": "Rosé Wine",
@@ -98,7 +101,8 @@
       "price": 15000,
       "category": "beers",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1011
     },
     {
       "name": "Corona",
@@ -114,7 +118,8 @@
       "price": 18000,
       "category": "beers",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1013
     }
   ],
   "spirits": [
@@ -156,7 +161,8 @@
       "price": 28000,
       "category": "spirits",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1018
     },
     {
       "name": "Piña Colada",
@@ -164,7 +170,8 @@
       "price": 30000,
       "category": "spirits",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1019
     }
   ],
   "cocktails": [
@@ -174,7 +181,8 @@
       "price": 32000,
       "category": "cocktails",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1020
     },
     {
       "name": "Sex on the Beach",
@@ -182,7 +190,8 @@
       "price": 30000,
       "category": "cocktails",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1021
     },
     {
       "name": "Long Island Iced Tea",
@@ -224,7 +233,8 @@
       "price": 8000,
       "category": "non-alcoholics",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1026
     },
     {
       "name": "Mango Shake",
@@ -232,7 +242,8 @@
       "price": 12000,
       "category": "non-alcoholics",
       "imageUrl": null,
-      "isSpecial": true
+      "isSpecial": false,
+      "id": 1027
     },
     {
       "name": "Calamansi Juice",
