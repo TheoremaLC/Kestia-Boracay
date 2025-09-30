@@ -48,14 +48,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               onClick={() => setLocation("/admin/menu")}
               className={location === "/admin/menu" ? "bg-[#872519]" : ""}
             >
-              Menu Management
+              Food
             </Button>
             <Button
               variant={location === "/admin/drinks" ? "default" : "outline"}
               onClick={() => setLocation("/admin/drinks")}
               className={location === "/admin/drinks" ? "bg-[#872519]" : ""}
             >
-              Drinks Management
+              Drinks
             </Button>
             <Button
               variant={location === "/admin/reservations" ? "default" : "outline"}
