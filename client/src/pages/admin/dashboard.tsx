@@ -126,60 +126,37 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-[#872519]">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Button 
-                onClick={() => setLocation("/admin/menu")}
-                className="w-full bg-[#872519] hover:bg-[#a32a1d]"
-              >
-                Manage Menu
-              </Button>
-              <Button 
-                onClick={() => setLocation("/admin/reservations")}
-                className="w-full bg-gray-400 hover:bg-gray-500"
-                disabled
-              >
-                Manage Reservations (Coming Soon)
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-[#872519]">Recent Reservations</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {reservations?.slice(0, 5).map((reservation) => (
-                  <div key={reservation.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <div>
-                      <p className="font-medium">{reservation.name}</p>
-                      <p className="text-sm text-gray-600">{reservation.guests} guests</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm">{reservation.time}</p>
-                      <span className={`text-xs px-2 py-1 rounded ${
-                        reservation.status === "confirmed" ? "bg-green-100 text-green-800" :
-                        reservation.status === "pending" ? "bg-yellow-100 text-yellow-800" :
-                        reservation.status === "cancelled" ? "bg-red-100 text-red-800" :
-                        "bg-blue-100 text-blue-800"
-                      }`}>
-                        {reservation.status}
-                      </span>
-                    </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-[#872519]">Recent Reservations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {reservations?.slice(0, 5).map((reservation) => (
+                <div key={reservation.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                  <div>
+                    <p className="font-medium">{reservation.name}</p>
+                    <p className="text-sm text-gray-600">{reservation.guests} guests</p>
                   </div>
-                ))}
-                {!reservations?.length && (
-                  <p className="text-gray-500 text-center py-4">No reservations yet</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+                  <div className="text-right">
+                    <p className="text-sm">{reservation.time}</p>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      reservation.status === "confirmed" ? "bg-green-100 text-green-800" :
+                      reservation.status === "pending" ? "bg-yellow-100 text-yellow-800" :
+                      reservation.status === "cancelled" ? "bg-red-100 text-red-800" :
+                      "bg-blue-100 text-blue-800"
+                    }`}>
+                      {reservation.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              {!reservations?.length && (
+                <p className="text-gray-500 text-center py-4">No reservations yet</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </AdminLayout>
   );
