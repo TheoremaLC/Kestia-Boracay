@@ -1,9 +1,16 @@
 [
   {
     "id": "1029706583",
-    "firstVisit": "2025-09-30T11:59:15.160Z",
-    "lastVisit": "2025-09-30T11:59:24.688Z",
-    "visitCount": 4,
+    "firstVisit": "2025-09-30T12:05:42.907Z",
+    "lastVisit": "2025-09-30T12:05:45.569Z",
+    "visitCount": 24,
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+  },
+  {
+    "id": "2113887784",
+    "firstVisit": "2025-09-30T12:05:42.924Z",
+    "lastVisit": "2025-09-30T12:05:42.924Z",
+    "visitCount": 1,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/140.0.0.0 Safari/537.36"
   }
 ]
