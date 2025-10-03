@@ -8,8 +8,9 @@ import type {
   InsertReservation,
   ReservationStatus,
 } from "@shared/schema";
-import { promises as fs } from 'fs';
-import path from 'path';
+import { db } from "./db";
+import { menuItems } from "@shared/schema";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // Menu Items
@@ -38,115 +39,21 @@ export interface IStorage {
   updateReservationStatus(id: number, status: ReservationStatus): Promise<Reservation>;
 }
 
-class JsonStorage implements IStorage {
-  private events: Map<number, Event>;
-  private currentIds: {
-    menuItems: number;
-    events: number;
-  };
-  private menuFilePath = path.join(process.cwd(), 'shared/menu-items.json');
-  private drinksFilePath = path.join(process.cwd(), 'shared/drinks.json');
-
-  constructor() {
-    this.events = new Map();
-    this.currentIds = {
-      menuItems: 1,
-      events: 1,
-    };
-  }
-
-  private async readMenuFile(): Promise<any> {
-    try {
-      const fileContent = await fs.readFile(this.menuFilePath, 'utf-8');
-      return JSON.parse(fileContent);
-    } catch (error) {
-      console.error('Error reading menu file:', error);
-      return {};
-    }
-  }
-
-  private async writeMenuFile(data: any): Promise<void> {
-    try {
-      await fs.writeFile(this.menuFilePath, JSON.stringify(data, null, 2), 'utf-8');
-    } catch (error) {
-      console.error('Error writing menu file:', error);
-      throw new Error('Failed to update menu file');
-    }
-  }
-
-  private async readDrinksFile(): Promise<any> {
-    try {
-      const fileContent = await fs.readFile(this.drinksFilePath, 'utf-8');
-      return JSON.parse(fileContent);
-    } catch (error) {
-      console.error('Error reading drinks file:', error);
-      return {};
-    }
-  }
-
-  private async writeDrinksFile(data: any): Promise<void> {
-    try {
-      await fs.writeFile(this.drinksFilePath, JSON.stringify(data, null, 2), 'utf-8');
-    } catch (error) {
-      console.error('Error writing drinks file:', error);
-      throw new Error('Failed to update drinks file');
-    }
-  }
-
+class DatabaseStorage implements IStorage {
   // Menu Items
   async getMenuItems(): Promise<MenuItem[]> {
-    const menuData = await this.readMenuFile();
-    const allItems: MenuItem[] = [];
-    let id = 1;
-
-    // Get items from all categories except vegetarian (we'll handle vegetarian separately)
-    Object.entries(menuData).forEach(([category, items]) => {
-      if (Array.isArray(items) && category !== "vegetarian") {
-        items.forEach((item: any) => {
-          allItems.push({
-            id: id++,
-            ...item,
-            category
-          });
-        });
-      }
+    // Get all items from database that are food items (id < 1000)
+    const allItems = await db.query.menuItems.findMany({
+      orderBy: (menuItems, { asc }) => [asc(menuItems.id)]
     });
-
-    // CRITICAL FIX: Auto-correction for menu consistency
-    // If allItems doesn't include 54 items (which should include Cheesecake),
-    // manually add Cheesecake to ensure it appears in all menu views
-    if (allItems.length < 54 || allItems[53]?.name !== "Cheesecake") {
-      // Find Cheesecake in the JSON data
-      const cheesecakeItem = menuData.desserts.find((item: any) => 
-        item.name === "Cheesecake"
-      );
-
-      if (cheesecakeItem) {
-        // If we already have a position 54, ensure it's Cheesecake
-        if (allItems.length >= 54) {
-          allItems[53] = {
-            id: 54,
-            ...cheesecakeItem,
-            category: "desserts"
-          };
-        } else {
-          // Otherwise append Cheesecake to the end with ID 54
-          allItems.push({
-            id: 54,
-            ...cheesecakeItem,
-            category: "desserts"
-          });
-        }
-      }
-    }
-
-    return allItems;
+    
+    // Filter to get only food items (ID < 1000)
+    const foodItems = allItems.filter(item => item.id < 1000);
+    
+    return foodItems;
   }
 
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
-    // Load all menu items with their global IDs
-    const allItems = await this.getMenuItems();
-
     // For vegetarian category, create a specialized list
     if (category === "vegetarian") {
       /**
@@ -177,7 +84,10 @@ class JsonStorage implements IStorage {
         "extras": ["Yogurt", "Bread", "Onion salad", "Kestia rice", "Two Eggs any Style"]
       };
 
-      // Find the vegetarian menu items by looking up their original entries in the main menu
+      // Get all items from database
+      const allItems = await db.query.menuItems.findMany();
+      
+      // Find the vegetarian menu items by looking up their original entries
       let vegetarianItems: MenuItem[] = [];
 
       // Process regular vegetarian items
@@ -235,282 +145,107 @@ class JsonStorage implements IStorage {
       return vegetarianItems;
     }
 
-    // For other categories, get items from the complete menu
-    return allItems.filter(item => item.category === category);
+    // For other categories, query directly from database
+    const items = await db.query.menuItems.findMany({
+      where: eq(menuItems.category, category),
+      orderBy: (menuItems, { asc }) => [asc(menuItems.id)]
+    });
+    
+    return items;
   }
 
   async getMenuItem(id: number): Promise<MenuItem | undefined> {
-    const allItems = await this.getMenuItems();
-    return allItems.find(item => item.id === id);
+    const item = await db.query.menuItems.findFirst({
+      where: eq(menuItems.id, id)
+    });
+    return item;
   }
 
   async createMenuItem(item: InsertMenuItem): Promise<MenuItem> {
-    const menuData = await this.readMenuFile();
-    const allItems = await this.getMenuItems();
-    
-    // Find the highest ID and add 1
-    const newId = Math.max(...allItems.map(item => item.id), 0) + 1;
-    
-    const newItem: MenuItem = {
-      id: newId,
-      name: item.name,
-      description: item.description,
-      price: item.price,
-      category: item.category,
-      imageUrl: item.imageUrl || null,
-      isSpecial: item.isSpecial || false
-    };
-
-    // Add to the appropriate category in the JSON structure
-    if (!menuData[item.category]) {
-      menuData[item.category] = [];
-    }
-    
-    menuData[item.category].push({
-      name: item.name,
-      description: item.description,
-      price: item.price,
-      category: item.category,
-      imageUrl: item.imageUrl,
-      isSpecial: item.isSpecial
-    });
-
-    await this.writeMenuFile(menuData);
+    const [newItem] = await db.insert(menuItems).values(item).returning();
     return newItem;
   }
 
   async updateMenuItem(id: number, updates: Partial<MenuItem>): Promise<MenuItem> {
-    const menuData = await this.readMenuFile();
-    const allItems = await this.getMenuItems();
-    const existingItem = allItems.find(item => item.id === id);
+    const [updatedItem] = await db
+      .update(menuItems)
+      .set(updates)
+      .where(eq(menuItems.id, id))
+      .returning();
     
-    if (!existingItem) {
+    if (!updatedItem) {
       throw new Error(`Menu item with ID ${id} not found`);
     }
-
-    // Find the item in the JSON structure and update it
-    let itemFound = false;
-    for (const [category, items] of Object.entries(menuData)) {
-      if (Array.isArray(items)) {
-        const itemIndex = items.findIndex((item: any) => 
-          item.name === existingItem.name && category === existingItem.category
-        );
-        
-        if (itemIndex !== -1) {
-          // Update the item
-          items[itemIndex] = {
-            ...items[itemIndex],
-            ...updates,
-            category: items[itemIndex].category // Preserve original category
-          };
-          itemFound = true;
-          break;
-        }
-      }
-    }
-
-    if (!itemFound) {
-      throw new Error(`Menu item with ID ${id} not found in JSON structure`);
-    }
-
-    await this.writeMenuFile(menuData);
     
-    // Return the updated item
-    return {
-      ...existingItem,
-      ...updates,
-      id: existingItem.id // Preserve ID
-    };
+    return updatedItem;
   }
 
   async deleteMenuItem(id: number): Promise<void> {
-    const menuData = await this.readMenuFile();
-    const allItems = await this.getMenuItems();
-    const existingItem = allItems.find(item => item.id === id);
-    
-    if (!existingItem) {
-      throw new Error(`Menu item with ID ${id} not found`);
-    }
-
-    // Find and remove the item from the JSON structure
-    let itemFound = false;
-    for (const [category, items] of Object.entries(menuData)) {
-      if (Array.isArray(items)) {
-        const itemIndex = items.findIndex((item: any) => 
-          item.name === existingItem.name && category === existingItem.category
-        );
-        
-        if (itemIndex !== -1) {
-          items.splice(itemIndex, 1);
-          itemFound = true;
-          break;
-        }
-      }
-    }
-
-    if (!itemFound) {
-      throw new Error(`Menu item with ID ${id} not found in JSON structure`);
-    }
-
-    await this.writeMenuFile(menuData);
+    await db.delete(menuItems).where(eq(menuItems.id, id));
   }
 
   // Drinks Methods
   async getDrinks(): Promise<MenuItem[]> {
-    const drinksData = await this.readDrinksFile();
-    const allDrinks: MenuItem[] = [];
-    let id = 1000; // Start drinks IDs at 1000 to avoid conflicts with menu items
-
-    Object.entries(drinksData).forEach(([category, items]) => {
-      if (Array.isArray(items)) {
-        items.forEach((item: any) => {
-          allDrinks.push({
-            id: id++,
-            ...item,
-            category
-          });
-        });
-      }
+    // Get all items from database that are drinks (id >= 1000)
+    const allItems = await db.query.menuItems.findMany({
+      orderBy: (menuItems, { asc }) => [asc(menuItems.id)]
     });
-
-    return allDrinks;
+    
+    // Filter to get only drinks (ID >= 1000)
+    const drinks = allItems.filter(item => item.id >= 1000);
+    
+    return drinks;
   }
 
   async getDrinksByCategory(category: string): Promise<MenuItem[]> {
-    const allDrinks = await this.getDrinks();
-    return allDrinks.filter(drink => drink.category === category);
+    const items = await db.query.menuItems.findMany({
+      where: eq(menuItems.category, category),
+      orderBy: (menuItems, { asc }) => [asc(menuItems.id)]
+    });
+    
+    return items;
   }
 
   async getDrink(id: number): Promise<MenuItem | undefined> {
-    const allDrinks = await this.getDrinks();
-    return allDrinks.find(drink => drink.id === id);
+    const item = await db.query.menuItems.findFirst({
+      where: eq(menuItems.id, id)
+    });
+    return item;
   }
 
   async createDrink(item: InsertMenuItem): Promise<MenuItem> {
-    const drinksData = await this.readDrinksFile();
-    const allDrinks = await this.getDrinks();
-    
-    // Find the highest ID and add 1
-    const newId = Math.max(...allDrinks.map(drink => drink.id), 999) + 1;
-    
-    const newDrink: MenuItem = {
-      id: newId,
-      name: item.name,
-      description: item.description,
-      price: item.price,
-      category: item.category,
-      imageUrl: item.imageUrl || null,
-      isSpecial: item.isSpecial || false
-    };
-
-    // Add to the appropriate category in the JSON structure
-    if (!drinksData[item.category]) {
-      drinksData[item.category] = [];
-    }
-    
-    drinksData[item.category].push({
-      name: item.name,
-      description: item.description,
-      price: item.price,
-      category: item.category,
-      imageUrl: item.imageUrl,
-      isSpecial: item.isSpecial
-    });
-
-    await this.writeDrinksFile(drinksData);
+    const [newDrink] = await db.insert(menuItems).values(item).returning();
     return newDrink;
   }
 
   async updateDrink(id: number, updates: Partial<MenuItem>): Promise<MenuItem> {
-    const drinksData = await this.readDrinksFile();
-    const allDrinks = await this.getDrinks();
-    const existingDrink = allDrinks.find(drink => drink.id === id);
+    const [updatedDrink] = await db
+      .update(menuItems)
+      .set(updates)
+      .where(eq(menuItems.id, id))
+      .returning();
     
-    if (!existingDrink) {
+    if (!updatedDrink) {
       throw new Error(`Drink with ID ${id} not found`);
     }
-
-    // Find the drink in the JSON structure and update it
-    let drinkFound = false;
-    for (const [category, items] of Object.entries(drinksData)) {
-      if (Array.isArray(items)) {
-        const drinkIndex = items.findIndex((drink: any) => 
-          drink.name === existingDrink.name && category === existingDrink.category
-        );
-        
-        if (drinkIndex !== -1) {
-          // Update the drink
-          items[drinkIndex] = {
-            ...items[drinkIndex],
-            ...updates,
-            category: items[drinkIndex].category // Preserve original category
-          };
-          drinkFound = true;
-          break;
-        }
-      }
-    }
-
-    if (!drinkFound) {
-      throw new Error(`Drink with ID ${id} not found in JSON structure`);
-    }
-
-    await this.writeDrinksFile(drinksData);
     
-    // Return the updated drink
-    return {
-      ...existingDrink,
-      ...updates,
-      id: existingDrink.id // Preserve ID
-    };
+    return updatedDrink;
   }
 
   async deleteDrink(id: number): Promise<void> {
-    const drinksData = await this.readDrinksFile();
-    const allDrinks = await this.getDrinks();
-    const existingDrink = allDrinks.find(drink => drink.id === id);
-    
-    if (!existingDrink) {
-      throw new Error(`Drink with ID ${id} not found`);
-    }
-
-    // Find and remove the drink from the JSON structure
-    let drinkFound = false;
-    for (const [category, items] of Object.entries(drinksData)) {
-      if (Array.isArray(items)) {
-        const drinkIndex = items.findIndex((drink: any) => 
-          drink.name === existingDrink.name && category === existingDrink.category
-        );
-        
-        if (drinkIndex !== -1) {
-          items.splice(drinkIndex, 1);
-          drinkFound = true;
-          break;
-        }
-      }
-    }
-
-    if (!drinkFound) {
-      throw new Error(`Drink with ID ${id} not found in JSON structure`);
-    }
-
-    await this.writeDrinksFile(drinksData);
+    await db.delete(menuItems).where(eq(menuItems.id, id));
   }
 
   // Events
   async getEvents(): Promise<Event[]> {
-    return Array.from(this.events.values());
+    return [];
   }
 
   async createEvent(event: InsertEvent): Promise<Event> {
-    const id = this.currentIds.events++;
-    const newEvent = { id, ...event } as Event;
-    this.events.set(id, newEvent);
-    return newEvent;
+    throw new Error("Events not implemented yet");
   }
 
   // Reservations
-  // TEMPORARILY DISABLED - Reservations methods
   async getReservations(): Promise<Reservation[]> {
     return [];
   }
@@ -524,4 +259,4 @@ class JsonStorage implements IStorage {
   }
 }
 
-export const storage = new JsonStorage();
+export const storage = new DatabaseStorage();
