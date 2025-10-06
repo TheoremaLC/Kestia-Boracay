@@ -42,13 +42,16 @@ export interface IStorage {
 class DatabaseStorage implements IStorage {
   // Menu Items
   async getMenuItems(): Promise<MenuItem[]> {
-    // Get all items from database that are food items (id < 1000)
+    // Define food categories (everything except drinks)
+    const foodCategories = ["breakfast", "appetizers", "soups", "main-dishes", "sides", "desserts"];
+    
+    // Get all items from database that are food items (based on category)
     const allItems = await db.query.menuItems.findMany({
       orderBy: (menuItems, { asc }) => [asc(menuItems.id)]
     });
     
-    // Filter to get only food items (ID < 1000)
-    const foodItems = allItems.filter(item => item.id < 1000);
+    // Filter to get only food items (category in foodCategories)
+    const foodItems = allItems.filter(item => foodCategories.includes(item.category));
     
     return foodItems;
   }
@@ -186,13 +189,16 @@ class DatabaseStorage implements IStorage {
 
   // Drinks Methods
   async getDrinks(): Promise<MenuItem[]> {
-    // Get all items from database that are drinks (id >= 1000)
+    // Define drink categories
+    const drinkCategories = ["coffee", "wines", "beers", "spirits", "cocktails", "non-alcoholics"];
+    
+    // Get all items from database that are drinks (based on category)
     const allItems = await db.query.menuItems.findMany({
       orderBy: (menuItems, { asc }) => [asc(menuItems.id)]
     });
     
-    // Filter to get only drinks (ID >= 1000)
-    const drinks = allItems.filter(item => item.id >= 1000);
+    // Filter to get only drinks (category in drinkCategories)
+    const drinks = allItems.filter(item => drinkCategories.includes(item.category));
     
     return drinks;
   }
