@@ -123,6 +123,16 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  app.delete("/api/menu/category/:slug", async (req, res) => {
+    try {
+      const slug = req.params.slug;
+      await storage.deleteItemsInCategory(slug);
+      res.status(204).send();
+    } catch (error) {
+      res.status(400).json({ error: "Failed to delete items in category" });
+    }
+  });
+
   app.delete("/api/menu/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);

@@ -45,6 +45,9 @@ export default function AdminMenu() {
     slug: "",
     displayOrder: 0,
   });
+  const [deletingCategory, setDeletingCategory] = useState<MenuCategory | null>(null);
+  const [categoryItemsCount, setCategoryItemsCount] = useState(0);
+  const [targetCategorySlug, setTargetCategorySlug] = useState<string>("");
 
   const { data: menuItems, isLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
@@ -180,14 +183,26 @@ export default function AdminMenu() {
     createCategoryMutation.mutate(categoryFormData);
   };
 
+  const moveItemsMutation = useMutation({
+    mutationFn: async ({ fromSlug, toSlug }: { fromSlug: string; toSlug: string }) => {
+      return await apiRequest("POST", "/api/categories/move-items", {
+        fromCategorySlug: fromSlug,
+        toCategorySlug: toSlug,
+      });
+    },
+  });
+
   const deleteCategoryMutation = useMutation({
     mutationFn: async (id: number) => {
       return await apiRequest("DELETE", `/api/categories/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/categories"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/menu"] });
       toast({ description: "Food category deleted successfully" });
       setSelectedCategory("all");
+      setDeletingCategory(null);
+      setTargetCategorySlug("");
     },
     onError: (error: any) => {
       const errorMessage = error?.message || "Failed to delete category";
@@ -198,10 +213,44 @@ export default function AdminMenu() {
     },
   });
 
-  const handleDeleteCategory = (e: React.MouseEvent, categoryId: number, categoryName: string) => {
+  const handleDeleteCategory = async (e: React.MouseEvent, category: MenuCategory) => {
     e.stopPropagation();
-    if (confirm(`Delete category "${categoryName}"? This will fail if any items are using it.`)) {
-      deleteCategoryMutation.mutate(categoryId);
+    
+    // Fetch items in this category
+    try {
+      const items = await fetch(`/api/categories/${category.id}/items`).then(r => r.json());
+      setCategoryItemsCount(items.length);
+      setDeletingCategory(category);
+    } catch (error) {
+      toast({
+        description: "Failed to check category items",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleConfirmDelete = async (action: 'move' | 'delete') => {
+    if (!deletingCategory) return;
+
+    try {
+      if (action === 'move' && targetCategorySlug) {
+        // Move items to target category first
+        await moveItemsMutation.mutateAsync({
+          fromSlug: deletingCategory.slug,
+          toSlug: targetCategorySlug,
+        });
+      } else if (action === 'delete') {
+        // Delete all items in the category using the storage method
+        await apiRequest("DELETE", `/api/menu/category/${deletingCategory.slug}`);
+      }
+      
+      // Then delete the category
+      deleteCategoryMutation.mutate(deletingCategory.id);
+    } catch (error) {
+      toast({
+        description: "Failed to process category deletion",
+        variant: "destructive"
+      });
     }
   };
 
@@ -274,7 +323,7 @@ export default function AdminMenu() {
                   {category.name}
                 </Button>
                 <button
-                  onClick={(e) => handleDeleteCategory(e, category.id, category.name)}
+                  onClick={(e) => handleDeleteCategory(e, category)}
                   className="absolute right-1 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-red-100 transition-colors"
                   data-testid={`button-delete-category-${category.id}`}
                   aria-label={`Delete ${category.name}`}
@@ -396,6 +445,87 @@ export default function AdminMenu() {
             </Dialog>
           </div>
         </div>
+
+        {/* Delete Category Dialog */}
+        <Dialog open={!!deletingCategory} onOpenChange={() => setDeletingCategory(null)}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Delete Category "{deletingCategory?.name}"?</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <p className="text-sm text-gray-600">
+                This category has <span className="font-semibold">{categoryItemsCount} item(s)</span>.
+                {categoryItemsCount > 0 ? " Choose what to do with them:" : " You can safely delete this empty category."}
+              </p>
+              
+              {categoryItemsCount > 0 && (
+                <>
+                  <div className="space-y-3 border-t pt-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Option 1: Move items to another category</label>
+                      <Select value={targetCategorySlug} onValueChange={setTargetCategorySlug}>
+                        <SelectTrigger data-testid="select-target-category">
+                          <SelectValue placeholder="Select target category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {foodCategories
+                            .filter(cat => cat.id !== deletingCategory?.id)
+                            .map((category) => (
+                              <SelectItem key={category.id} value={category.slug}>
+                                {category.name}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        onClick={() => handleConfirmDelete('move')}
+                        disabled={!targetCategorySlug || moveItemsMutation.isPending || deleteCategoryMutation.isPending}
+                        className="w-full"
+                        data-testid="button-move-and-delete"
+                      >
+                        Move Items & Delete Category
+                      </Button>
+                    </div>
+
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-2 text-muted-foreground">Or</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-red-600">Option 2: Delete all items along with category</label>
+                      <Button
+                        onClick={() => handleConfirmDelete('delete')}
+                        disabled={moveItemsMutation.isPending || deleteCategoryMutation.isPending}
+                        variant="destructive"
+                        className="w-full"
+                        data-testid="button-delete-all"
+                      >
+                        Delete Everything
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {categoryItemsCount === 0 && (
+                <Button
+                  onClick={() => handleConfirmDelete('delete')}
+                  disabled={deleteCategoryMutation.isPending}
+                  variant="destructive"
+                  className="w-full"
+                  data-testid="button-delete-empty-category"
+                >
+                  Delete Category
+                </Button>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {isLoading ? (
           <div className="text-center">Loading menu items...</div>
