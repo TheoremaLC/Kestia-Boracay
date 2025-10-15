@@ -63,7 +63,8 @@ export async function registerRoutes(app: Express) {
       await storage.deleteCategory(id);
       res.status(204).send();
     } catch (error) {
-      res.status(400).json({ error: "Failed to delete category" });
+      const message = error instanceof Error ? error.message : "Failed to delete category";
+      res.status(400).json({ error: message });
     }
   });
 

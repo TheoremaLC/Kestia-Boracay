@@ -92,6 +92,22 @@ class DatabaseStorage implements IStorage {
   }
 
   async deleteCategory(id: number): Promise<void> {
+    // First, get the category to find its slug
+    const category = await this.getCategory(id);
+    if (!category) {
+      throw new Error(`Category with ID ${id} not found`);
+    }
+    
+    // Check if any menu items are using this category
+    const itemsUsingCategory = await db.query.menuItems.findMany({
+      where: eq(menuItems.category, category.slug)
+    });
+    
+    if (itemsUsingCategory.length > 0) {
+      throw new Error(`Cannot delete category "${category.name}" because ${itemsUsingCategory.length} item(s) are using it`);
+    }
+    
+    // Safe to delete
     await db.delete(menuCategories).where(eq(menuCategories.id, id));
   }
 
