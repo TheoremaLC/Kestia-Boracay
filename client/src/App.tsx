@@ -18,7 +18,6 @@ import AdminLogin from "@/pages/admin/login";
 import AdminDashboard from "@/pages/admin/dashboard";
 import AdminMenu from "@/pages/admin/menu";
 import AdminDrinks from "@/pages/admin/drinks";
-import AdminCategories from "@/pages/admin/categories";
 import AdminReservations from "@/pages/admin/reservations";
 import AdminOffers from "./pages/admin/offers";
 
@@ -42,7 +41,6 @@ function Router() {
           <Route path="/admin/dashboard" component={AdminDashboard} />
           <Route path="/admin/menu" component={AdminMenu} />
           <Route path="/admin/drinks" component={AdminDrinks} />
-          <Route path="/admin/categories" component={AdminCategories} />
           <Route path="/admin/reservations" component={AdminReservations} />
           <Route path="/admin/offers" component={AdminOffers} />
           <Route component={NotFound} />
