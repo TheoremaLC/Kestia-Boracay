@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import type { MenuItem, InsertMenuItem } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { FaStar } from "react-icons/fa";
+import { X } from "lucide-react";
 
 interface MenuCategory {
   id: number;
@@ -179,6 +180,31 @@ export default function AdminMenu() {
     createCategoryMutation.mutate(categoryFormData);
   };
 
+  const deleteCategoryMutation = useMutation({
+    mutationFn: async (id: number) => {
+      return await apiRequest("DELETE", `/api/categories/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/categories"] });
+      toast({ description: "Food category deleted successfully" });
+      setSelectedCategory("all");
+    },
+    onError: (error: any) => {
+      const errorMessage = error?.message || "Failed to delete category";
+      toast({ 
+        description: errorMessage,
+        variant: "destructive" 
+      });
+    },
+  });
+
+  const handleDeleteCategory = (e: React.MouseEvent, categoryId: number, categoryName: string) => {
+    e.stopPropagation();
+    if (confirm(`Delete category "${categoryName}"? This will fail if any items are using it.`)) {
+      deleteCategoryMutation.mutate(categoryId);
+    }
+  };
+
   const formatPrice = (price: number) => {
     return `₱${(price / 100).toFixed(2)}`;
   };
@@ -238,15 +264,24 @@ export default function AdminMenu() {
               All
             </Button>
             {foodCategories.map((category) => (
-              <Button
-                key={category.id}
-                variant={selectedCategory === category.slug ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSelectedCategory(category.slug)}
-                className={selectedCategory === category.slug ? "bg-[#872519]" : ""}
-              >
-                {category.name}
-              </Button>
+              <div key={category.id} className="relative group">
+                <Button
+                  variant={selectedCategory === category.slug ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedCategory(category.slug)}
+                  className={`${selectedCategory === category.slug ? "bg-[#872519]" : ""} pr-8`}
+                >
+                  {category.name}
+                </Button>
+                <button
+                  onClick={(e) => handleDeleteCategory(e, category.id, category.name)}
+                  className="absolute right-1 top-1/2 -translate-y-1/2 p-0.5 rounded hover:bg-red-100 transition-colors"
+                  data-testid={`button-delete-category-${category.id}`}
+                  aria-label={`Delete ${category.name}`}
+                >
+                  <X className="h-3 w-3 text-red-600" />
+                </button>
+              </div>
             ))}
           </div>
           <div className="flex gap-2">
