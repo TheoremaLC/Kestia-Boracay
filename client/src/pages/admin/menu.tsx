@@ -38,6 +38,12 @@ export default function AdminMenu() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editDialogItemId, setEditDialogItemId] = useState<number | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false);
+  const [categoryFormData, setCategoryFormData] = useState({
+    name: "",
+    slug: "",
+    displayOrder: 0,
+  });
 
   const { data: menuItems, isLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu"],
@@ -148,6 +154,31 @@ export default function AdminMenu() {
     },
   });
 
+  const createCategoryMutation = useMutation({
+    mutationFn: async (data: typeof categoryFormData) => {
+      return await apiRequest("POST", "/api/categories", { ...data, type: "food" });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/categories"] });
+      toast({ description: "Food category created successfully" });
+      setIsCategoryDialogOpen(false);
+      setCategoryFormData({ name: "", slug: "", displayOrder: 0 });
+    },
+    onError: () => {
+      toast({ description: "Failed to create category", variant: "destructive" });
+    },
+  });
+
+  const handleCategoryNameChange = (name: string) => {
+    const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    setCategoryFormData({ ...categoryFormData, name, slug });
+  };
+
+  const handleCreateCategory = (e: React.FormEvent) => {
+    e.preventDefault();
+    createCategoryMutation.mutate(categoryFormData);
+  };
+
   const formatPrice = (price: number) => {
     return `₱${(price / 100).toFixed(2)}`;
   };
@@ -218,13 +249,67 @@ export default function AdminMenu() {
               </Button>
             ))}
           </div>
-          <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-[#872519] hover:bg-[#a32a1d]">
-                Add New Item
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-md">
+          <div className="flex gap-2">
+            <Dialog open={isCategoryDialogOpen} onOpenChange={setIsCategoryDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="border-[#872519] text-[#872519] hover:bg-[#872519] hover:text-white">
+                  Add New Food Category
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Add New Food Category</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleCreateCategory}>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium">Category Name</label>
+                      <Input
+                        value={categoryFormData.name}
+                        onChange={(e) => handleCategoryNameChange(e.target.value)}
+                        placeholder="e.g., Breakfast, Appetizers"
+                        required
+                        data-testid="input-new-food-category-name"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Slug (auto-generated)</label>
+                      <Input
+                        value={categoryFormData.slug}
+                        onChange={(e) => setCategoryFormData({ ...categoryFormData, slug: e.target.value })}
+                        placeholder="e.g., breakfast, appetizers"
+                        required
+                        data-testid="input-new-food-category-slug"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Display Order</label>
+                      <Input
+                        type="number"
+                        value={categoryFormData.displayOrder}
+                        onChange={(e) => setCategoryFormData({ ...categoryFormData, displayOrder: parseInt(e.target.value) || 0 })}
+                        data-testid="input-new-food-category-order"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-2 mt-6">
+                    <Button type="button" variant="outline" onClick={() => setIsCategoryDialogOpen(false)}>
+                      Cancel
+                    </Button>
+                    <Button type="submit" className="bg-[#872519] hover:bg-[#a32a1d]" data-testid="button-submit-food-category">
+                      Create Category
+                    </Button>
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
+            <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-[#872519] hover:bg-[#a32a1d]">
+                  Add New Item
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>Add New Menu Item</DialogTitle>
               </DialogHeader>
@@ -272,8 +357,9 @@ export default function AdminMenu() {
                   Add Item
                 </Button>
               </div>
-            </DialogContent>
-          </Dialog>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
 
         {isLoading ? (
