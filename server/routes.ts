@@ -57,6 +57,30 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  app.get("/api/categories/:id/items", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const category = await storage.getCategory(id);
+      if (!category) {
+        return res.status(404).json({ error: "Category not found" });
+      }
+      const items = await storage.getItemsInCategory(category.slug);
+      res.json(items);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get items in category" });
+    }
+  });
+
+  app.post("/api/categories/move-items", async (req, res) => {
+    try {
+      const { fromCategorySlug, toCategorySlug } = req.body;
+      await storage.moveItemsToCategory(fromCategorySlug, toCategorySlug);
+      res.status(200).json({ success: true });
+    } catch (error) {
+      res.status(400).json({ error: "Failed to move items" });
+    }
+  });
+
   app.delete("/api/categories/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);

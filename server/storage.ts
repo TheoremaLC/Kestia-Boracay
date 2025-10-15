@@ -21,6 +21,9 @@ export interface IStorage {
   createCategory(category: InsertMenuCategory): Promise<MenuCategory>;
   updateCategory(id: number, updates: Partial<MenuCategory>): Promise<MenuCategory>;
   deleteCategory(id: number): Promise<void>;
+  getItemsInCategory(categorySlug: string): Promise<MenuItem[]>;
+  moveItemsToCategory(fromCategorySlug: string, toCategorySlug: string): Promise<void>;
+  deleteItemsInCategory(categorySlug: string): Promise<void>;
 
   // Menu Items
   getMenuItems(): Promise<MenuItem[]>;
@@ -109,6 +112,24 @@ class DatabaseStorage implements IStorage {
     
     // Safe to delete
     await db.delete(menuCategories).where(eq(menuCategories.id, id));
+  }
+
+  async getItemsInCategory(categorySlug: string): Promise<MenuItem[]> {
+    const items = await db.query.menuItems.findMany({
+      where: eq(menuItems.category, categorySlug)
+    });
+    return items;
+  }
+
+  async moveItemsToCategory(fromCategorySlug: string, toCategorySlug: string): Promise<void> {
+    await db
+      .update(menuItems)
+      .set({ category: toCategorySlug })
+      .where(eq(menuItems.category, fromCategorySlug));
+  }
+
+  async deleteItemsInCategory(categorySlug: string): Promise<void> {
+    await db.delete(menuItems).where(eq(menuItems.category, categorySlug));
   }
 
   // Menu Items
