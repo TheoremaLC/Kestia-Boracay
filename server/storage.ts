@@ -2,6 +2,8 @@
 import type {
   MenuItem,
   InsertMenuItem,
+  MenuCategory,
+  InsertMenuCategory,
   Event,
   InsertEvent,
   Reservation,
@@ -9,10 +11,17 @@ import type {
   ReservationStatus,
 } from "@shared/schema";
 import { db } from "./db";
-import { menuItems } from "@shared/schema";
+import { menuItems, menuCategories } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
 export interface IStorage {
+  // Menu Categories
+  getCategories(type?: 'food' | 'drink'): Promise<MenuCategory[]>;
+  getCategory(id: number): Promise<MenuCategory | undefined>;
+  createCategory(category: InsertMenuCategory): Promise<MenuCategory>;
+  updateCategory(id: number, updates: Partial<MenuCategory>): Promise<MenuCategory>;
+  deleteCategory(id: number): Promise<void>;
+
   // Menu Items
   getMenuItems(): Promise<MenuItem[]>;
   getMenuItemsByCategory(category: string): Promise<MenuItem[]>;
@@ -40,6 +49,52 @@ export interface IStorage {
 }
 
 class DatabaseStorage implements IStorage {
+  // Menu Categories
+  async getCategories(type?: 'food' | 'drink'): Promise<MenuCategory[]> {
+    if (type) {
+      const categories = await db.query.menuCategories.findMany({
+        where: eq(menuCategories.type, type),
+        orderBy: (menuCategories, { asc }) => [asc(menuCategories.displayOrder), asc(menuCategories.name)]
+      });
+      return categories;
+    }
+    
+    const categories = await db.query.menuCategories.findMany({
+      orderBy: (menuCategories, { asc }) => [asc(menuCategories.type), asc(menuCategories.displayOrder), asc(menuCategories.name)]
+    });
+    return categories;
+  }
+
+  async getCategory(id: number): Promise<MenuCategory | undefined> {
+    const category = await db.query.menuCategories.findFirst({
+      where: eq(menuCategories.id, id)
+    });
+    return category;
+  }
+
+  async createCategory(category: InsertMenuCategory): Promise<MenuCategory> {
+    const [newCategory] = await db.insert(menuCategories).values(category).returning();
+    return newCategory;
+  }
+
+  async updateCategory(id: number, updates: Partial<MenuCategory>): Promise<MenuCategory> {
+    const [updatedCategory] = await db
+      .update(menuCategories)
+      .set(updates)
+      .where(eq(menuCategories.id, id))
+      .returning();
+    
+    if (!updatedCategory) {
+      throw new Error(`Category with ID ${id} not found`);
+    }
+    
+    return updatedCategory;
+  }
+
+  async deleteCategory(id: number): Promise<void> {
+    await db.delete(menuCategories).where(eq(menuCategories.id, id));
+  }
+
   // Menu Items
   async getMenuItems(): Promise<MenuItem[]> {
     // Define food categories (everything except drinks)

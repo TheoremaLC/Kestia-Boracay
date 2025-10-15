@@ -26,6 +26,47 @@ export async function registerRoutes(app: Express) {
       res.status(500).json({ error: "Failed to get visitor stats" });
     }
   });
+
+  // Categories
+  app.get("/api/categories", async (req, res) => {
+    try {
+      const type = req.query.type as 'food' | 'drink' | undefined;
+      const categories = await storage.getCategories(type);
+      res.json(categories);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to get categories" });
+    }
+  });
+
+  app.post("/api/categories", async (req, res) => {
+    try {
+      const category = await storage.createCategory(req.body);
+      res.status(201).json(category);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to create category" });
+    }
+  });
+
+  app.put("/api/categories/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const category = await storage.updateCategory(id, req.body);
+      res.json(category);
+    } catch (error) {
+      res.status(400).json({ error: "Failed to update category" });
+    }
+  });
+
+  app.delete("/api/categories/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteCategory(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(400).json({ error: "Failed to delete category" });
+    }
+  });
+
   // Menu Items
   app.get("/api/menu", async (_req, res) => {
     const items = await storage.getMenuItems();
