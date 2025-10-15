@@ -36,6 +36,14 @@ export const drinkCategories = [
   "non-alcoholics"
 ] as const;
 
+export const menuCategories = pgTable("menu_categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  slug: text("slug").notNull().unique(),
+  type: text("type").notNull(), // 'food' or 'drink'
+  displayOrder: integer("display_order").notNull().default(0),
+});
+
 export const menuItems = pgTable("menu_items", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -78,6 +86,7 @@ export const reservations = pgTable("reservations", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const insertMenuCategorySchema = createInsertSchema(menuCategories).omit({ id: true });
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: true });
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
 export const insertTableSchema = createInsertSchema(tables).omit({ id: true });
@@ -96,6 +105,8 @@ export const insertReservationSchema = createInsertSchema(reservations)
     }),
   });
 
+export type MenuCategory = typeof menuCategories.$inferSelect;
+export type InsertMenuCategory = z.infer<typeof insertMenuCategorySchema>;
 export type MenuItem = typeof menuItems.$inferSelect;
 export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
 export type Event = typeof events.$inferSelect;
