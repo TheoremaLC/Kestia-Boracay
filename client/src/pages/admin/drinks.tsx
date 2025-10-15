@@ -9,9 +9,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { drinkCategories } from "@shared/schema";
 import type { MenuItem, InsertMenuItem } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
+
+interface MenuCategory {
+  id: number;
+  name: string;
+  slug: string;
+  type: string;
+  displayOrder: number;
+}
 
 export default function AdminDrinks() {
   const { toast } = useToast();
@@ -21,7 +28,7 @@ export default function AdminDrinks() {
     name: "",
     description: "",
     price: 0,
-    category: "coffee",
+    category: "",
     imageUrl: "",
     isSpecial: false,
   });
@@ -34,6 +41,12 @@ export default function AdminDrinks() {
     queryKey: ["/api/drinks"],
   });
 
+  const { data: allCategories = [] } = useQuery<MenuCategory[]>({
+    queryKey: ["/api/categories"],
+  });
+
+  const drinkCategories = allCategories.filter(c => c.type === 'drink').sort((a, b) => a.displayOrder - b.displayOrder);
+
   const addItemMutation = useMutation({
     mutationFn: async (item: InsertMenuItem) => {
       await apiRequest("POST", "/api/drinks", item);
@@ -45,7 +58,7 @@ export default function AdminDrinks() {
         name: "",
         description: "",
         price: 0,
-        category: "coffee",
+        category: "",
         imageUrl: "",
         isSpecial: false,
       });
@@ -193,13 +206,13 @@ export default function AdminDrinks() {
             </Button>
             {drinkCategories.map((category) => (
               <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
+                key={category.id}
+                variant={selectedCategory === category.slug ? "default" : "outline"}
                 size="sm"
-                onClick={() => setSelectedCategory(category)}
-                className={selectedCategory === category ? "bg-[#872519]" : ""}
+                onClick={() => setSelectedCategory(category.slug)}
+                className={selectedCategory === category.slug ? "bg-[#872519]" : ""}
               >
-                {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                {category.name}
               </Button>
             ))}
           </div>
@@ -244,8 +257,8 @@ export default function AdminDrinks() {
                     </SelectTrigger>
                     <SelectContent>
                       {drinkCategories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                        <SelectItem key={category.id} value={category.slug}>
+                          {category.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -360,8 +373,8 @@ export default function AdminDrinks() {
                                     </SelectTrigger>
                                     <SelectContent>
                                       {drinkCategories.map((category) => (
-                                        <SelectItem key={category} value={category}>
-                                          {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                                        <SelectItem key={category.id} value={category.slug}>
+                                          {category.name}
                                         </SelectItem>
                                       ))}
                                     </SelectContent>

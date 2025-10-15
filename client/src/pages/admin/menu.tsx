@@ -10,10 +10,17 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { categories } from "@shared/schema";
 import type { MenuItem, InsertMenuItem } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { FaStar } from "react-icons/fa";
+
+interface MenuCategory {
+  id: number;
+  name: string;
+  slug: string;
+  type: string;
+  displayOrder: number;
+}
 
 export default function AdminMenu() {
   const { toast } = useToast();
@@ -23,7 +30,7 @@ export default function AdminMenu() {
     name: "",
     description: "",
     price: 0,
-    category: "breakfast",
+    category: "",
     imageUrl: "",
     isSpecial: false,
   });
@@ -36,6 +43,12 @@ export default function AdminMenu() {
     queryKey: ["/api/menu"],
   });
 
+  const { data: allCategories = [] } = useQuery<MenuCategory[]>({
+    queryKey: ["/api/categories"],
+  });
+
+  const foodCategories = allCategories.filter(c => c.type === 'food').sort((a, b) => a.displayOrder - b.displayOrder);
+
   const addItemMutation = useMutation({
     mutationFn: async (item: InsertMenuItem) => {
       await apiRequest("POST", "/api/menu", item);
@@ -47,7 +60,7 @@ export default function AdminMenu() {
         name: "",
         description: "",
         price: 0,
-        category: "breakfast",
+        category: "",
         imageUrl: "",
         isSpecial: false,
       });
@@ -193,15 +206,15 @@ export default function AdminMenu() {
             >
               All
             </Button>
-            {categories.filter(cat => cat !== "vegetarian").map((category) => (
+            {foodCategories.map((category) => (
               <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
+                key={category.id}
+                variant={selectedCategory === category.slug ? "default" : "outline"}
                 size="sm"
-                onClick={() => setSelectedCategory(category)}
-                className={selectedCategory === category ? "bg-[#872519]" : ""}
+                onClick={() => setSelectedCategory(category.slug)}
+                className={selectedCategory === category.slug ? "bg-[#872519]" : ""}
               >
-                {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                {category.name}
               </Button>
             ))}
           </div>
@@ -242,9 +255,9 @@ export default function AdminMenu() {
                       <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                     <SelectContent>
-                      {categories.filter(cat => cat !== "vegetarian").map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                      {foodCategories.map((category) => (
+                        <SelectItem key={category.id} value={category.slug}>
+                          {category.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -353,9 +366,9 @@ export default function AdminMenu() {
                                       <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
-                                      {categories.map((category) => (
-                                        <SelectItem key={category} value={category}>
-                                          {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                                      {foodCategories.map((category) => (
+                                        <SelectItem key={category.id} value={category.slug}>
+                                          {category.name}
                                         </SelectItem>
                                       ))}
                                     </SelectContent>
