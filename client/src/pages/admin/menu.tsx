@@ -268,12 +268,22 @@ export default function AdminMenu() {
       });
       return;
     }
-    addItemMutation.mutate(newItem as InsertMenuItem);
+    // Convert price from pesos to cents before saving
+    const itemToAdd = {
+      ...newItem,
+      price: newItem.price! * 100
+    };
+    addItemMutation.mutate(itemToAdd as InsertMenuItem);
   };
 
   const handleEditItem = () => {
     if (!editingItem) return;
-    updateItemMutation.mutate(editingItem);
+    // Convert price from pesos to cents before saving
+    const itemToUpdate = {
+      ...editingItem,
+      price: editingItem.price * 100
+    };
+    updateItemMutation.mutate(itemToUpdate);
   };
 
   const handleDeleteItem = (id: number) => {
@@ -441,9 +451,10 @@ export default function AdminMenu() {
                 />
                 <Input
                   type="number"
-                  placeholder="Price (in cents)"
+                  placeholder="Price (₱)"
                   value={newItem.price}
-                  onChange={(e) => setNewItem({ ...newItem, price: parseInt(e.target.value) || 0 })}
+                  onChange={(e) => setNewItem({ ...newItem, price: parseFloat(e.target.value) || 0 })}
+                  step="0.01"
                 />
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Category *</label>
@@ -599,7 +610,8 @@ export default function AdminMenu() {
                               setIsEditDialogOpen(open);
                               if (open) {
                                 setEditDialogItemId(item.id);
-                                setEditingItem(item);
+                                // Convert price from cents to pesos for editing
+                                setEditingItem({ ...item, price: item.price / 100 });
                               } else {
                                 setEditDialogItemId(null);
                                 setEditingItem(null);
@@ -636,9 +648,10 @@ export default function AdminMenu() {
                                   />
                                   <Input
                                     type="number"
-                                    placeholder="Price (in cents)"
+                                    placeholder="Price (₱)"
                                     value={editingItem.price}
-                                    onChange={(e) => setEditingItem({ ...editingItem, price: parseInt(e.target.value) || 0 })}
+                                    onChange={(e) => setEditingItem({ ...editingItem, price: parseFloat(e.target.value) || 0 })}
+                                    step="0.01"
                                   />
                                   <Select
                                     value={editingItem.category}
