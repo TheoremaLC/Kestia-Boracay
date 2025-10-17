@@ -42,15 +42,17 @@ export default function MenuCategory() {
       
       <div className="px-4 mb-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            type="text"
-            placeholder="Search menu items..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 border-burgundy/30 focus:border-burgundy"
-            data-testid="input-search-menu"
-          />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 z-10" />
+          <div className="relative rounded-lg p-[3px] bg-gradient-to-r from-[#872519] via-[#FF6B35] via-[#36CAB0] to-[#872519]">
+            <Input
+              type="text"
+              placeholder="Search menu items..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-12 pr-4 h-14 text-lg bg-white border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:bg-gradient-to-r placeholder:from-[#872519] placeholder:via-[#FF6B35] placeholder:via-[#36CAB0] placeholder:to-[#872519] placeholder:bg-clip-text placeholder:text-transparent placeholder:font-medium"
+              data-testid="input-search-menu"
+            />
+          </div>
         </div>
       </div>
 
