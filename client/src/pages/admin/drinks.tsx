@@ -358,9 +358,9 @@ export default function AdminDrinks() {
                       <label className="text-sm font-medium">Slug (auto-generated)</label>
                       <Input
                         value={categoryFormData.slug}
-                        onChange={(e) => setCategoryFormData({ ...categoryFormData, slug: e.target.value })}
                         placeholder="e.g., coffee, cocktails"
-                        required
+                        disabled
+                        className="bg-gray-100 cursor-not-allowed"
                         data-testid="input-new-drink-category-slug"
                       />
                     </div>
