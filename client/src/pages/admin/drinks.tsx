@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import type { MenuItem, InsertMenuItem } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
-import { X } from "lucide-react";
+import { X, Search } from "lucide-react";
 
 interface MenuCategory {
   id: number;
@@ -46,6 +46,7 @@ export default function AdminDrinks() {
   const [deletingCategory, setDeletingCategory] = useState<MenuCategory | null>(null);
   const [categoryItemsCount, setCategoryItemsCount] = useState(0);
   const [targetCategorySlug, setTargetCategorySlug] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: drinkItems, isLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/drinks"],
@@ -291,15 +292,45 @@ export default function AdminDrinks() {
     return acc;
   }, {} as Record<string, MenuItem[]>) || {};
 
+  const searchFilteredItems = drinkItems?.filter(item => {
+    const query = searchQuery.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(query) ||
+      item.description?.toLowerCase().includes(query)
+    );
+  });
+
+  const searchGroupedItems = searchFilteredItems?.reduce((acc, item) => {
+    if (!acc[item.category]) {
+      acc[item.category] = [];
+    }
+    acc[item.category].push(item);
+    return acc;
+  }, {} as Record<string, MenuItem[]>) || {};
+
   const filteredGroupedItems = selectedCategory === "all" 
-    ? groupedItems 
+    ? (searchQuery ? searchGroupedItems : groupedItems)
     : Object.fromEntries(
-        Object.entries(groupedItems).filter(([category]) => category === selectedCategory)
+        Object.entries(searchQuery ? searchGroupedItems : groupedItems).filter(([category]) => category === selectedCategory)
       );
 
   return (
     <AdminLayout>
       <div className="space-y-6">
+        <div className="mb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Search drinks by name or description..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+              data-testid="input-search-admin-drinks"
+            />
+          </div>
+        </div>
+
         <div className="flex justify-between items-center">
           <div className="flex flex-wrap gap-2">
             <Button
