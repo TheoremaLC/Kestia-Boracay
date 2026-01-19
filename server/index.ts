@@ -1,6 +1,11 @@
 import express, { type Request, Response, NextFunction } from "express";
+import dotenv from "dotenv";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "server/.env" });
+}
 
 const app = express();
 app.use(express.json());
@@ -37,6 +42,7 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  log(`DATABASE_URL ${process.env.DATABASE_URL ? "set" : "missing"}`);
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -56,15 +62,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
+  const port = Number(process.env.PORT) || 5000;
+  server.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
   });
 })();
