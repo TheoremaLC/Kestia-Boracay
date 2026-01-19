@@ -42,7 +42,18 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  log(`DATABASE_URL ${process.env.DATABASE_URL ? "set" : "missing"}`);
+  if (process.env.DATABASE_URL) {
+    try {
+      const parsed = new URL(process.env.DATABASE_URL);
+      const dbName = parsed.pathname.replace("/", "") || "unknown";
+      const sslMode = parsed.searchParams.get("sslmode") || "none";
+      log(`DATABASE_URL host=${parsed.hostname} db=${dbName} sslmode=${sslMode}`);
+    } catch {
+      log("DATABASE_URL set (unparseable)");
+    }
+  } else {
+    log("DATABASE_URL missing");
+  }
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
