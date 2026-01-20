@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import {
   Music2,
   CalendarDays,
-  Camera,
   CalendarRange,
   Percent,
   Utensils,
@@ -18,7 +17,6 @@ const navItems = [
   { href: "/book", label: "Booking", icon: CalendarRange, color: "text-[#E85303]" },
   { href: "/music", label: "Music", icon: Music2, color: "text-[#8B0000]" },
   { href: "/events", label: "Events", icon: CalendarDays, color: "text-[#FF6600]" },
-  { href: "/gallery", label: "Gallery", icon: Camera, color: "text-[#990099]" },
   { href: "/contacts", label: "Contacts", icon: MapPin, color: "text-[#006633]" },
 ];
 

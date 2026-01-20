@@ -11,7 +11,6 @@ import DrinkCategory from "@/pages/drinks/[category]";
 import Offers from "@/pages/offers";
 import Events from "@/pages/events";
 import Book from "@/pages/book";
-import Gallery from "@/pages/gallery";
 import Music from "@/pages/music";
 import Contacts from "@/pages/contacts";
 import AdminLogin from "@/pages/admin/login";
@@ -35,7 +34,6 @@ function Router() {
           <Route path="/events" component={Events} />
           <Route path="/book" component={Book} />
           <Route path="/music" component={Music} />
-          <Route path="/gallery" component={Gallery} />
           <Route path="/contacts" component={Contacts} />
           <Route path="/admin/login" component={AdminLogin} />
           <Route path="/admin/dashboard" component={AdminDashboard} />

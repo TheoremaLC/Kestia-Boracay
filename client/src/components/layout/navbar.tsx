@@ -16,7 +16,6 @@ const leftNavItems = [
 const rightNavItems = [
   { href: "/events", label: "Events" },
   { href: "/music", label: "Music" },
-  { href: "/gallery", label: "Gallery" },
 ];
 
 export default function Navbar() {
