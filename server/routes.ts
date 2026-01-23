@@ -6,6 +6,10 @@ import { visitorTracker } from "./visitor-tracking";
 import { offersStorage } from "./offers-storage";
 
 export async function registerRoutes(app: Express) {
+  app.get("/api/health", (_req, res) => {
+    res.status(200).json({ ok: true });
+  });
+
   // Visitor tracking middleware for main site pages
   app.use((req, res, next) => {
     // Only track non-API, non-admin requests

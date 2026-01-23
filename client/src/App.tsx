@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Switch, Route } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
@@ -51,6 +52,15 @@ function Router() {
 }
 
 function App() {
+  useEffect(() => {
+    const ping = () => {
+      fetch("/api/health", { cache: "no-store" }).catch(() => undefined);
+    };
+    ping();
+    const interval = setInterval(ping, 2 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Router />
