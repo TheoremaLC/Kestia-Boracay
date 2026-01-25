@@ -12,6 +12,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
+  const host = req.headers.host?.split(":")[0] ?? "";
+  if (
+    host === "kestia-boracay.com" &&
+    (req.method === "GET" || req.method === "HEAD") &&
+    !req.path.startsWith("/api")
+  ) {
+    res.redirect(301, `https://www.kestia-boracay.com${req.originalUrl}`);
+    return;
+  }
+  next();
+});
+
+app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
