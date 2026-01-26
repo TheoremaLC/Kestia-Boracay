@@ -2,6 +2,8 @@ import express, { type Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { db } from "./db";
+import { sql } from "drizzle-orm";
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config({ path: "server/.env" });
@@ -68,6 +70,27 @@ app.use((req, res, next) => {
     log("DATABASE_URL missing");
   }
   const server = await registerRoutes(app);
+
+  // Ensure new vegetarian menu table exists without requiring a manual migration.
+  try {
+    await db.execute(sql`
+      CREATE TABLE IF NOT EXISTS "vegetarian_menu_items" (
+        "id" serial PRIMARY KEY NOT NULL,
+        "menu_item_id" integer NOT NULL,
+        "section" text DEFAULT 'regular' NOT NULL,
+        "display_order" integer DEFAULT 0 NOT NULL
+      );
+    `);
+    await db.execute(sql`
+      ALTER TABLE "vegetarian_menu_items"
+      ADD CONSTRAINT IF NOT EXISTS "vegetarian_menu_items_menu_item_id_menu_items_id_fk"
+      FOREIGN KEY ("menu_item_id")
+      REFERENCES "public"."menu_items"("id")
+      ON DELETE cascade ON UPDATE no action;
+    `);
+  } catch (error) {
+    console.error("Failed to ensure vegetarian_menu_items table:", error);
+  }
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
