@@ -134,16 +134,19 @@ class DatabaseStorage implements IStorage {
 
   // Menu Items
   async getMenuItems(): Promise<MenuItem[]> {
-    // Define food categories (everything except drinks)
-    const foodCategories = ["breakfast", "appetizers", "soups", "main-dishes", "sides", "desserts"];
-    
+    const categories = await db.query.menuCategories.findMany({
+      where: eq(menuCategories.type, "food"),
+      orderBy: (menuCategories, { asc }) => [asc(menuCategories.displayOrder), asc(menuCategories.name)]
+    });
+    const foodCategorySlugs = new Set(categories.map((category) => category.slug));
+
     // Get all items from database that are food items (based on category)
     const allItems = await db.query.menuItems.findMany({
       orderBy: (menuItems, { asc }) => [asc(menuItems.id)]
     });
     
-    // Filter to get only food items (category in foodCategories)
-    const foodItems = allItems.filter(item => foodCategories.includes(item.category));
+    // Filter to get only food items (category in food categories)
+    const foodItems = allItems.filter(item => foodCategorySlugs.has(item.category));
     
     return foodItems;
   }
