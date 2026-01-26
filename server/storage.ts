@@ -11,8 +11,8 @@ import type {
   ReservationStatus,
 } from "@shared/schema";
 import { db } from "./db";
-import { menuItems, menuCategories } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { menuItems, menuCategories, vegetarianMenuItems } from "@shared/schema";
+import { eq, inArray } from "drizzle-orm";
 
 export interface IStorage {
   // Menu Categories
@@ -154,6 +154,31 @@ class DatabaseStorage implements IStorage {
   async getMenuItemsByCategory(category: string): Promise<MenuItem[]> {
     // For vegetarian category, create a specialized list
     if (category === "vegetarian") {
+      const vegetarianLinks = await db.query.vegetarianMenuItems.findMany({
+        orderBy: (vegetarianMenuItems, { asc }) => [
+          asc(vegetarianMenuItems.section),
+          asc(vegetarianMenuItems.displayOrder),
+          asc(vegetarianMenuItems.id)
+        ]
+      });
+
+      if (vegetarianLinks.length > 0) {
+        const ids = vegetarianLinks.map((link) => link.menuItemId);
+        const linkedItems = await db.query.menuItems.findMany({
+          where: inArray(menuItems.id, ids)
+        });
+        const itemsById = new Map(linkedItems.map((item) => [item.id, item]));
+        const vegetarianItems = vegetarianLinks
+          .map((link) => itemsById.get(link.menuItemId))
+          .filter((item): item is MenuItem => Boolean(item))
+          .map((item) => ({
+            ...item,
+            category: "vegetarian"
+          }));
+
+        return vegetarianItems;
+      }
+
       /**
        * FINALIZED MENU ID SYSTEM - DO NOT MODIFY
        * 

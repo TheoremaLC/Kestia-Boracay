@@ -86,6 +86,15 @@ export const reservations = pgTable("reservations", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const vegetarianMenuItems = pgTable("vegetarian_menu_items", {
+  id: serial("id").primaryKey(),
+  menuItemId: integer("menu_item_id")
+    .notNull()
+    .references(() => menuItems.id, { onDelete: "cascade" }),
+  section: text("section").notNull().default("regular"), // "regular" | "extras"
+  displayOrder: integer("display_order").notNull().default(0),
+});
+
 export const insertMenuCategorySchema = createInsertSchema(menuCategories).omit({ id: true });
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: true });
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
