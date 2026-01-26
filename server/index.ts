@@ -82,11 +82,20 @@ app.use((req, res, next) => {
       );
     `);
     await db.execute(sql`
-      ALTER TABLE "vegetarian_menu_items"
-      ADD CONSTRAINT IF NOT EXISTS "vegetarian_menu_items_menu_item_id_menu_items_id_fk"
-      FOREIGN KEY ("menu_item_id")
-      REFERENCES "public"."menu_items"("id")
-      ON DELETE cascade ON UPDATE no action;
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1
+          FROM pg_constraint
+          WHERE conname = 'vegetarian_menu_items_menu_item_id_menu_items_id_fk'
+        ) THEN
+          ALTER TABLE "vegetarian_menu_items"
+          ADD CONSTRAINT "vegetarian_menu_items_menu_item_id_menu_items_id_fk"
+          FOREIGN KEY ("menu_item_id")
+          REFERENCES "public"."menu_items"("id")
+          ON DELETE cascade ON UPDATE no action;
+        END IF;
+      END $$;
     `);
   } catch (error) {
     console.error("Failed to ensure vegetarian_menu_items table:", error);
