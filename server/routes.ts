@@ -10,6 +10,37 @@ export async function registerRoutes(app: Express) {
     res.status(200).json({ ok: true });
   });
 
+  const requireAdmin = (req: any, res: any, next: any) => {
+    if (req.session?.isAdmin) {
+      return next();
+    }
+    return res.status(401).json({ error: "Unauthorized" });
+  };
+
+  app.post("/api/admin/login", (req, res) => {
+    const { username, password } = req.body || {};
+    const expectedUsername = process.env.ADMIN_USERNAME || "admin";
+    const expectedPassword = process.env.ADMIN_PASSWORD || "kestia2024";
+    if (username === expectedUsername && password === expectedPassword) {
+      req.session.isAdmin = true;
+      return res.json({ ok: true });
+    }
+    return res.status(401).json({ error: "Invalid credentials" });
+  });
+
+  app.post("/api/admin/logout", (req, res) => {
+    req.session.destroy(() => {
+      res.json({ ok: true });
+    });
+  });
+
+  app.get("/api/admin/me", (req, res) => {
+    if (req.session?.isAdmin) {
+      return res.json({ ok: true });
+    }
+    return res.status(401).json({ error: "Unauthorized" });
+  });
+
   // Visitor tracking middleware for main site pages
   app.use((req, res, next) => {
     // Only track non-API, non-admin requests
@@ -42,7 +73,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.post("/api/categories", async (req, res) => {
+  app.post("/api/categories", requireAdmin, async (req, res) => {
     try {
       const category = await storage.createCategory(req.body);
       res.status(201).json(category);
@@ -51,7 +82,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.put("/api/categories/:id", async (req, res) => {
+  app.put("/api/categories/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const category = await storage.updateCategory(id, req.body);
@@ -75,7 +106,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.post("/api/categories/move-items", async (req, res) => {
+  app.post("/api/categories/move-items", requireAdmin, async (req, res) => {
     try {
       const { fromCategorySlug, toCategorySlug } = req.body;
       await storage.moveItemsToCategory(fromCategorySlug, toCategorySlug);
@@ -85,7 +116,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/categories/:id", async (req, res) => {
+  app.delete("/api/categories/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deleteCategory(id);
@@ -108,7 +139,7 @@ export async function registerRoutes(app: Express) {
     res.json(items);
   });
 
-  app.post("/api/menu", async (req, res) => {
+  app.post("/api/menu", requireAdmin, async (req, res) => {
     try {
       const item = await storage.createMenuItem(req.body);
       res.status(201).json(item);
@@ -117,7 +148,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.put("/api/menu/:id", async (req, res) => {
+  app.put("/api/menu/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const item = await storage.updateMenuItem(id, req.body);
@@ -127,7 +158,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/menu/category/:slug", async (req, res) => {
+  app.delete("/api/menu/category/:slug", requireAdmin, async (req, res) => {
     try {
       const slug = req.params.slug;
       await storage.deleteItemsInCategory(slug);
@@ -137,7 +168,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/menu/:id", async (req, res) => {
+  app.delete("/api/menu/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deleteMenuItem(id);
@@ -148,7 +179,7 @@ export async function registerRoutes(app: Express) {
   });
 
   // Debug endpoint to check IDs
-  app.get("/api/debug/menu", async (_req, res) => {
+  app.get("/api/debug/menu", requireAdmin, async (_req, res) => {
     const allItems = await storage.getMenuItems();
     const simplifiedItems = allItems.map(item => ({
       id: item.id,
@@ -170,7 +201,7 @@ export async function registerRoutes(app: Express) {
     res.json(items);
   });
 
-  app.post("/api/drinks", async (req, res) => {
+  app.post("/api/drinks", requireAdmin, async (req, res) => {
     try {
       const item = await storage.createDrink(req.body);
       res.status(201).json(item);
@@ -179,7 +210,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.put("/api/drinks/:id", async (req, res) => {
+  app.put("/api/drinks/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const item = await storage.updateDrink(id, req.body);
@@ -189,7 +220,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/drinks/:id", async (req, res) => {
+  app.delete("/api/drinks/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deleteDrink(id);
@@ -200,7 +231,7 @@ export async function registerRoutes(app: Express) {
   });
 
   // Debug endpoint to check drink IDs
-  app.get("/api/debug/drinks", async (_req, res) => {
+  app.get("/api/debug/drinks", requireAdmin, async (_req, res) => {
     const allItems = await storage.getDrinks();
     const simplifiedItems = allItems.map(item => ({
       id: item.id,
@@ -235,7 +266,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.post("/api/offers", async (req, res) => {
+  app.post("/api/offers", requireAdmin, async (req, res) => {
     try {
       const offer = await offersStorage.createOffer(req.body);
       res.status(201).json(offer);
@@ -244,7 +275,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.put("/api/offers/:id", async (req, res) => {
+  app.put("/api/offers/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const offer = await offersStorage.updateOffer(id, req.body);
@@ -254,7 +285,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/offers/:id", async (req, res) => {
+  app.delete("/api/offers/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await offersStorage.deleteOffer(id);

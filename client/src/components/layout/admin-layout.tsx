@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
@@ -9,13 +9,34 @@ interface AdminLayoutProps {
 
 export function AdminLayout({ children }: AdminLayoutProps) {
   const [location, setLocation] = useLocation();
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("adminAuth") === "true";
-    if (!isAuthenticated) {
-      setLocation("/admin/login");
-    }
+    let isMounted = true;
+    fetch("/api/admin/me", { credentials: "include" })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error();
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setLocation("/admin/login");
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsChecking(false);
+        }
+      });
+    return () => {
+      isMounted = false;
+    };
   }, [setLocation]);
+
+  if (isChecking) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen pb-32">
@@ -23,9 +44,12 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <Logo />
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold text-[#872519]">Staff Dashboard</h1>
-          <button 
-            onClick={() => {
-              localStorage.removeItem("adminAuth");
+          <button
+            onClick={async () => {
+              await fetch("/api/admin/logout", {
+                method: "POST",
+                credentials: "include",
+              });
               setLocation("/admin/login");
             }}
             className="text-[#872519] hover:text-[#E85303] font-medium"

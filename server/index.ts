@@ -2,6 +2,10 @@ import express, { type Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import session from "express-session";
+import createMemoryStore from "memorystore";
+import { db } from "./db";
+import { sql } from "drizzle-orm";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
 
@@ -10,8 +14,24 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const MemoryStore = createMemoryStore(session);
+app.use(
+  session({
+    store: new MemoryStore({ checkPeriod: 24 * 60 * 60 * 1000 }),
+    secret: process.env.SESSION_SECRET || "change-me",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: app.get("env") === "production",
+    },
+  }),
+);
 
 app.use((req, res, next) => {
   const host = req.headers.host?.split(":")[0] ?? "";
@@ -68,6 +88,9 @@ app.use((req, res, next) => {
     }
   } else {
     log("DATABASE_URL missing");
+  }
+  if (!process.env.ADMIN_PASSWORD) {
+    log("ADMIN_PASSWORD missing (using default, please set for security)");
   }
   const server = await registerRoutes(app);
 

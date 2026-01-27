@@ -14,35 +14,38 @@ export default function AdminLogin() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
 
-  // Load saved credentials on component mount
+  // Load saved username on component mount
   useEffect(() => {
     const savedCredentials = localStorage.getItem("adminCredentials");
     if (savedCredentials) {
-      const { username: savedUsername, password: savedPassword } = JSON.parse(savedCredentials);
+      const { username: savedUsername } = JSON.parse(savedCredentials);
       setUsername(savedUsername);
-      setPassword(savedPassword);
       setRememberMe(true);
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For demo purposes, using simple credentials
-    if (username === "admin" && password === "kestia2024") {
-      localStorage.setItem("adminAuth", "true");
-      
-      // Save or clear credentials based on remember me checkbox
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ username, password }),
+      });
+      if (!res.ok) {
+        throw new Error();
+      }
       if (rememberMe) {
-        localStorage.setItem("adminCredentials", JSON.stringify({
-          username,
-          password
-        }));
+        localStorage.setItem(
+          "adminCredentials",
+          JSON.stringify({ username }),
+        );
       } else {
         localStorage.removeItem("adminCredentials");
       }
-      
       setLocation("/admin/dashboard");
-    } else {
+    } catch {
       toast({
         title: "Error",
         description: "Invalid username or password",
