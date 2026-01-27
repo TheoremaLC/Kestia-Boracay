@@ -174,14 +174,44 @@ export default function AdminMenu() {
     },
   });
 
+  const slugify = (value: string) =>
+    value
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
+
   const handleCategoryNameChange = (name: string) => {
-    const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const slug = slugify(name);
     setCategoryFormData({ ...categoryFormData, name, slug });
   };
 
   const handleCreateCategory = (e: React.FormEvent) => {
     e.preventDefault();
-    createCategoryMutation.mutate(categoryFormData);
+    const name = categoryFormData.name.trim();
+    const slug = slugify(categoryFormData.slug || categoryFormData.name);
+    if (!name || !slug) {
+      toast({
+        title: "Missing fields",
+        description: "Category name and slug are required.",
+        variant: "destructive",
+      });
+      return;
+    }
+    const slugExists = allCategories.some((cat) => cat.slug === slug);
+    const nameExists = allCategories.some(
+      (cat) => cat.name.toLowerCase() === name.toLowerCase(),
+    );
+    if (slugExists || nameExists) {
+      toast({
+        title: "Duplicate category",
+        description: "Name or slug already exists. Please choose another.",
+        variant: "destructive",
+      });
+      return;
+    }
+    createCategoryMutation.mutate({ ...categoryFormData, name, slug });
   };
 
   const moveItemsMutation = useMutation({
