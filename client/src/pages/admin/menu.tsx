@@ -356,6 +356,11 @@ export default function AdminMenu() {
         Object.entries(searchQuery ? searchGroupedItems : groupedItems).filter(([category]) => category === selectedCategory)
       );
 
+  const selectedCategoryItems =
+    selectedCategory === "all"
+      ? []
+      : (searchQuery ? searchGroupedItems : groupedItems)[selectedCategory] || [];
+
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -392,6 +397,9 @@ export default function AdminMenu() {
                   className={`${selectedCategory === category.slug ? "bg-[#872519]" : ""} pr-8`}
                 >
                   {category.name}
+                  <Badge variant="secondary" className="ml-2">
+                    {groupedItems[category.slug]?.length || 0}
+                  </Badge>
                 </Button>
                 <button
                   onClick={(e) => handleDeleteCategory(e, category)}
@@ -517,6 +525,14 @@ export default function AdminMenu() {
             </Dialog>
           </div>
         </div>
+
+        {selectedCategory !== "all" && selectedCategoryItems.length === 0 && (
+          <Card>
+            <CardContent className="py-4 text-sm text-muted-foreground">
+              No items found in "{selectedCategory}". Add items or check the category slug.
+            </CardContent>
+          </Card>
+        )}
 
         {/* Delete Category Dialog */}
         <Dialog open={!!deletingCategory} onOpenChange={() => setDeletingCategory(null)}>

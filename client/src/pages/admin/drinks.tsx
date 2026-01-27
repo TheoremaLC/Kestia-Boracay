@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import type { MenuItem, InsertMenuItem } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
@@ -354,6 +355,11 @@ export default function AdminDrinks() {
         Object.entries(searchQuery ? searchGroupedItems : groupedItems).filter(([category]) => category === selectedCategory)
       );
 
+  const selectedCategoryItems =
+    selectedCategory === "all"
+      ? []
+      : (searchQuery ? searchGroupedItems : groupedItems)[selectedCategory] || [];
+
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -390,6 +396,9 @@ export default function AdminDrinks() {
                   className={`${selectedCategory === category.slug ? "bg-[#872519]" : ""} pr-8`}
                 >
                   {category.name}
+                  <Badge variant="secondary" className="ml-2">
+                    {groupedItems[category.slug]?.length || 0}
+                  </Badge>
                 </Button>
                 <button
                   onClick={(e) => handleDeleteCategory(e, category)}
@@ -519,6 +528,14 @@ export default function AdminDrinks() {
             </Dialog>
           </div>
         </div>
+
+        {selectedCategory !== "all" && selectedCategoryItems.length === 0 && (
+          <Card>
+            <CardContent className="py-4 text-sm text-muted-foreground">
+              No items found in "{selectedCategory}". Add items or check the category slug.
+            </CardContent>
+          </Card>
+        )}
 
         {/* Delete Category Dialog */}
         <Dialog open={!!deletingCategory} onOpenChange={() => setDeletingCategory(null)}>
