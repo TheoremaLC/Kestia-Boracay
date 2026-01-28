@@ -58,7 +58,7 @@ export default function Contacts() {
                   <div>
                     <h3 className="font-medium">Email</h3>
                     <p className="text-muted-foreground">
-                      info@kestia-boracay.com
+                      frontdesk@kestia-boracay.com
                     </p>
                   </div>
                 </div>
