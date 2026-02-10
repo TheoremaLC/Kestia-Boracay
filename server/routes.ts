@@ -6,24 +6,89 @@ import { visitorTracker } from "./visitor-tracking";
 import { offersStorage } from "./offers-storage";
 
 export async function registerRoutes(app: Express) {
+  const adminUsername = process.env.ADMIN_USERNAME;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  // Simple in-memory rate limiter for admin login to slow brute-force attacks.
+  // This is intentionally scoped to the login route only to avoid affecting the public site.
+  const loginAttemptsByIp = new Map<
+    string,
+    { count: number; windowStartMs: number; blockedUntilMs?: number }
+  >();
+  const LOGIN_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+  const LOGIN_MAX_ATTEMPTS = Number(process.env.ADMIN_LOGIN_MAX_ATTEMPTS || 10);
+  const LOGIN_BLOCK_MS = 15 * 60 * 1000; // 15 minutes
+
+  const rateLimitAdminLogin = (req: any, res: any, next: any) => {
+    const now = Date.now();
+    const ip = String(req.ip || req.connection?.remoteAddress || "unknown");
+
+    const entry = loginAttemptsByIp.get(ip);
+    if (!entry) {
+      loginAttemptsByIp.set(ip, { count: 0, windowStartMs: now });
+      return next();
+    }
+
+    if (entry.blockedUntilMs && now < entry.blockedUntilMs) {
+      const retryAfterSec = Math.max(1, Math.ceil((entry.blockedUntilMs - now) / 1000));
+      res.setHeader("Retry-After", String(retryAfterSec));
+      return res.status(429).json({ error: "Too many login attempts. Try again later." });
+    }
+
+    if (now - entry.windowStartMs > LOGIN_WINDOW_MS) {
+      entry.count = 0;
+      entry.windowStartMs = now;
+      delete entry.blockedUntilMs;
+      return next();
+    }
+
+    if (entry.count >= LOGIN_MAX_ATTEMPTS) {
+      entry.blockedUntilMs = now + LOGIN_BLOCK_MS;
+      const retryAfterSec = Math.max(1, Math.ceil(LOGIN_BLOCK_MS / 1000));
+      res.setHeader("Retry-After", String(retryAfterSec));
+      return res.status(429).json({ error: "Too many login attempts. Try again later." });
+    }
+
+    return next();
+  };
+
   app.get("/api/health", (_req, res) => {
     res.status(200).json({ ok: true });
   });
 
   const requireAdmin = (req: any, res: any, next: any) => {
+    if (!adminUsername || !adminPassword) {
+      return res.status(503).json({ error: "Admin login not configured" });
+    }
     if (req.session?.isAdmin) {
       return next();
     }
     return res.status(401).json({ error: "Unauthorized" });
   };
 
-  app.post("/api/admin/login", (req, res) => {
+  app.post("/api/admin/login", rateLimitAdminLogin, (req, res) => {
+    if (!adminUsername || !adminPassword) {
+      return res.status(503).json({ error: "Admin login not configured" });
+    }
     const { username, password } = req.body || {};
-    const expectedUsername = process.env.ADMIN_USERNAME || "admin";
-    const expectedPassword = process.env.ADMIN_PASSWORD || "kestia2024";
-    if (username === expectedUsername && password === expectedPassword) {
+    if (username === adminUsername && password === adminPassword) {
+      // Successful login: reset counter for this IP to avoid locking out real staff.
+      const ip = String(req.ip || req.connection?.remoteAddress || "unknown");
+      loginAttemptsByIp.delete(ip);
       req.session.isAdmin = true;
       return res.json({ ok: true });
+    }
+
+    // Failed login: count attempts.
+    const ip = String(req.ip || req.connection?.remoteAddress || "unknown");
+    const now = Date.now();
+    const entry = loginAttemptsByIp.get(ip);
+    if (!entry) {
+      loginAttemptsByIp.set(ip, { count: 1, windowStartMs: now });
+    } else if (now - entry.windowStartMs > LOGIN_WINDOW_MS) {
+      loginAttemptsByIp.set(ip, { count: 1, windowStartMs: now });
+    } else {
+      entry.count += 1;
     }
     return res.status(401).json({ error: "Invalid credentials" });
   });
@@ -53,7 +118,7 @@ export async function registerRoutes(app: Express) {
   });
 
   // Visitor stats endpoint
-  app.get("/api/visitor-stats", async (_req, res) => {
+  app.get("/api/visitor-stats", requireAdmin, async (_req, res) => {
     try {
       const stats = await visitorTracker.getStats();
       res.json(stats);

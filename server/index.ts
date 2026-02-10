@@ -4,8 +4,8 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import session from "express-session";
 import createMemoryStore from "memorystore";
-import { db } from "./db";
-import { sql } from "drizzle-orm";
+import connectPgSimple from "connect-pg-simple";
+import pg from "pg";
 import { db } from "./db";
 import { sql } from "drizzle-orm";
 
@@ -18,11 +18,29 @@ app.set("trust proxy", 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const MemoryStore = createMemoryStore(session);
+// Session store:
+// - dev: in-memory (simple)
+// - prod: Postgres-backed (durable; works across restarts/instances)
+const sessionSecret = process.env.SESSION_SECRET || "change-me";
+let sessionStore: session.Store;
+if (app.get("env") === "production" && process.env.DATABASE_URL) {
+  const PgSession = connectPgSimple(session);
+  const { Pool } = pg;
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  sessionStore = new PgSession({
+    pool,
+    createTableIfMissing: true,
+    // Default tableName is "session"; leaving default is fine.
+  });
+} else {
+  const MemoryStore = createMemoryStore(session);
+  sessionStore = new MemoryStore({ checkPeriod: 24 * 60 * 60 * 1000 });
+}
+
 app.use(
   session({
-    store: new MemoryStore({ checkPeriod: 24 * 60 * 60 * 1000 }),
-    secret: process.env.SESSION_SECRET || "change-me",
+    store: sessionStore,
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -49,19 +67,22 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
+  // Never log API response bodies in production (privacy/security).
+  const shouldCaptureResponseBody = app.get("env") !== "production";
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
+  if (shouldCaptureResponseBody) {
+    const originalResJson = res.json;
+    res.json = function (bodyJson, ...args) {
+      capturedJsonResponse = bodyJson;
+      return originalResJson.apply(res, [bodyJson, ...args]);
+    };
+  }
 
   res.on("finish", () => {
     const duration = Date.now() - start;
     if (path.startsWith("/api")) {
       let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
+      if (shouldCaptureResponseBody && capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
 
@@ -89,8 +110,13 @@ app.use((req, res, next) => {
   } else {
     log("DATABASE_URL missing");
   }
-  if (!process.env.ADMIN_PASSWORD) {
-    log("ADMIN_PASSWORD missing (using default, please set for security)");
+
+  // Keep the public site available even if admin auth env vars are missing.
+  // Admin endpoints will return 503 until configured.
+  if (app.get("env") === "production") {
+    if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
+      log("ADMIN auth not configured: set ADMIN_USERNAME and ADMIN_PASSWORD");
+    }
   }
   const server = await registerRoutes(app);
 
