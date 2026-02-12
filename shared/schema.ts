@@ -95,6 +95,13 @@ export const vegetarianMenuItems = pgTable("vegetarian_menu_items", {
   displayOrder: integer("display_order").notNull().default(0),
 });
 
+export const offers = pgTable("offers", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  price: integer("price").notNull(),
+  isActive: boolean("is_active").notNull().default(true),
+});
+
 export const insertMenuCategorySchema = createInsertSchema(menuCategories).omit({ id: true });
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: true });
 export const insertEventSchema = createInsertSchema(events).omit({ id: true });
@@ -126,3 +133,6 @@ export type Reservation = typeof reservations.$inferSelect;
 export type InsertReservation = z.infer<typeof insertReservationSchema>;
 export type ReservationStatus = typeof reservationStatuses[number];
 export type SeatingPreference = typeof seatingOptions[number];
+export const insertOfferSchema = createInsertSchema(offers).omit({ id: true });
+export type Offer = typeof offers.$inferSelect;
+export type InsertOffer = z.infer<typeof insertOfferSchema>;

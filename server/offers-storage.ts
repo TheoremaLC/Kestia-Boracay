@@ -1,81 +1,75 @@
 
-import fs from 'fs/promises';
-import path from 'path';
+import { eq, sql } from "drizzle-orm";
+import { db } from "./db";
+import { offers, type InsertOffer, type Offer } from "@shared/schema";
 
-interface OfferItem {
-  id: number;
-  name: string;
-  price: number;
-  isActive: boolean;
-}
-
-interface InsertOfferItem {
-  name: string;
-  price: number;
-  isActive: boolean;
-}
-
-const OFFERS_FILE = path.join(process.cwd(), 'offers.json');
-
-let offersData: OfferItem[] = [
-  { id: 1, name: "SMB", price: 7000, isActive: true },
-  { id: 2, name: "SML", price: 8000, isActive: true },
-  { id: 3, name: "Red Horse", price: 8000, isActive: true },
-  { id: 4, name: "Rum Coke", price: 10000, isActive: true }
+const defaultOffers: InsertOffer[] = [
+  { name: "SMB", price: 7000, isActive: true },
+  { name: "SML", price: 8000, isActive: true },
+  { name: "Red Horse", price: 8000, isActive: true },
+  { name: "Rum Coke", price: 10000, isActive: true },
 ];
 
-async function loadOffers() {
-  try {
-    const data = await fs.readFile(OFFERS_FILE, 'utf8');
-    offersData = JSON.parse(data);
-  } catch (error) {
-    // File doesn't exist, use default data
-    await saveOffers();
-  }
-}
+let initialized = false;
+async function ensureOffersTableAndSeed(): Promise<void> {
+  if (initialized) return;
 
-async function saveOffers() {
-  await fs.writeFile(OFFERS_FILE, JSON.stringify(offersData, null, 2));
+  await db.execute(sql`
+    CREATE TABLE IF NOT EXISTS "offers" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "name" text NOT NULL,
+      "price" integer NOT NULL,
+      "is_active" boolean DEFAULT true NOT NULL
+    );
+  `);
+
+  const [existing] = await db.select({ count: sql<number>`count(*)::int` }).from(offers);
+  if ((existing?.count ?? 0) === 0) {
+    await db.insert(offers).values(defaultOffers);
+  }
+
+  initialized = true;
 }
 
 export const offersStorage = {
-  async getOffers(): Promise<OfferItem[]> {
-    await loadOffers();
-    return offersData;
+  async getOffers(): Promise<Offer[]> {
+    await ensureOffersTableAndSeed();
+    return db.query.offers.findMany({
+      orderBy: (offers, { asc }) => [asc(offers.id)],
+    });
   },
 
-  async createOffer(item: InsertOfferItem): Promise<OfferItem> {
-    await loadOffers();
-    const newId = Math.max(...offersData.map(item => item.id), 0) + 1;
-    const newOffer: OfferItem = { ...item, id: newId };
-    offersData.push(newOffer);
-    await saveOffers();
+  async createOffer(item: InsertOffer): Promise<Offer> {
+    await ensureOffersTableAndSeed();
+    const [newOffer] = await db.insert(offers).values(item).returning();
     return newOffer;
   },
 
-  async updateOffer(id: number, updates: Partial<OfferItem>): Promise<OfferItem> {
-    await loadOffers();
-    const index = offersData.findIndex(item => item.id === id);
-    if (index === -1) {
+  async updateOffer(id: number, updates: Partial<InsertOffer>): Promise<Offer> {
+    await ensureOffersTableAndSeed();
+    const [updatedOffer] = await db
+      .update(offers)
+      .set(updates)
+      .where(eq(offers.id, id))
+      .returning();
+
+    if (!updatedOffer) {
       throw new Error(`Offer with id ${id} not found`);
     }
-    offersData[index] = { ...offersData[index], ...updates };
-    await saveOffers();
-    return offersData[index];
+
+    return updatedOffer;
   },
 
   async deleteOffer(id: number): Promise<void> {
-    await loadOffers();
-    const index = offersData.findIndex(item => item.id === id);
-    if (index === -1) {
-      throw new Error(`Offer with id ${id} not found`);
-    }
-    offersData.splice(index, 1);
-    await saveOffers();
+    await ensureOffersTableAndSeed();
+    await db.delete(offers).where(eq(offers.id, id));
   },
 
-  async getActiveOffers(): Promise<OfferItem[]> {
-    await loadOffers();
-    return offersData.filter(item => item.isActive);
-  }
+  async getActiveOffers(): Promise<Offer[]> {
+    await ensureOffersTableAndSeed();
+    return db.query.offers.findMany({
+      where: eq(offers.isActive, true),
+      orderBy: (offers, { asc }) => [asc(offers.id)],
+    });
+  },
 };

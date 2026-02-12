@@ -21,9 +21,13 @@ app.use(express.urlencoded({ extended: false }));
 // Session store:
 // - dev: in-memory (simple)
 // - prod: Postgres-backed (durable; works across restarts/instances)
-const sessionSecret = process.env.SESSION_SECRET || "change-me";
+const isProduction = app.get("env") === "production";
+if (isProduction && !process.env.SESSION_SECRET) {
+  throw new Error("SESSION_SECRET must be set in production");
+}
+const sessionSecret = process.env.SESSION_SECRET || "dev-only-session-secret";
 let sessionStore: session.Store;
-if (app.get("env") === "production" && process.env.DATABASE_URL) {
+if (isProduction && process.env.DATABASE_URL) {
   const PgSession = connectPgSimple(session);
   const { Pool } = pg;
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -46,7 +50,7 @@ app.use(
     cookie: {
       httpOnly: true,
       sameSite: "lax",
-      secure: app.get("env") === "production",
+      secure: isProduction,
     },
   }),
 );
@@ -113,7 +117,7 @@ app.use((req, res, next) => {
 
   // Keep the public site available even if admin auth env vars are missing.
   // Admin endpoints will return 503 until configured.
-  if (app.get("env") === "production") {
+  if (isProduction) {
     if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD) {
       log("ADMIN auth not configured: set ADMIN_USERNAME and ADMIN_PASSWORD");
     }
